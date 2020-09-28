@@ -4,10 +4,12 @@ import { HeaderComponent } from './header/header.component';
 import { SharedModule } from '../shared/shared.module';
 import { SidenavComponent } from './sidenav/sidenav.component';
 import { FooterComponent } from './footer/footer.component';
+import { MenuNavItemComponent } from './sidenav/menu-nav-item/menu-nav-item.component';
+import { FlexLayoutModule } from '@angular/flex-layout';
 
 @NgModule({
-  declarations: [HeaderComponent, SidenavComponent, FooterComponent],
-  imports: [CommonModule, SharedModule],
+  declarations: [HeaderComponent, SidenavComponent, FooterComponent, MenuNavItemComponent],
+  imports: [CommonModule, SharedModule, FlexLayoutModule],
   exports: [HeaderComponent, SidenavComponent, FooterComponent],
 })
 export class CoreModule {}
