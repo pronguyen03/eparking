@@ -1,11 +1,19 @@
 import { Injectable } from '@angular/core';
-import { Subject } from 'rxjs';
+import { BehaviorSubject } from 'rxjs';
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class SidenavService {
-  public sideNavState$: Subject<boolean> = new Subject();
+  public sideNavState$: BehaviorSubject<boolean> = new BehaviorSubject(true);
 
-  constructor() { }
+  constructor() {}
+
+  show(): void {
+    this.sideNavState$.next(true);
+  }
+
+  hide(): void {
+    this.sideNavState$.next(false);
+  }
 }

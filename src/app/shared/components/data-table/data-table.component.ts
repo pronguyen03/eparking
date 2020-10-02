@@ -27,13 +27,13 @@ const ELEMENT_DATA: PeriodicElement[] = [
 @Component({
   selector: 'app-data-table',
   templateUrl: './data-table.component.html',
-  styleUrls: ['./data-table.component.scss']
+  styleUrls: ['./data-table.component.scss'],
 })
 export class DataTableComponent implements AfterViewInit {
   // 'select', 'position', 'name', 'weight', 'symbol', 'functional'
   ELEMENT_DATA = ELEMENT_DATA;
   displayedColumns = ['select', 'position', 'name', 'weight', 'symbol', 'functional'];
-  columns: { key: string, display: string }[] = [
+  columns: { key: string; display: string }[] = [
     { key: 'select', display: '' },
     { key: 'position', display: 'No.' },
     { key: 'name', display: 'Name' },
@@ -56,9 +56,7 @@ export class DataTableComponent implements AfterViewInit {
 
   /** Selects all rows if they are not all selected; otherwise clear selection. */
   masterToggle(): void {
-    this.isAllSelected() ?
-      this.selection.clear() :
-      this.dataSource.data.forEach(row => this.selection.select(row));
+    this.isAllSelected() ? this.selection.clear() : this.dataSource.data.forEach((row) => this.selection.select(row));
   }
 
   onView(element: any): void {
@@ -74,19 +72,6 @@ export class DataTableComponent implements AfterViewInit {
   }
 
   ngAfterViewInit(): void {
-    this.paginator.page
-      .pipe(
-        tap(() => this.loadDataByPage())
-      )
-      .subscribe();
-  }
-
-  loadDataByPage() {
-    //   this.dataSource.fetchData(
-    //       this.course.id,
-    //       '',
-    //       'asc',
-    //       this.paginator.pageIndex,
-    //       this.paginator.pageSize);
+    this.dataSource.paginator = this.paginator;
   }
 }
