@@ -1,6 +1,9 @@
 import { Component, OnInit } from '@angular/core';
+import { MenuItem } from '@app/shared/classes/menu-item';
+import { AuthenticationService } from '@app/shared/services/authentication.service';
+import { MenuService } from '@app/shared/services/menu.service';
+import { Observable } from 'rxjs';
 import { animateText, onSideNavChange } from 'src/app/animations/animations';
-import { NavItem } from 'src/app/shared/classes/nav-item';
 import { SidenavService } from 'src/app/shared/services/sidenav.service';
 
 @Component({
@@ -12,23 +15,13 @@ import { SidenavService } from 'src/app/shared/services/sidenav.service';
 export class SidenavComponent implements OnInit {
   public sideNavState = false;
   public linkText = false;
-  public routes: NavItem[] = [
-    {
-      name: 'Danh Mục',
-      icon: 'menu',
-      isAction: false,
-      childs: [
-        { name: 'Khách Hàng', route: '/customers', isAction: true },
-        { name: 'Loại Xe', route: '/type-of-cars', isAction: true },
-        { name: 'Người dùng', route: '/users', isAction: true },
-        { name: 'Giá', route: '/prices', isAction: true },
-      ],
-    },
-    { name: 'Starred', route: 'some-link', icon: 'star', isAction: true },
-    { name: 'Send email', route: 'some-link', icon: 'send', isAction: true },
-  ];
+  public listMenu$: Observable<MenuItem[]>;
 
-  constructor(private sidenavService: SidenavService) {
+  constructor(
+    private sidenavService: SidenavService,
+    private authService: AuthenticationService,
+    private menuService: MenuService
+  ) {
     this.sidenavService.sideNavState$.subscribe((res) => {
       this.sideNavState = res;
       if (this.sideNavState) {
@@ -41,6 +34,8 @@ export class SidenavComponent implements OnInit {
         }, 75);
       }
     });
+
+    this.getListMenu();
   }
 
   ngOnInit(): void {}
@@ -52,5 +47,13 @@ export class SidenavComponent implements OnInit {
       this.linkText = this.sideNavState;
     }, 200);
     this.sidenavService.sideNavState$.next(this.sideNavState);
+  }
+
+  getListMenu(): void {
+    this.authService.currentUser.subscribe((user) => {
+      if (user && user.TokenKey) {
+        this.listMenu$ = this.menuService.getMenusByRoleId(user.RoleId, 0);
+      }
+    });
   }
 }

@@ -1,52 +1,44 @@
 import { SelectionModel } from '@angular/cdk/collections';
-import { AfterViewInit, Component, OnInit, ViewChild } from '@angular/core';
+import { AfterViewInit, Component, EventEmitter, Input, OnChanges, OnInit, Output, ViewChild } from '@angular/core';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatTableDataSource } from '@angular/material/table';
-import { tap } from 'rxjs/operators';
-
-export interface PeriodicElement {
-  name: string;
-  position: number;
-  weight: number;
-  symbol: string;
-}
-
-const ELEMENT_DATA: PeriodicElement[] = [
-  { position: 1, name: 'Hydrogen', weight: 1.0079, symbol: 'H' },
-  { position: 2, name: 'Helium', weight: 4.0026, symbol: 'He' },
-  { position: 3, name: 'Lithium', weight: 6.941, symbol: 'Li' },
-  { position: 4, name: 'Beryllium', weight: 9.0122, symbol: 'Be' },
-  { position: 5, name: 'Boron', weight: 10.811, symbol: 'B' },
-  { position: 6, name: 'Carbon', weight: 12.0107, symbol: 'C' },
-  { position: 7, name: 'Nitrogen', weight: 14.0067, symbol: 'N' },
-  { position: 8, name: 'Oxygen', weight: 15.9994, symbol: 'O' },
-  { position: 9, name: 'Fluorine', weight: 18.9984, symbol: 'F' },
-  { position: 10, name: 'Neon', weight: 20.1797, symbol: 'Ne' },
-];
 
 @Component({
   selector: 'app-data-table',
   templateUrl: './data-table.component.html',
   styleUrls: ['./data-table.component.scss'],
 })
-export class DataTableComponent implements AfterViewInit {
-  // 'select', 'position', 'name', 'weight', 'symbol', 'functional'
-  ELEMENT_DATA = ELEMENT_DATA;
-  displayedColumns = ['select', 'position', 'name', 'weight', 'symbol', 'functional'];
-  columns: { key: string; display: string }[] = [
-    { key: 'select', display: '' },
-    { key: 'position', display: 'No.' },
-    { key: 'name', display: 'Name' },
-    { key: 'weight', display: 'Weight' },
-    { key: 'symbol', display: 'Symbol' },
-    { key: 'functional', display: '' },
-    // 'select', 'position', 'name', 'weight', 'symbol', 'functional'
-  ];
-  dataSource = new MatTableDataSource<PeriodicElement>(ELEMENT_DATA);
-  selection = new SelectionModel<PeriodicElement>(true, []);
+export class DataTableComponent implements OnInit, AfterViewInit, OnChanges {
+  @Input() hasSelect: boolean;
+  @Input() hasFunctionalBtn = true;
+  @Input() dataList: any[] = [];
+  @Input() columns: { key: string; display: string; type?: string }[] = [];
+
+  @Output() viewEmitter = new EventEmitter<any>();
+  @Output() editEmitter = new EventEmitter<any>();
+  @Output() deleteEmitter = new EventEmitter<any>();
+  displayedColumns: string[];
+  dataSource: MatTableDataSource<any> = new MatTableDataSource<any>(this.dataList);
+  selection = new SelectionModel<any>(true, []);
 
   /** Pagination */
   @ViewChild(MatPaginator) paginator: MatPaginator;
+
+  ngOnInit(): void {
+    if (this.hasSelect) {
+      this.columns.unshift({ key: 'select', display: '' });
+    }
+
+    if (this.hasFunctionalBtn) {
+      this.columns.push({ key: 'functional', display: '' });
+    }
+    this.displayedColumns = this.columns.map((value) => value.key);
+  }
+
+  ngOnChanges(): void {
+    this.dataSource = new MatTableDataSource<any>(this.dataList);
+  }
+
   /** Whether the number of selected elements matches the total number of rows. */
   isAllSelected(): boolean {
     const numSelected = this.selection.selected.length;
@@ -60,15 +52,15 @@ export class DataTableComponent implements AfterViewInit {
   }
 
   onView(element: any): void {
-    console.log('Viewing', element);
+    this.viewEmitter.emit(element);
   }
 
   onEdit(element: any): void {
-    console.log('Viewing', element);
+    this.editEmitter.emit(element);
   }
 
   onDelete(element: any): void {
-    console.log('Viewing', element);
+    this.deleteEmitter.emit(element);
   }
 
   ngAfterViewInit(): void {

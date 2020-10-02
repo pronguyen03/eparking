@@ -1,12 +1,12 @@
 <a
   mat-list-item
   (click)="onItemSelected(item)"
-  [ngClass]="{ active: item.route ? router.isActive(item.route, true) : false, expanded: expanded }"
+  [ngClass]="{ active: item.RouterLink ? router.isActive(item.RouterLink, true) : false, expanded: expanded }"
   (mouseover)="onHover(true)"
   (mouseout)="onHover(false)"
   [fxLayoutAlign]="sideNavState ? 'flex-start' : 'center'"
 >
-  <mat-icon mat-list-icon>{{ item.icon }}</mat-icon>
+  <mat-icon mat-list-icon>{{ item.Icon }}</mat-icon>
   <div
     class="text-menu-item"
     [@animateText]="linkText ? 'show' : 'hide'"
@@ -14,8 +14,8 @@
       display: linkText ? 'flex' : 'none'
     }"
   >
-    <span *ngIf="linkText"> {{ item.name }}</span>
-    <span fxFlex *ngIf="item.childs && item.childs.length">
+    <span *ngIf="linkText"> {{ item.Name }}</span>
+    <span fxFlex *ngIf="item.ChildsMenu && item.ChildsMenu.length">
       <span fxFlex></span>
       <mat-icon style="color: inherit" [@indicatorRotate]="expanded ? 'expanded' : 'collapsed'">{{
         !expanded ? 'add' : 'remove'
@@ -24,6 +24,6 @@
   </div>
 </a>
 <div *ngIf="expanded">
-  <app-menu-nav-item *ngFor="let child of item.childs" [item]="child" [linkText]="linkText" [depth]="depth + 1">
+  <app-menu-nav-item *ngFor="let child of item.ChildsMenu" [item]="child" [linkText]="linkText" [depth]="depth + 1">
   </app-menu-nav-item>
 </div>

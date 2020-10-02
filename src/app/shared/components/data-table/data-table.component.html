@@ -24,7 +24,23 @@
     <!-- Data Column -->
     <ng-container [matColumnDef]="column.key" *ngIf="column.key !== 'select' && column.key !== 'functional'">
       <th mat-header-cell *matHeaderCellDef>{{ column.display }}</th>
-      <td mat-cell *matCellDef="let element">{{ element[column.key] }}</td>
+      <ng-container [ngSwitch]="column.type">
+        <ng-container *ngSwitchCase="undefined">
+          <td mat-cell *matCellDef="let element">{{ element[column.key] }}</td>
+        </ng-container>
+
+        <ng-container *ngSwitchCase="'boolean'">
+          <td mat-cell *matCellDef="let element">
+            <mat-label>{{ element[column.key] ? 'YES' : 'NO' }}</mat-label>
+          </td>
+        </ng-container>
+
+        <ng-container *ngSwitchCase="'date'">
+          <td mat-cell *matCellDef="let element">
+            <mat-label>{{ element[column.key] | date }}</mat-label>
+          </td>
+        </ng-container>
+      </ng-container>
     </ng-container>
 
     <!-- Functional Column -->
@@ -55,4 +71,4 @@
   <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
   <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
 </table>
-<mat-paginator [length]="ELEMENT_DATA.length" [pageSize]="5" [pageSizeOptions]="[10, 20, 50]"></mat-paginator>
+<mat-paginator [length]="dataList.length" [pageSize]="5" [pageSizeOptions]="[10, 20, 50]"></mat-paginator>

@@ -3,7 +3,7 @@
     <div>
       <mat-nav-list>
         <app-menu-nav-item
-          *ngFor="let item of routes"
+          *ngFor="let item of listMenu$ | async"
           [item]="item"
           [linkText]="linkText"
           [sideNavState]="sideNavState"
