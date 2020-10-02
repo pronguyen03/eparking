@@ -16,6 +16,7 @@ import { ErrorInterceptor } from './shared/interceptors/error.interceptor';
 import { fakeBackendProvider } from './shared/interceptors/fake-backend.interceptor';
 import { NgxSpinnerModule } from 'ngx-spinner';
 import { LoadingInterceptor } from './shared/interceptors/loading.interceptor';
+import { MasterDataModule } from './master-data/master-data.module';
 @NgModule({
   declarations: [AppComponent, LoginComponent, HomeComponent],
   imports: [
@@ -28,6 +29,8 @@ import { LoadingInterceptor } from './shared/interceptors/loading.interceptor';
     FlexLayoutModule,
     SharedModule,
     CoreModule,
+    NgxSpinnerModule,
+    MasterDataModule,
   ],
   providers: [
     { provide: HTTP_INTERCEPTORS, useClass: LoadingInterceptor, multi: true },
