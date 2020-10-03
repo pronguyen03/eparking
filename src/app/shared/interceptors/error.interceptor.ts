@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
-import { HttpRequest, HttpHandler, HttpEvent, HttpInterceptor } from '@angular/common/http';
+import { HttpRequest, HttpHandler, HttpEvent, HttpInterceptor, HttpResponse } from '@angular/common/http';
 import { Observable, throwError } from 'rxjs';
-import { catchError, map } from 'rxjs/operators';
+import { catchError, map, tap } from 'rxjs/operators';
 import { AuthenticationService } from '../services/authentication.service';
 import { ToastrService } from 'ngx-toastr';
 
@@ -12,6 +12,22 @@ export class ErrorInterceptor implements HttpInterceptor {
   intercept(request: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
     return next.handle(request).pipe(
       map((res) => res),
+      tap((event) => {
+        if (event instanceof HttpResponse) {
+          const body = event.body;
+          if (body.Code !== '100') {
+            switch (body) {
+              case '101':
+                this.authenticationService.logout();
+                this.toastr.error(body.Message);
+                break;
+              default:
+                this.toastr.error(body.Message, `Error ${body.Code}`);
+                break;
+            }
+          }
+        }
+      }),
       catchError((err) => {
         if (err.status === 401) {
           this.authenticationService.logout();

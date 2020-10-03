@@ -1,1 +1,165 @@
-<p>vehicle-detail works!</p>
+<mat-toolbar>
+  <span>Vehicle Detail</span>
+</mat-toolbar>
+
+<mat-horizontal-stepper labelPosition="bottom" [linear]="false" #stepper>
+  <mat-step [completed]="true" label="Fill out vehicle detail." [editable]="false"> </mat-step>
+  <mat-step
+    [completed]="vehicleForm?.controls.Status.value !== VehicleStatus.NEW"
+    label="Waiting for approval"
+    [editable]="false"
+  >
+  </mat-step>
+  <mat-step [completed]="vehicleForm?.controls.Status.value === VehicleStatus.APPROVED" label="Done" [editable]="false">
+  </mat-step>
+</mat-horizontal-stepper>
+<div class="row">
+  <form [formGroup]="vehicleForm">
+    <div
+      *ngIf="crudType !== CrudType.CREATE"
+      fxLayout="row"
+      fxLayout.xs="column"
+      fxLayoutWrap
+      fxLayoutGap="5%"
+      fxLayoutAlign="center center"
+    >
+      <div fxFlex="50%" fxLayout="row" fxLayoutWrap fxLayoutGap="10px" fxLayoutAlign="center center">
+        <mat-label fxFlex="30%" class="title-field">Customer Name</mat-label>
+        <mat-form-field fxFlex="70%" appearance="standard">
+          <mat-label>Customer Name</mat-label>
+          <input matInput formControlName="CustomerName" />
+        </mat-form-field>
+      </div>
+      <div fxFlex="50%"></div>
+    </div>
+    <div fxLayout="row" fxLayout.xs="column" fxLayoutWrap fxLayoutGap="5%" fxLayoutAlign="center center">
+      <div fxFlex="50%" fxLayout="row" fxLayoutWrap fxLayoutGap="10px" fxLayoutAlign="start center">
+        <mat-label fxFlex="30%" class="title-field">Type Of Vehicle</mat-label>
+        <mat-form-field fxFlex="70%" appearance="standard">
+          <mat-label>Type Of Vehicle</mat-label>
+          <mat-select formControlName="TypeId">
+            <mat-option [value]="">Please Select</mat-option>
+            <mat-option *ngFor="let category of vehicleCategories$ | async" [value]="category.Id">
+              {{ category.Name }}
+            </mat-option>
+          </mat-select>
+          <!-- <mat-icon matSuffix>home</mat-icon> -->
+        </mat-form-field>
+      </div>
+
+      <div fxFlex="50%" fxLayout="row" fxLayoutWrap fxLayoutGap="10px" fxLayoutAlign="start center">
+        <mat-label fxFlex="30%" class="title-field">Plate</mat-label>
+        <mat-form-field fxFlex="70%" appearance="standard" class="form-input">
+          <mat-label>Plate</mat-label>
+          <!-- <mat-icon matSuffix>person</mat-icon> -->
+          <input matInput formControlName="Plate" />
+        </mat-form-field>
+      </div>
+    </div>
+
+    <div fxLayout="row" fxLayout.xs="column" fxLayoutWrap fxLayoutGap="5%" fxLayoutAlign="center center">
+      <div fxFlex="50%" fxLayout="row" fxLayoutWrap fxLayoutGap="10px" fxLayoutAlign="start center">
+        <mat-label fxFlex="30%" class="title-field">Current Status</mat-label>
+        <mat-form-field fxFlex="70%" appearance="standard">
+          <mat-label>Current Status</mat-label>
+          <input matInput formControlName="CurrentStatus" />
+        </mat-form-field>
+      </div>
+
+      <div fxFlex="50%" fxLayout="row" fxLayoutWrap fxLayoutGap="10px" fxLayoutAlign="center center">
+        <mat-label fxFlex="30%" class="title-field">Payment Date</mat-label>
+        <mat-form-field fxFlex="70%" appearance="standard">
+          <mat-label>Choose a date</mat-label>
+          <input matInput [matDatepicker]="picker" formControlName="DateOfPayment" readonly />
+          <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+          <mat-datepicker #picker disabled="false"></mat-datepicker>
+        </mat-form-field>
+      </div>
+    </div>
+
+    <div fxLayout="row" fxLayout.xs="column" fxLayoutWrap fxLayoutGap="5%" fxLayoutAlign="center center">
+      <div fxFlex="50%" fxLayout="row" fxLayoutWrap fxLayoutGap="10px" fxLayoutAlign="center center">
+        <mat-label fxFlex="30%" class="title-field">Approval Status</mat-label>
+        <mat-form-field fxFlex="70%" appearance="standard">
+          <mat-label>Approval Status</mat-label>
+          <ng-container [ngSwitch]="vehicleForm.controls.Status.value">
+            <input *ngSwitchCase="VehicleStatus.NEW" matInput value="New" readonly />
+            <input *ngSwitchCase="VehicleStatus.PENDING" matInput value="Pending Approval" readonly />
+            <input *ngSwitchCase="VehicleStatus.APPROVED" matInput value="Approved" readonly />
+          </ng-container>
+        </mat-form-field>
+      </div>
+
+      <div fxFlex="50%" fxLayout="row" fxLayoutWrap fxLayoutGap="10px" fxLayoutAlign="center center">
+        <mat-label fxFlex="30%" class="title-field">Note</mat-label>
+        <mat-form-field fxFlex="70%" appearance="standard">
+          <mat-label>Note</mat-label>
+          <input matInput formControlName="Notes" readonly />
+          <!-- <textarea matInput></textarea> -->
+        </mat-form-field>
+      </div>
+    </div>
+    <div
+      *ngIf="vehicleForm.controls.Status.value === VehicleStatus.APPROVED"
+      fxLayout="row"
+      fxLayout.xs="column"
+      fxLayoutWrap
+      fxLayoutGap="5%"
+      fxLayoutAlign="center center"
+    >
+      <div fxFlex="50%" fxLayout="row" fxLayoutWrap fxLayoutGap="10px" fxLayoutAlign="center center">
+        <mat-label fxFlex="30%" class="title-field">Approver</mat-label>
+        <mat-form-field fxFlex="70%" appearance="standard">
+          <mat-label>Approver</mat-label>
+          <input matInput />
+        </mat-form-field>
+      </div>
+      <div fxFlex="50%" fxLayout="row" fxLayoutWrap fxLayoutGap="10px" fxLayoutAlign="center center">
+        <mat-label fxFlex="30%" class="title-field">Approval Date</mat-label>
+        <mat-form-field fxFlex="70%" appearance="standard">
+          <mat-label>Approval Date</mat-label>
+          <!-- <mat-icon matSuffix>home</mat-icon> -->
+          <input matInput />
+        </mat-form-field>
+      </div>
+    </div>
+  </form>
+</div>
+<div class="row btn-footer">
+  <div fxLayout="row" fxLayoutGap="10px" fxLayoutAlign="start center">
+    <button
+      *ngIf="crudType !== CrudType.VIEW && vehicleForm?.controls.Status.value === VehicleStatus.NEW"
+      mat-raised-button
+      color="primary"
+      (click)="save()"
+    >
+      Save
+    </button>
+    <button
+      *ngIf="crudType === CrudType.VIEW && vehicleForm?.controls.Status.value === VehicleStatus.NEW"
+      mat-raised-button
+      color="primary"
+      (click)="confirmDialog('handover', 'Handover', 'Are you sure you want to handover to approve this vehicle?')"
+    >
+      Handover
+    </button>
+    <button
+      *ngIf="crudType === CrudType.VIEW && vehicleForm?.controls.Status.value === VehicleStatus.PENDING"
+      mat-raised-button
+      color="primary"
+      (click)="confirmDialog('approve', 'Approval Confirm', 'Are you sure you want to approve this vehicle?')"
+    >
+      Approve
+    </button>
+    <button
+      *ngIf="crudType === CrudType.VIEW && vehicleForm?.controls.Status.value === VehicleStatus.PENDING"
+      mat-raised-button
+      color="accent"
+      (click)="confirmDialog('cancel', 'Cancel Confirm', 'Are you sure you want to cancel this vehicle?')"
+    >
+      Cancel
+    </button>
+    <button mat-raised-button (click)="back()">Back</button>
+    <!-- <button mat-raised-button color="accent">Accent</button> -->
+  </div>
+</div>

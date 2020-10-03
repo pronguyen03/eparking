@@ -9,11 +9,11 @@ import { VehiclesComponent } from './vehicles/vehicles.component';
 const routes: Routes = [
   { path: 'customers', component: CustomersComponent, canActivate: [AuthGuard] },
   { path: 'customers/detail/:crudType', component: CustomerDetailComponent, canActivate: [AuthGuard] },
-  { path: 'customers/detail/:crudType/:Id', component: CustomerDetailComponent, canActivate: [AuthGuard] },
+  { path: 'customers/detail/:crudType/:id', component: CustomerDetailComponent, canActivate: [AuthGuard] },
 
   { path: 'vehicles', component: VehiclesComponent, canActivate: [AuthGuard] },
   { path: 'vehicles/detail/:crudType', component: VehicleDetailComponent, canActivate: [AuthGuard] },
-  { path: 'vehicles/detail/:crudType/:Id', component: VehicleDetailComponent, canActivate: [AuthGuard] },
+  { path: 'vehicles/detail/:crudType/:id', component: VehicleDetailComponent, canActivate: [AuthGuard] },
 ];
 
 @NgModule({

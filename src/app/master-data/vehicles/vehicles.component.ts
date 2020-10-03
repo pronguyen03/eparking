@@ -14,8 +14,8 @@ export class VehiclesComponent implements OnInit {
   vehicles: Vehicle[] = [];
   columns = [
     { key: 'Plate', display: 'Plate' },
-    { key: 'TypeId', display: 'Type' },
-    { key: 'CustomerName', display: 'Customer Name' },
+    { key: 'Name', display: 'Name' },
+    { key: 'ContactName', display: 'Contact Name' },
     { key: 'DateOfPayment', display: 'Payment Date', type: 'date' },
     { key: 'Actived', display: 'Actived', type: 'boolean' },
     { key: 'IsApproved', display: 'Is Approved', type: 'boolean' },

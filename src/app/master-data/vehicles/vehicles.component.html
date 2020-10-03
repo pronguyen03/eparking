@@ -7,8 +7,8 @@
     [dataList]="vehicles"
     [columns]="columns"
     (viewEmitter)="viewDetail($event)"
-    (viewEmitter)="editVehicle($event)"
-    (viewEmitter)="deleteVehicle($event)"
+    (editEmitter)="editVehicle($event)"
+    (deleteEmitter)="deleteVehicle($event)"
   ></app-data-table>
 </div>
 
