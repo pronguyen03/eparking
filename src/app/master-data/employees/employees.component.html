@@ -1,0 +1,17 @@
+<mat-toolbar>
+  <span>Nhân Viên</span>
+</mat-toolbar>
+<div class="row">
+  <app-data-table
+    [hasSelect]="false"
+    [dataList]="employees"
+    [columns]="columns"
+    (viewEmitter)="viewDetail($event)"
+    (editEmitter)="editEmployee($event)"
+    (deleteEmitter)="deleteEmployee($event)"
+  ></app-data-table>
+</div>
+
+<div class="fab-features-btn">
+  <button mat-fab color="primary" (click)="addNew()"><mat-icon>add</mat-icon></button>
+</div>

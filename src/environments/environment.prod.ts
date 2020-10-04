@@ -1,4 +1,5 @@
 export const environment = {
   production: true,
-  apiUrl: 'http://localhost:400'
+  apiUrl: 'http://125.212.225.178:8082/api',
+  parkingId: 1,
 };

@@ -7,7 +7,7 @@ import { AuthenticationService } from '../shared/services/authentication.service
 @Component({
   selector: 'app-login',
   templateUrl: './login.component.html',
-  styleUrls: ['./login.component.scss']
+  styleUrls: ['./login.component.scss'],
 })
 export class LoginComponent implements OnInit {
   loginForm: FormGroup;
@@ -30,11 +30,13 @@ export class LoginComponent implements OnInit {
   ngOnInit(): void {
     this.loginForm = this.fb.group({
       username: ['', Validators.required],
-      password: ['', Validators.required]
+      password: ['', Validators.required],
     });
   }
 
-  get f(): { [key: string]: AbstractControl; } { return this.loginForm.controls; }
+  get f(): { [key: string]: AbstractControl } {
+    return this.loginForm.controls;
+  }
 
   onSubmit(): void {
     this.submitted = true;
@@ -43,17 +45,17 @@ export class LoginComponent implements OnInit {
       return;
     }
 
-    this.authenticationService.login(this.loginForm.value.username, this.loginForm.value.password)
+    this.authenticationService
+      .login(this.loginForm.value.username, this.loginForm.value.password)
       .pipe(first())
       .subscribe(
         () => {
           const returnUrl = this.route.snapshot.queryParams.returnUrl || '/';
           this.router.navigate([returnUrl]);
         },
-        error => {
+        (error) => {
           this.error = error;
         }
-      )
+      );
   }
-
 }

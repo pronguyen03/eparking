@@ -9,7 +9,12 @@
     <app-sidenav></app-sidenav>
   </mat-sidenav>
   <mat-sidenav-content [@onMainContentChange]="!currentUser ? 'hidden' : onSideNavChange ? 'open' : 'close'">
-    <div class="main-content" [ngStyle]="{ height: currentUser ? 'calc(100vh - 100px)' : 'calc(100vh - 40px)' }">
+    <div
+      class="main-content"
+      [ngStyle]="{
+        'min-height': currentUser ? 'calc(100vh - 104px)' : 'calc(100vh - 40px)'
+      }"
+    >
       <router-outlet></router-outlet>
     </div>
   </mat-sidenav-content>

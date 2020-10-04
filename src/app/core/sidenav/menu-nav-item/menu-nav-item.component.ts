@@ -1,8 +1,8 @@
 import { Component, HostBinding, Input, OnDestroy, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
+import { MenuItem } from '@app/shared/classes/menu-item';
 import { Subscription } from 'rxjs';
 import { animateText, indicatorRotate } from 'src/app/animations/animations';
-import { NavItem } from 'src/app/shared/classes/nav-item';
 import { SidenavService } from 'src/app/shared/services/sidenav.service';
 
 @Component({
@@ -14,7 +14,7 @@ import { SidenavService } from 'src/app/shared/services/sidenav.service';
 export class MenuNavItemComponent implements OnInit, OnDestroy {
   expanded = false;
   @HostBinding('attr.aria-expanded') ariaExpanded = this.expanded;
-  @Input() item: NavItem;
+  @Input() item: MenuItem;
   @Input() depth: number;
   @Input() linkText: boolean;
   @Input() sideNavState: boolean;
@@ -37,10 +37,10 @@ export class MenuNavItemComponent implements OnInit, OnDestroy {
 
   ngOnInit(): void {}
 
-  onItemSelected(item: NavItem): void {
-    if (item.isAction) {
+  onItemSelected(item: MenuItem): void {
+    if (item.IsAction) {
       this.sidenavService.hide();
-      this.router.navigate([item.route]);
+      this.router.navigate([item.RouterLink]);
     } else {
       if (!this.expanded) {
         this.sidenavService.show();
