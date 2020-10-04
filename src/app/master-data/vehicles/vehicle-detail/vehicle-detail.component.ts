@@ -8,6 +8,7 @@ import {
   ConfirmDialogModel,
 } from '@app/shared/components/confirm-dialog/confirm-dialog.component';
 import { CrudType } from '@app/shared/enums/crud-type.enum';
+import { Role } from '@app/shared/enums/role.enum';
 import { VehicleStatus } from '@app/shared/enums/vehicle-status.enum';
 import { AuthenticationService } from '@app/shared/services/authentication.service';
 import { VehicleCategoryService } from '@app/shared/services/vehicle-category.service';
@@ -22,6 +23,7 @@ import { Observable } from 'rxjs';
   styleUrls: ['./vehicle-detail.component.scss'],
 })
 export class VehicleDetailComponent implements OnInit {
+  Role = Role;
   VehicleStatus = VehicleStatus;
   CrudType = CrudType;
   vehicleForm: FormGroup;

@@ -15,6 +15,9 @@
         },
         "@schematics/angular:class": {
           "skipTests": true
+        },
+        "@schematics/angular:directive": {
+          "skipTests": true
         }
       },
       "root": "",

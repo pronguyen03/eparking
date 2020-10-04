@@ -1,9 +1,15 @@
 import { Component, OnInit } from '@angular/core';
+import { MatDialog } from '@angular/material/dialog';
 import { Router } from '@angular/router';
 import { Vehicle } from '@app/shared/classes/vehicle';
+import {
+  ConfirmDialogComponent,
+  ConfirmDialogModel,
+} from '@app/shared/components/confirm-dialog/confirm-dialog.component';
 import { CrudType } from '@app/shared/enums/crud-type.enum';
 import { AuthenticationService } from '@app/shared/services/authentication.service';
 import { VehicleService } from '@app/shared/services/vehicle.service';
+import { ToastrService } from 'ngx-toastr';
 
 @Component({
   selector: 'app-vehicles',
@@ -26,7 +32,9 @@ export class VehiclesComponent implements OnInit {
   constructor(
     private router: Router,
     private vehicleService: VehicleService,
-    private authService: AuthenticationService
+    private authService: AuthenticationService,
+    private dialog: MatDialog,
+    private toastr: ToastrService
   ) {}
 
   ngOnInit(): void {
@@ -36,7 +44,6 @@ export class VehiclesComponent implements OnInit {
   getVehiclesByCustomer(customerId: number): void {
     this.vehicleService.getVehiclesByCustomer(customerId).subscribe((vehicles) => {
       this.vehicles = vehicles;
-      console.log(this.vehicles);
     });
   }
 
@@ -53,6 +60,22 @@ export class VehiclesComponent implements OnInit {
   }
 
   deleteVehicle(vehicle: Vehicle): void {
-    // this.router.navigate(['master-data/vehicles/detail', CrudType.VIEW, vehicle.Id]);
+    const dialogData = new ConfirmDialogModel('Delete Confirm', 'Are you sure you want to delete this vehicle?');
+
+    const dialogRef = this.dialog.open(ConfirmDialogComponent, {
+      minWidth: '400px',
+      data: dialogData,
+    });
+
+    dialogRef.afterClosed().subscribe((dialogResult) => {
+      if (dialogResult) {
+        this.vehicleService.deleteVehicle(vehicle.Id).subscribe((res) => {
+          if (res.Code === '100') {
+            this.toastr.success('Deleted successfully.', 'Vehicle');
+            this.vehicles = this.vehicles.filter((value) => value.Id !== vehicle.Id);
+          }
+        });
+      }
+    });
   }
 }

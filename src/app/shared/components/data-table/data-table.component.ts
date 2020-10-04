@@ -37,6 +37,7 @@ export class DataTableComponent implements OnInit, AfterViewInit, OnChanges {
 
   ngOnChanges(): void {
     this.dataSource = new MatTableDataSource<any>(this.dataList);
+    this.dataSource.paginator = this.paginator;
   }
 
   /** Whether the number of selected elements matches the total number of rows. */
@@ -52,12 +53,10 @@ export class DataTableComponent implements OnInit, AfterViewInit, OnChanges {
   }
 
   onView(element: any): void {
-    console.log('view');
     this.viewEmitter.emit(element);
   }
 
   onEdit(element: any): void {
-    console.log('edit');
     this.editEmitter.emit(element);
   }
 

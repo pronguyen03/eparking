@@ -49,6 +49,14 @@ export class VehicleService {
     });
   }
 
+  deleteVehicle(vehicleId: number): Observable<ApiResponse> {
+    return this.http.post<ApiResponse>(`${this.url}/Delete`, {
+      Item: {
+        Id: vehicleId,
+      },
+    });
+  }
+
   setApproving(id: number): Observable<ApiResponse> {
     return this.http.post<ApiResponse>(`${this.url}/SetApproving`, {
       Item: {
