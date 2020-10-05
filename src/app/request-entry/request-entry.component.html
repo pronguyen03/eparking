@@ -1,0 +1,60 @@
+<mat-toolbar>
+  <span>Đăng kí ra vào</span>
+</mat-toolbar>
+<div class="row">
+  <div class="search-form" [formGroup]="searchForm">
+    <div fxLayout="row" fxLayout.xs="column" fxLayoutWrap fxLayoutGap="5%" fxLayoutAlign="center center">
+      <div fxFlex="50%" fxLayout="row" fxLayoutWrap fxLayoutGap="10px" fxLayoutAlign="start center">
+        <mat-label fxFlex="30%" class="title-field">Request Date</mat-label>
+        <mat-form-field fxFlex="70%" appearance="standard">
+          <mat-label>Enter a date range</mat-label>
+          <mat-date-range-input [rangePicker]="picker">
+            <input matStartDate formControlName="FromDate" placeholder="Start date" readonly />
+            <input matEndDate formControlName="ToDate" placeholder="End date" readonly />
+          </mat-date-range-input>
+          <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+          <mat-date-range-picker #picker></mat-date-range-picker>
+
+          <mat-error *ngIf="errorForm && searchForm.controls.FromDate.hasError('required')"
+            >Start Date is required.</mat-error
+          >
+          <mat-error *ngIf="errorForm && searchForm.controls.ToDate.hasError('required')"
+            >End Date is required.</mat-error
+          >
+        </mat-form-field>
+      </div>
+
+      <div fxFlex="50%" fxLayout="row" fxLayoutWrap fxLayoutGap="10px" fxLayoutAlign="start center">
+        <!-- <mat-label fxFlex="30%" class="title-field">Type</mat-label>
+        <mat-form-field fxFlex="70%" appearance="standard" class="form-input">
+          <mat-label>Type Of Vehicle</mat-label>
+          <mat-select formControlName="Type">
+            <mat-option [value]="">Please Select</mat-option>
+            <mat-option *ngFor="let category of vehicleCategories$ | async" [value]="category.Id">
+              {{ category.Name }}
+            </mat-option>
+          </mat-select>
+        </mat-form-field> -->
+      </div>
+    </div>
+
+    <div class="btn-container" fxLayoutGap="10px">
+      <button mat-raised-button color="primary" (click)="getFilteredList()">Search</button>
+      <button mat-raised-button (click)="resetSearchForm()">Clear</button>
+    </div>
+  </div>
+
+  <app-data-table
+    *ngIf="listRequests.length > 0"
+    [hasSelect]="false"
+    [dataList]="listRequests"
+    [columns]="columns"
+    (viewEmitter)="viewDetail($event)"
+    (editEmitter)="editRequest($event)"
+    (deleteEmitter)="deleteRequest($event)"
+  ></app-data-table>
+</div>
+
+<div class="fab-features-btn">
+  <button mat-fab color="primary" (click)="addNew()"><mat-icon>add</mat-icon></button>
+</div>

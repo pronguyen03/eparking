@@ -38,7 +38,7 @@
 
           <ng-container *ngSwitchCase="'date'">
             <td mat-cell *matCellDef="let element">
-              <mat-label>{{ element[column.key] | date }}</mat-label>
+              <mat-label>{{ element[column.key] | customDate | date: 'HH:mm yyyy-MM-dd' }}</mat-label>
             </td>
           </ng-container>
         </ng-container>

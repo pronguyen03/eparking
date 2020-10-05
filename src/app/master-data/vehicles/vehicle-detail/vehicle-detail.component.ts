@@ -109,24 +109,28 @@ export class VehicleDetailComponent implements OnInit {
   }
 
   create(): void {
-    const { Plate, TypeId, CurrentStatus, DateOfPayment, Notes } = this.vehicleForm.value;
-    const inputData = {
-      EParkingId: environment.parkingId,
-      CustomerId: this.authService.currentUserValue.CustomerId,
-      Plate,
-      TypeId,
-      CurrentStatus,
-      DateOfPayment,
-      ImagePath: '',
-      Notes,
-    };
+    if (this.vehicleForm.valid) {
+      const { Plate, TypeId, CurrentStatus, DateOfPayment, Notes } = this.vehicleForm.value;
+      const inputData = {
+        EParkingId: environment.parkingId,
+        CustomerId: this.authService.currentUserValue.CustomerId,
+        Plate,
+        TypeId,
+        CurrentStatus,
+        DateOfPayment,
+        ImagePath: '',
+        Notes,
+      };
 
-    this.vehicleService.addVehicle(inputData).subscribe((res) => {
-      if (res.Code === '100') {
-        this.toastr.success('Created successfully.', 'Vehicle');
-        this.back();
-      }
-    });
+      this.vehicleService.addVehicle(inputData).subscribe((res) => {
+        if (res.Code === '100') {
+          this.toastr.success('Created successfully.', 'Vehicle');
+          this.back();
+        }
+      });
+    } else {
+      this.toastr.error('Input Data is invalid. Please check again', 'Error');
+    }
   }
 
   update(): void {

@@ -9,13 +9,19 @@ const routes: Routes = [
   { path: 'login', component: LoginComponent },
   {
     path: 'master-data',
-    loadChildren: () => import('./master-data/master-data.module').then(m => m.MasterDataModule), canActivate: [AuthGuard]
+    loadChildren: () => import('./master-data/master-data.module').then((m) => m.MasterDataModule),
+    canActivate: [AuthGuard],
   },
-  { path: '**', redirectTo: '' }
+  {
+    path: 'request-entry',
+    loadChildren: () => import('./request-entry/request-entry.module').then((m) => m.RequestEntryModule),
+    canActivate: [AuthGuard],
+  },
+  { path: '**', redirectTo: '' },
 ];
 
 @NgModule({
   imports: [RouterModule.forRoot(routes)],
-  exports: [RouterModule]
+  exports: [RouterModule],
 })
-export class AppRoutingModule { }
+export class AppRoutingModule {}
