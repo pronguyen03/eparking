@@ -17,8 +17,11 @@ import { NgxSpinnerModule } from 'ngx-spinner';
 import { LoadingInterceptor } from './shared/interceptors/loading.interceptor';
 import { MasterDataModule } from './master-data/master-data.module';
 import { ToastrModule } from 'ngx-toastr';
+import { RequestEntryComponent } from './request-entry/request-entry.component';
+import { UpdateRequestEntryComponent } from './request-entry/update-request-entry/update-request-entry.component';
+import { RequestEntryModule } from './request-entry/request-entry.module';
 @NgModule({
-  declarations: [AppComponent, LoginComponent, HomeComponent],
+  declarations: [AppComponent, LoginComponent, HomeComponent, RequestEntryComponent, UpdateRequestEntryComponent],
   imports: [
     BrowserModule,
     ReactiveFormsModule,
@@ -30,7 +33,6 @@ import { ToastrModule } from 'ngx-toastr';
     SharedModule,
     CoreModule,
     NgxSpinnerModule,
-    MasterDataModule,
     ToastrModule.forRoot(),
   ],
   providers: [

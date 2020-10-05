@@ -54,3 +54,12 @@ body {
 .required {
   color: red;
 }
+
+.search-form {
+  padding-bottom: 10px;
+  .btn-container {
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+  }
+}
