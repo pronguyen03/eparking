@@ -2,8 +2,6 @@ import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
 import { Router } from '@angular/router';
-import { RequestEntry } from '@app/shared/classes/request-entry';
-import { VehicleCategory } from '@app/shared/classes/vehicle-category';
 import {
   ConfirmDialogComponent,
   ConfirmDialogModel,
@@ -17,6 +15,8 @@ import { ToastrService } from 'ngx-toastr';
 import { Observable } from 'rxjs';
 import { differenceInMinutes } from 'date-fns';
 import { TimeService } from '@app/shared/services/time.service';
+import { IRequestEntry } from '@app/shared/interfaces/request-entry';
+import { IVehicleCategory } from '@app/shared/interfaces/vehicle-category';
 
 @Component({
   selector: 'app-request-entry',
@@ -24,7 +24,7 @@ import { TimeService } from '@app/shared/services/time.service';
   styleUrls: ['./request-entry.component.scss'],
 })
 export class RequestEntryComponent implements OnInit {
-  listRequests: RequestEntry[] = [];
+  listRequests: IRequestEntry[] = [];
   errorForm = false;
   columns = [
     { key: 'RequestDetailed', display: 'Request Detail' },
@@ -35,7 +35,7 @@ export class RequestEntryComponent implements OnInit {
     { key: 'CustomerName', display: 'Customer Name' },
   ];
 
-  vehicleCategories$: Observable<VehicleCategory[]>;
+  vehicleCategories$: Observable<IVehicleCategory[]>;
   searchForm: FormGroup;
 
   constructor(
@@ -78,15 +78,15 @@ export class RequestEntryComponent implements OnInit {
     this.router.navigate(['request-entry/detail', CrudType.CREATE]);
   }
 
-  viewDetail(request: RequestEntry): void {
+  viewDetail(request: IRequestEntry): void {
     this.router.navigate(['request-entry/detail', CrudType.VIEW, request.Id]);
   }
 
-  editRequest(request: RequestEntry): void {
+  editRequest(request: IRequestEntry): void {
     this.router.navigate(['request-entry/detail', CrudType.EDIT, request.Id]);
   }
 
-  deleteRequest(request: RequestEntry): void {
+  deleteRequest(request: IRequestEntry): void {
     if (differenceInMinutes(this.timeService.convertToDateTime(request.EndTime), new Date()) < 0) {
       this.toastr.error('Can not delete the request. This one is expired.');
       return;

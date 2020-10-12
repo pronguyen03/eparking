@@ -1,8 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
-import { VehicleCategory } from '@app/shared/classes/vehicle-category';
 import { CrudType } from '@app/shared/enums/crud-type.enum';
+import { IVehicleCategory } from '@app/shared/interfaces/vehicle-category';
 import { AuthenticationService } from '@app/shared/services/authentication.service';
 import { RequestEntryService } from '@app/shared/services/request-entry.service';
 import { TimeService } from '@app/shared/services/time.service';
@@ -18,7 +18,7 @@ import { Observable } from 'rxjs';
 })
 export class UpdateRequestEntryComponent implements OnInit {
   requestEntryForm: FormGroup;
-  vehicleCategories$: Observable<VehicleCategory[]>;
+  vehicleCategories$: Observable<IVehicleCategory[]>;
   crudType: CrudType;
   CrudType = CrudType;
   id: number;

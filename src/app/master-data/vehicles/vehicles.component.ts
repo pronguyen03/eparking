@@ -1,12 +1,13 @@
 import { Component, OnInit } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { Router } from '@angular/router';
-import { Vehicle } from '@app/shared/classes/vehicle';
 import {
   ConfirmDialogComponent,
   ConfirmDialogModel,
 } from '@app/shared/components/confirm-dialog/confirm-dialog.component';
 import { CrudType } from '@app/shared/enums/crud-type.enum';
+import { ITableCol } from '@app/shared/interfaces/table-col';
+import { IVehicle } from '@app/shared/interfaces/vehicle';
 import { AuthenticationService } from '@app/shared/services/authentication.service';
 import { VehicleService } from '@app/shared/services/vehicle.service';
 import { ToastrService } from 'ngx-toastr';
@@ -17,9 +18,9 @@ import { ToastrService } from 'ngx-toastr';
   styleUrls: ['./vehicles.component.scss'],
 })
 export class VehiclesComponent implements OnInit {
-  vehicles: Vehicle[] = [];
-  columns = [
-    { key: 'Plate', display: 'Plate' },
+  vehicles: IVehicle[] = [];
+  columns: ITableCol[] = [
+    { key: 'Plate', display: 'Plate', filterable: true, filterType: 'input' },
     { key: 'Name', display: 'Name' },
     { key: 'ContactName', display: 'Contact Name' },
     { key: 'DateOfPayment', display: 'Payment Date', type: 'date' },
@@ -51,15 +52,15 @@ export class VehiclesComponent implements OnInit {
     this.router.navigate(['master-data/vehicles/detail', CrudType.CREATE]);
   }
 
-  viewDetail(vehicle: Vehicle): void {
+  viewDetail(vehicle: IVehicle): void {
     this.router.navigate(['master-data/vehicles/detail', CrudType.VIEW, vehicle.Id]);
   }
 
-  editVehicle(vehicle: Vehicle): void {
+  editVehicle(vehicle: IVehicle): void {
     this.router.navigate(['master-data/vehicles/detail', CrudType.EDIT, vehicle.Id]);
   }
 
-  deleteVehicle(vehicle: Vehicle): void {
+  deleteVehicle(vehicle: IVehicle): void {
     const dialogData = new ConfirmDialogModel('Delete Confirm', 'Are you sure you want to delete this vehicle?');
 
     const dialogRef = this.dialog.open(ConfirmDialogComponent, {

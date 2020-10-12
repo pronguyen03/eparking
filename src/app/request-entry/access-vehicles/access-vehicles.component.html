@@ -1,0 +1,40 @@
+<mat-toolbar>
+  <span>Xe ra vào</span>
+</mat-toolbar>
+<div class="row green-theme">
+  <div class="search-form" [formGroup]="searchForm">
+    <div fxLayout="row" fxLayout.xs="column" fxLayoutWrap fxLayoutGap="5%" fxLayoutAlign="center center">
+      <div fxFlex="50%" fxLayout="row" fxLayoutWrap fxLayoutGap="10px" fxLayoutAlign="start center">
+        <mat-label fxFlex="30%" class="title-field">Request Entry ID</mat-label>
+        <mat-form-field fxFlex="70%" appearance="standard">
+          <mat-label>Enter Request Entry ID</mat-label>
+          <input matInput formControlName="RepuestEntryId" />
+          <mat-error *ngIf="errorForm && searchForm.controls.RepuestEntryId.hasError('required')"
+            >Request Entry ID is required.</mat-error
+          >
+        </mat-form-field>
+      </div>
+
+      <div fxFlex="50%" fxLayout="row" fxLayoutWrap fxLayoutGap="10px" fxLayoutAlign="start center"></div>
+    </div>
+
+    <div class="btn-container" fxLayoutGap="10px">
+      <button mat-raised-button color="primary" (click)="getFilteredList()">Search</button>
+      <button mat-raised-button (click)="resetSearchForm()">Clear</button>
+    </div>
+  </div>
+
+  <app-data-table
+  *ngIf="accessVehicles.length > 0"
+    [hasSelect]="false"
+    [dataList]="accessVehicles"
+    [columns]="columns"
+    (viewEmitter)="viewDetail($event)"
+    (editEmitter)="editAccessVehicle($event)"
+    (deleteEmitter)="deleteAccessVehicle($event)"
+  ></app-data-table>
+</div>
+
+<div class="fab-features-btn green-theme green-theme">
+  <button mat-fab color="primary" (click)="addNew()"><mat-icon>add</mat-icon></button>
+</div>

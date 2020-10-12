@@ -2,6 +2,7 @@ import { SelectionModel } from '@angular/cdk/collections';
 import { AfterViewInit, Component, EventEmitter, Input, OnChanges, OnInit, Output, ViewChild } from '@angular/core';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatTableDataSource } from '@angular/material/table';
+import { ITableCol } from '@app/shared/interfaces/table-col';
 
 @Component({
   selector: 'app-data-table',
@@ -12,7 +13,7 @@ export class DataTableComponent implements OnInit, AfterViewInit, OnChanges {
   @Input() hasSelect: boolean;
   @Input() hasFunctionalBtn = true;
   @Input() dataList: any[] = [];
-  @Input() columns: { key: string; display: string; type?: string }[] = [];
+  @Input() columns: ITableCol[] = [];
 
   @Output() viewEmitter = new EventEmitter<any>();
   @Output() editEmitter = new EventEmitter<any>();
@@ -20,7 +21,7 @@ export class DataTableComponent implements OnInit, AfterViewInit, OnChanges {
   displayedColumns: string[];
   dataSource: MatTableDataSource<any> = new MatTableDataSource<any>(this.dataList);
   selection = new SelectionModel<any>(true, []);
-
+  hideFilter = true;
   /** Pagination */
   @ViewChild(MatPaginator) paginator: MatPaginator;
 
@@ -66,5 +67,9 @@ export class DataTableComponent implements OnInit, AfterViewInit, OnChanges {
 
   ngAfterViewInit(): void {
     this.dataSource.paginator = this.paginator;
+  }
+
+  toggleFilter(): void {
+    this.hideFilter = !this.hideFilter;
   }
 }

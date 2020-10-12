@@ -4,7 +4,7 @@ import { environment } from '@environments/environment';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { ApiResponse } from '../interfaces/api-response';
-import { VehicleCategory } from '../classes/vehicle-category';
+import { IVehicleCategory } from '../interfaces/vehicle-category';
 
 @Injectable({
   providedIn: 'root',
@@ -17,7 +17,7 @@ export class VehicleCategoryService {
     this.url = `${environment.apiUrl}/${this.routeUrl}`;
   }
 
-  getVehicleCategoriesByParking(parkingId: number): Observable<VehicleCategory[]> {
+  getVehicleCategoriesByParking(parkingId: number): Observable<IVehicleCategory[]> {
     return this.http
       .post<ApiResponse>(`${this.url}/GetbyParking`, {
         Item: {
