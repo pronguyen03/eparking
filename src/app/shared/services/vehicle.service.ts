@@ -3,7 +3,7 @@ import { Injectable } from '@angular/core';
 import { environment } from '@environments/environment';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
-import { Vehicle } from '../classes/vehicle';
+import { IVehicle } from '../interfaces/vehicle';
 import { ApiResponse } from '../interfaces/api-response';
 
 @Injectable({
@@ -17,7 +17,7 @@ export class VehicleService {
     this.url = `${environment.apiUrl}/${this.routeUrl}`;
   }
 
-  getVehiclesByCustomer(customerId: number): Observable<Vehicle[]> {
+  getVehiclesByCustomer(customerId: number): Observable<IVehicle[]> {
     return this.http
       .post<ApiResponse>(`${this.url}/GetbyCustomer`, {
         Item: {
@@ -27,7 +27,7 @@ export class VehicleService {
       .pipe(map((res) => res.Data));
   }
 
-  getVehicleById(vehicleId: number): Observable<Vehicle> {
+  getVehicleById(vehicleId: number): Observable<IVehicle> {
     return this.http
       .post<ApiResponse>(`${this.url}/GetbyId`, {
         Item: {
@@ -37,13 +37,13 @@ export class VehicleService {
       .pipe(map((res) => res.Data));
   }
 
-  addVehicle(inputData: Partial<Vehicle>): Observable<ApiResponse> {
+  addVehicle(inputData: Partial<IVehicle>): Observable<ApiResponse> {
     return this.http.post<ApiResponse>(`${this.url}/Add`, {
       Item: inputData,
     });
   }
 
-  updateVehicle(inputData: Partial<Vehicle>): Observable<ApiResponse> {
+  updateVehicle(inputData: Partial<IVehicle>): Observable<ApiResponse> {
     return this.http.post<ApiResponse>(`${this.url}/Update`, {
       Item: inputData,
     });

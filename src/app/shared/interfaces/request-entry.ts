@@ -1,4 +1,4 @@
-export class RequestEntry {
+export interface IRequestEntry {
   Id: number;
   EParkingId: number;
   CustomerId: number;

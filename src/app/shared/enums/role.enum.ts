@@ -3,4 +3,5 @@ export enum Role {
   SYSTEM_ADMIN = 1,
   PARKING_ADMIN = 2,
   CUSTOMER = 3,
+  SECURITY = 4
 }

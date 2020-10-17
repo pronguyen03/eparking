@@ -20,6 +20,8 @@ const routes: Routes = [
   { path: 'employees', component: EmployeesComponent, canActivate: [AuthGuard] },
   { path: 'employees/detail/:crudType', component: EmployeeDetailComponent, canActivate: [AuthGuard] },
   { path: 'employees/detail/:crudType/:id', component: EmployeeDetailComponent, canActivate: [AuthGuard] },
+
+
 ];
 
 @NgModule({

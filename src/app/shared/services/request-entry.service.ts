@@ -1,10 +1,10 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { environment } from '@environments/environment';
-import { Observable } from 'rxjs';
+import { BehaviorSubject, Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
-import { RequestEntry } from '../classes/request-entry';
 import { ApiResponse } from '../interfaces/api-response';
+import { IRequestEntry } from '../interfaces/request-entry';
 
 @Injectable({
   providedIn: 'root',
@@ -12,6 +12,8 @@ import { ApiResponse } from '../interfaces/api-response';
 export class RequestEntryService {
   routeUrl = 'RequestEntries';
   url: string;
+
+  filterSubject = new BehaviorSubject<{ [key: string]: any}>({});
 
   constructor(private http: HttpClient) {
     this.url = `${environment.apiUrl}/${this.routeUrl}`;
@@ -21,8 +23,8 @@ export class RequestEntryService {
     customerId: number,
     fromDate: string,
     toDate: string,
-    vehicleType: number
-  ): Observable<RequestEntry[]> {
+    vehicleType?: number
+  ): Observable<IRequestEntry[]> {
     return this.http
       .post<ApiResponse>(`${this.url}/GetbyCustomer`, {
         Item: {
@@ -35,7 +37,7 @@ export class RequestEntryService {
       .pipe(map((res) => res.Data));
   }
 
-  getRequestEntryById(requestId: number): Observable<RequestEntry> {
+  getRequestEntryById(requestId: number): Observable<IRequestEntry> {
     return this.http
       .post<ApiResponse>(`${this.url}/GetbyId`, {
         Item: {
@@ -45,13 +47,13 @@ export class RequestEntryService {
       .pipe(map((res) => res.Data));
   }
 
-  addRequestEntry(inputData: Partial<RequestEntry>): Observable<ApiResponse> {
+  addRequestEntry(inputData: Partial<IRequestEntry>): Observable<ApiResponse> {
     return this.http.post<ApiResponse>(`${this.url}/Add`, {
       Item: inputData,
     });
   }
 
-  updateRequestEntry(inputData: Partial<RequestEntry>): Observable<ApiResponse> {
+  updateRequestEntry(inputData: Partial<IRequestEntry>): Observable<ApiResponse> {
     return this.http.post<ApiResponse>(`${this.url}/Update`, {
       Item: inputData,
     });
@@ -63,5 +65,9 @@ export class RequestEntryService {
         Id: requestId,
       },
     });
+  }
+
+  getFilterValue(): Observable<{ [key: string]: any}> {
+    return this.filterSubject.asObservable();
   }
 }

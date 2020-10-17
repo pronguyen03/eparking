@@ -2,7 +2,6 @@ import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
 import { ActivatedRoute, Router } from '@angular/router';
-import { VehicleCategory } from '@app/shared/classes/vehicle-category';
 import {
   ConfirmDialogComponent,
   ConfirmDialogModel,
@@ -10,6 +9,7 @@ import {
 import { CrudType } from '@app/shared/enums/crud-type.enum';
 import { Role } from '@app/shared/enums/role.enum';
 import { VehicleStatus } from '@app/shared/enums/vehicle-status.enum';
+import { IVehicleCategory } from '@app/shared/interfaces/vehicle-category';
 import { AuthenticationService } from '@app/shared/services/authentication.service';
 import { VehicleCategoryService } from '@app/shared/services/vehicle-category.service';
 import { VehicleService } from '@app/shared/services/vehicle.service';
@@ -27,7 +27,7 @@ export class VehicleDetailComponent implements OnInit {
   VehicleStatus = VehicleStatus;
   CrudType = CrudType;
   vehicleForm: FormGroup;
-  vehicleCategories$: Observable<VehicleCategory[]>;
+  vehicleCategories$: Observable<IVehicleCategory[]>;
   crudType: CrudType;
   id: number;
 
@@ -197,7 +197,7 @@ export class VehicleDetailComponent implements OnInit {
           case 'approve':
             this.approve();
             break;
-          case 'approve':
+          case 'cancel':
             this.cancel();
             break;
           default:

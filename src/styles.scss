@@ -40,13 +40,7 @@ body {
   width: 200px;
 }
 
-.form-input {
-  // width: 70%;
-}
-
 .title-field {
-  // font-size: 16px;
-  // width: 30%;
   margin-top: 5px;
   font-weight: 500;
 }
@@ -62,4 +56,12 @@ body {
     justify-content: flex-start;
     align-items: center;
   }
+}
+
+.readonly-block {
+  pointer-events: none;
+}
+
+.readonly-block {
+  color: rgba(0, 0, 0, 0.38);
 }
