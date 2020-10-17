@@ -12,13 +12,15 @@ import {
   NgxMatNativeDateModule,
   NgxMatTimepickerModule,
 } from '@angular-material-components/datetime-picker';
+import { BooleanPipe } from './pipes/boolean.pipe';
 
 const components = [DataTableComponent, ConfirmDialogComponent];
 const modules = [NgxMatDatetimePickerModule, NgxMatTimepickerModule, NgxMatNativeDateModule];
 const directives = [HasRoleDirective];
+const pipes = [BooleanPipe];
 @NgModule({
-  declarations: [...components, ...directives, CustomDatePipe],
+  declarations: [...components, ...directives, CustomDatePipe, pipes],
   imports: [CommonModule, MaterialModule, FlexLayoutModule, ReactiveFormsModule, ...modules],
-  exports: [MaterialModule, FlexLayoutModule, ReactiveFormsModule, ...modules, ...components, ...directives],
+  exports: [MaterialModule, FlexLayoutModule, ReactiveFormsModule, ...modules, ...components, ...directives, ...pipes],
 })
 export class SharedModule {}

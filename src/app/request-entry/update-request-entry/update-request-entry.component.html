@@ -28,7 +28,7 @@
           <mat-label fxFlex="30%" class="title-field">Request Detail</mat-label>
           <mat-form-field fxFlex="70%" appearance="standard">
             <mat-label>Request Detail</mat-label>
-            <input matInput formControlName="RequestDetailed" />
+            <input matInput formControlName="RequestDetailed" [readonly]="crudType === CrudType.VIEW" />
           </mat-form-field>
         </div>
 
@@ -40,7 +40,7 @@
           <mat-label fxFlex="30%" class="title-field">Visitor Name</mat-label>
           <mat-form-field fxFlex="70%" appearance="standard" class="form-input">
             <mat-label>Visitor Name</mat-label>
-            <input matInput formControlName="VisitorName" />
+            <input matInput formControlName="VisitorName" [readonly]="crudType === CrudType.VIEW" />
           </mat-form-field>
         </div>
 
@@ -48,7 +48,7 @@
           <mat-label fxFlex="30%" class="title-field">Visitor Tel No.</mat-label>
           <mat-form-field fxFlex="70%" appearance="standard" class="form-input">
             <mat-label>Visitor Tel No.</mat-label>
-            <input matInput formControlName="VisitorTel" />
+            <input matInput formControlName="VisitorTel" [readonly]="crudType === CrudType.VIEW" />
           </mat-form-field>
         </div>
       </div>
@@ -58,7 +58,14 @@
           <mat-label fxFlex="30%" class="title-field">Number Of Visitors</mat-label>
           <mat-form-field fxFlex="70%" appearance="standard" class="form-input">
             <mat-label>Number Of Visitors</mat-label>
-            <input matInput formControlName="NumberVisitor" type="number" max="30" min="1" />
+            <input
+              matInput
+              formControlName="NumberVisitor"
+              type="number"
+              max="30"
+              min="1"
+              [readonly]="crudType === CrudType.VIEW"
+            />
           </mat-form-field>
         </div>
 
@@ -66,7 +73,7 @@
           <mat-label fxFlex="30%" class="title-field">Visitor Passport</mat-label>
           <mat-form-field fxFlex="70%" appearance="standard" class="form-input">
             <mat-label>Visitor Passport</mat-label>
-            <input matInput formControlName="VisitorPassport" />
+            <input matInput formControlName="VisitorPassport" [readonly]="crudType === CrudType.VIEW" />
           </mat-form-field>
         </div>
       </div>
@@ -81,10 +88,21 @@
       >
         <div fxFlex="50%" fxLayout="row" fxLayoutWrap fxLayoutGap="10px" fxLayoutAlign="start center">
           <mat-label fxFlex="30%" class="title-field">Type Payment</mat-label>
-          <mat-radio-group fxFlex="70%" aria-label="Select an option" formControlName="TypePayment">
+          <mat-radio-group
+            fxFlex="70%"
+            aria-label="Select an option"
+            formControlName="TypePayment"
+            *ngIf="crudType !== CrudType.VIEW; else typePaymentView"
+          >
             <mat-radio-button [value]="true" fxFlex="20%" fxFlex.xs="50%" color="primary">Yes</mat-radio-button>
             <mat-radio-button [value]="false" fxFlex="20%" fxFlex.xs="50%" color="primary">No</mat-radio-button>
           </mat-radio-group>
+          <ng-template #typePaymentView>
+            <mat-form-field fxFlex="70%" appearance="standard" class="form-input">
+              <mat-label>Type Payment</mat-label>
+              <input matInput formControlName="TypePayment" readonly />
+            </mat-form-field>
+          </ng-template>
         </div>
         <div fxFlex="50%"></div>
       </div>
@@ -99,17 +117,30 @@
       >
         <div fxFlex="50%" fxLayout="row" fxLayoutWrap fxLayoutGap="10px" fxLayoutAlign="start center">
           <mat-label fxFlex="30%" class="title-field">Is Vehicle</mat-label>
-          <mat-radio-group fxFlex="70%" aria-label="Select an option" formControlName="IsVihicle">
+          <mat-radio-group
+            fxFlex="70%"
+            aria-label="Select an option"
+            formControlName="IsVihicle"
+            (change)="onRadioChange('IsVihicle', $event.value)"
+            [readonly]="crudType === CrudType.VIEW"
+            *ngIf="crudType !== CrudType.VIEW; else IsVihicleView"
+          >
             <mat-radio-button [value]="true" fxFlex="20%" fxFlex.xs="50%" color="primary">Yes</mat-radio-button>
             <mat-radio-button [value]="false" fxFlex="20%" fxFlex.xs="50%" color="primary">No</mat-radio-button>
           </mat-radio-group>
+          <ng-template #IsVihicleView>
+            <mat-form-field fxFlex="70%" appearance="standard" class="form-input">
+              <mat-label>Is Vehicle</mat-label>
+              <input matInput formControlName="IsVihicle" readonly />
+            </mat-form-field>
+          </ng-template>
         </div>
 
         <div fxFlex="50%" fxLayout="row" fxLayoutWrap fxLayoutGap="10px" fxLayoutAlign="start center">
           <mat-label fxFlex="30%" class="title-field">Type Of Vehicle</mat-label>
           <mat-form-field fxFlex="70%" appearance="standard">
             <mat-label>Type Of Vehicle</mat-label>
-            <mat-select formControlName="TypeId" [disabled]="!requestEntryForm.controls.IsVihicle.value">
+            <mat-select formControlName="TypeId">
               <mat-option [value]="">Please Select</mat-option>
               <mat-option *ngFor="let category of vehicleCategories$ | async" [value]="category.Id">
                 {{ category.Name }}
@@ -153,7 +184,7 @@
             <input
               matInput
               [ngxMatDatetimePicker]="endTimePicker"
-              placeholder="Choose a date"
+              placeholder="Select a time"
               formControlName="EndTime"
               readonly
             />
@@ -175,61 +206,44 @@
         </div>
       </div>
 
-      <div fxLayout="row" fxLayout.xs="column" fxLayoutWrap fxLayoutGap="5%" fxLayoutAlign="center center">
-        <div fxFlex="50%" fxLayout="row" fxLayoutWrap fxLayoutGap="10px" fxLayoutAlign="start center">
-          <mat-label fxFlex="30%" class="title-field">Input Real Time</mat-label>
-          <mat-form-field fxFlex="70%" appearance="standard" class="form-input">
-            <input
-              matInput
-              [ngxMatDatetimePicker]="realTimePicker"
-              placeholder="Choose a date"
-              formControlName="InputRealTime"
-              readonly
-            />
-            <mat-datepicker-toggle matSuffix [for]="realTimePicker"></mat-datepicker-toggle>
-            <ngx-mat-datetime-picker
-              #realTimePicker
-              [showSpinners]="true"
-              [showSeconds]="false"
-              [stepHour]="1"
-              [stepMinute]="1"
-              [touchUi]="true"
-              color="primary"
-              [enableMeridian]="false"
-              [disableMinute]="false"
-              [hideTime]="false"
-            >
-            </ngx-mat-datetime-picker>
-          </mat-form-field>
-        </div>
+      <ng-template [appHasRole]="[Role.SECURITY, Role.SYSTEM_ADMIN]">
+        <div fxLayout="row" fxLayout.xs="column" fxLayoutWrap fxLayoutGap="5%" fxLayoutAlign="center center">
+          <div fxFlex="50%" fxLayout="row" fxLayoutWrap fxLayoutGap="10px" fxLayoutAlign="start center">
+            <mat-label fxFlex="30%" class="title-field">Input Real Time</mat-label>
+            <mat-form-field fxFlex="70%" appearance="standard" class="form-input">
+              <input
+                matInput
+                [ngxMatDatetimePicker]="realTimePicker"
+                placeholder="Select a time"
+                formControlName="InputRealTime"
+                readonly
+              />
+              <mat-datepicker-toggle matSuffix [for]="realTimePicker"></mat-datepicker-toggle>
+              <ngx-mat-datetime-picker
+                #realTimePicker
+                [showSpinners]="true"
+                [showSeconds]="false"
+                [stepHour]="1"
+                [stepMinute]="1"
+                [touchUi]="false"
+                color="primary"
+                [enableMeridian]="false"
+                [disableMinute]="false"
+                [hideTime]="false"
+              >
+              </ngx-mat-datetime-picker>
+            </mat-form-field>
+          </div>
 
-        <div fxFlex="50%" fxLayout="row" fxLayoutWrap fxLayoutGap="10px" fxLayoutAlign="start center">
-          <mat-label fxFlex="30%" class="title-field">Note Done</mat-label>
-          <mat-form-field fxFlex="70%" appearance="standard" class="form-input">
-            <mat-label>Note Done</mat-label>
-            <!-- <mat-icon matSuffix>person</mat-icon> -->
-            <input matInput formControlName="NoteDone" />
-          </mat-form-field>
+          <div fxFlex="50%" fxLayout="row" fxLayoutWrap fxLayoutGap="10px" fxLayoutAlign="start center">
+            <mat-label fxFlex="30%" class="title-field">Note Done</mat-label>
+            <mat-form-field fxFlex="70%" appearance="standard" class="form-input">
+              <mat-label>Note Done</mat-label>
+              <input matInput formControlName="NoteDone" [readonly]="crudType === CrudType.VIEW" />
+            </mat-form-field>
+          </div>
         </div>
-      </div>
-
-      <!-- <div fxLayout="row" fxLayout.xs="column" fxLayoutWrap fxLayoutGap="5%" fxLayoutAlign="center center">
-        <div fxFlex="50%" fxLayout="row" fxLayoutWrap fxLayoutGap="10px" fxLayoutAlign="start center">
-          <mat-label fxFlex="30%" class="title-field">Passport</mat-label>
-          <mat-form-field fxFlex="70%" appearance="standard" class="form-input">
-            <mat-label>Passport</mat-label>
-            <input matInput formControlName="EmployeePassport" />
-          </mat-form-field>
-        </div>
-
-        <div fxFlex="50%" fxLayout="row" fxLayoutWrap fxLayoutGap="10px" fxLayoutAlign="start center">
-          <mat-label fxFlex="30%" class="title-field">Passport</mat-label>
-          <mat-form-field fxFlex="70%" appearance="standard" class="form-input">
-            <mat-label>Passport</mat-label>
-            <input matInput formControlName="EmployeePassport" />
-          </mat-form-field>
-        </div>
-      </div> -->
+      </ng-template>
     </form>
   </div>
 
@@ -240,5 +254,4 @@
       <!-- <button mat-raised-button color="accent">Accent</button> -->
     </div>
   </div>
-
 </div>

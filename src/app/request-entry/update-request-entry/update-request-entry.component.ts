@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { CrudType } from '@app/shared/enums/crud-type.enum';
+import { Role } from '@app/shared/enums/role.enum';
 import { IVehicleCategory } from '@app/shared/interfaces/vehicle-category';
 import { AuthenticationService } from '@app/shared/services/authentication.service';
 import { RequestEntryService } from '@app/shared/services/request-entry.service';
@@ -21,6 +22,7 @@ export class UpdateRequestEntryComponent implements OnInit {
   vehicleCategories$: Observable<IVehicleCategory[]>;
   crudType: CrudType;
   CrudType = CrudType;
+  Role = Role;
   id: number;
   constructor(
     private fb: FormBuilder,
@@ -43,6 +45,9 @@ export class UpdateRequestEntryComponent implements OnInit {
       if (this.id) {
         this.getRequestEntryById(this.id);
       }
+      if (this.crudType === CrudType.VIEW) {
+        // this.requestEntryForm.disable();
+      }
     });
   }
 
@@ -53,7 +58,7 @@ export class UpdateRequestEntryComponent implements OnInit {
       VisitorTel: [''],
       VisitorPassport: [''],
       NumberVisitor: [1, Validators.required],
-      IsVihicle: [false],
+      IsVihicle: [true],
       StartTime: [''],
       EndTime: [''],
       TypeId: [null],
@@ -75,11 +80,11 @@ export class UpdateRequestEntryComponent implements OnInit {
         VisitorTel: requestEntry.VisitorTel,
         VisitorPassport: requestEntry.VisitorPassport,
         NumberVisitor: requestEntry.NumberVisitor,
-        IsVihicle: requestEntry.IsVihicle,
+        IsVihicle: this.crudType === CrudType.VIEW ? requestEntry.IsVihicle ? 'YES' : 'NO' : requestEntry.IsVihicle,
         StartTime: this.timeService.convertToDateTime(requestEntry.StartTime),
         EndTime: this.timeService.convertToDateTime(requestEntry.EndTime),
         TypeId: requestEntry.TypeId,
-        TypePayment: requestEntry.TypePayment,
+        TypePayment: this.crudType === CrudType.VIEW ? requestEntry.TypePayment ? 'YES' : 'NO' : requestEntry.TypePayment,
         InputRealTime: this.timeService.convertToDateTime(requestEntry.InputRealTime),
         NoteDone: requestEntry.NoteDone,
       });
@@ -179,5 +184,19 @@ export class UpdateRequestEntryComponent implements OnInit {
         this.back();
       }
     });
+  }
+
+  onRadioChange(formName: string, value: boolean): void {
+    switch (formName) {
+      case 'IsVihicle':
+        if (value) {
+          this.requestEntryForm.controls.TypeId.enable();
+        } else {
+          this.requestEntryForm.controls.TypeId.disable();
+        }
+        break;
+      default:
+        break;
+    }
   }
 }

@@ -12,11 +12,12 @@ import { RequestEntryService } from '@app/shared/services/request-entry.service'
 import { VehicleCategoryService } from '@app/shared/services/vehicle-category.service';
 import { environment } from '@environments/environment';
 import { ToastrService } from 'ngx-toastr';
-import { Observable } from 'rxjs';
+import { Observable, of } from 'rxjs';
 import { differenceInMinutes } from 'date-fns';
 import { TimeService } from '@app/shared/services/time.service';
 import { IRequestEntry } from '@app/shared/interfaces/request-entry';
 import { IVehicleCategory } from '@app/shared/interfaces/vehicle-category';
+import { switchMap } from 'rxjs/operators';
 
 @Component({
   selector: 'app-request-entry',
@@ -24,7 +25,7 @@ import { IVehicleCategory } from '@app/shared/interfaces/vehicle-category';
   styleUrls: ['./request-entry.component.scss'],
 })
 export class RequestEntryComponent implements OnInit {
-  listRequests: IRequestEntry[] = [];
+  listRequests$: Observable<IRequestEntry[]>;
   errorForm = false;
   columns = [
     { key: 'RequestDetailed', display: 'Request Detail' },
@@ -52,6 +53,17 @@ export class RequestEntryComponent implements OnInit {
   ngOnInit(): void {
     this.initForm();
     this.getVehiclesCategories(environment.parkingId);
+
+    this.listRequests$ = this.requestEntryService.getFilterValue().pipe(
+      switchMap(filterValue => {
+        if (Object.keys(filterValue).length === 0 && filterValue.constructor === Object) {
+          return of(null);
+        }
+
+        return this.getRequestsByCustomer(filterValue.CustomerId,
+          filterValue.FromDate, filterValue.ToDate, filterValue.Type);
+      })
+    );
   }
 
   getVehiclesCategories(parkingId: number): void {
@@ -66,12 +78,9 @@ export class RequestEntryComponent implements OnInit {
     });
   }
 
-  getRequestsByCustomer(customerId: number, fromDate: string, toDate: string, vehicleType: number): void {
-    this.requestEntryService
-      .getRequestsByCustomer(customerId, fromDate, toDate, vehicleType)
-      .subscribe((listRequests) => {
-        this.listRequests = listRequests;
-      });
+  getRequestsByCustomer(customerId: number, fromDate: string, toDate: string, vehicleType: number): Observable<IRequestEntry[]> {
+    return this.requestEntryService
+      .getRequestsByCustomer(customerId, fromDate, toDate, vehicleType);
   }
 
   addNew(): void {
@@ -103,7 +112,8 @@ export class RequestEntryComponent implements OnInit {
         this.requestEntryService.deleteRequestEntry(request.Id).subscribe((res) => {
           if (res.Code === '100') {
             this.toastr.success('Deleted successfully.', 'Employee');
-            this.listRequests = this.listRequests.filter((value) => value.Id !== request.Id);
+            this.requestEntryService.filterSubject.next(this.requestEntryService.filterSubject.value);
+            // this.listRequests = this.listRequests.filter((value) => value.Id !== request.Id);
           }
         });
       }
@@ -120,8 +130,11 @@ export class RequestEntryComponent implements OnInit {
     const Type = this.searchForm.value.Type;
     FromDate = this.timeService.toDateTimeString(new Date(FromDate));
     ToDate = this.timeService.toDateTimeString(new Date(ToDate));
-
-    this.getRequestsByCustomer(this.authService.currentUserValue.CustomerId, FromDate, ToDate, Type);
+    const filterValue = {
+      CustomerId: this.authService.currentUserValue.CustomerId,
+      FromDate, ToDate, Type
+    };
+    this.requestEntryService.filterSubject.next(filterValue);
   }
 
   resetSearchForm(): void {

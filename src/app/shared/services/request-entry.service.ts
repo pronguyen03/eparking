@@ -1,7 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { environment } from '@environments/environment';
-import { Observable } from 'rxjs';
+import { BehaviorSubject, Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { ApiResponse } from '../interfaces/api-response';
 import { IRequestEntry } from '../interfaces/request-entry';
@@ -12,6 +12,8 @@ import { IRequestEntry } from '../interfaces/request-entry';
 export class RequestEntryService {
   routeUrl = 'RequestEntries';
   url: string;
+
+  filterSubject = new BehaviorSubject<{ [key: string]: any}>({});
 
   constructor(private http: HttpClient) {
     this.url = `${environment.apiUrl}/${this.routeUrl}`;
@@ -63,5 +65,9 @@ export class RequestEntryService {
         Id: requestId,
       },
     });
+  }
+
+  getFilterValue(): Observable<{ [key: string]: any}> {
+    return this.filterSubject.asObservable();
   }
 }
