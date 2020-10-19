@@ -1,6 +1,6 @@
 <div class="green-theme">
   <mat-toolbar>
-    <span>Employee Detail</span>
+    <span>Request Entry Detail</span>
   </mat-toolbar>
 
   <div class="row">
@@ -78,78 +78,6 @@
         </div>
       </div>
 
-      <div
-        fxLayout="row"
-        fxLayout.xs="column"
-        fxLayoutWrap
-        fxLayoutGap="5%"
-        fxLayoutAlign="center center"
-        fxLayoutAlign.xs="start start"
-      >
-        <div fxFlex="50%" fxLayout="row" fxLayoutWrap fxLayoutGap="10px" fxLayoutAlign="start center">
-          <mat-label fxFlex="30%" class="title-field">Type Payment</mat-label>
-          <mat-radio-group
-            fxFlex="70%"
-            aria-label="Select an option"
-            formControlName="TypePayment"
-            *ngIf="crudType !== CrudType.VIEW; else typePaymentView"
-          >
-            <mat-radio-button [value]="true" fxFlex="20%" fxFlex.xs="50%" color="primary">Yes</mat-radio-button>
-            <mat-radio-button [value]="false" fxFlex="20%" fxFlex.xs="50%" color="primary">No</mat-radio-button>
-          </mat-radio-group>
-          <ng-template #typePaymentView>
-            <mat-form-field fxFlex="70%" appearance="standard" class="form-input">
-              <mat-label>Type Payment</mat-label>
-              <input matInput formControlName="TypePayment" readonly />
-            </mat-form-field>
-          </ng-template>
-        </div>
-        <div fxFlex="50%"></div>
-      </div>
-
-      <div
-        fxLayout="row"
-        fxLayout.xs="column"
-        fxLayoutWrap
-        fxLayoutGap="5%"
-        fxLayoutAlign="center center"
-        fxLayoutAlign.xs="start start"
-      >
-        <div fxFlex="50%" fxLayout="row" fxLayoutWrap fxLayoutGap="10px" fxLayoutAlign="start center">
-          <mat-label fxFlex="30%" class="title-field">Is Vehicle</mat-label>
-          <mat-radio-group
-            fxFlex="70%"
-            aria-label="Select an option"
-            formControlName="IsVihicle"
-            (change)="onRadioChange('IsVihicle', $event.value)"
-            [readonly]="crudType === CrudType.VIEW"
-            *ngIf="crudType !== CrudType.VIEW; else IsVihicleView"
-          >
-            <mat-radio-button [value]="true" fxFlex="20%" fxFlex.xs="50%" color="primary">Yes</mat-radio-button>
-            <mat-radio-button [value]="false" fxFlex="20%" fxFlex.xs="50%" color="primary">No</mat-radio-button>
-          </mat-radio-group>
-          <ng-template #IsVihicleView>
-            <mat-form-field fxFlex="70%" appearance="standard" class="form-input">
-              <mat-label>Is Vehicle</mat-label>
-              <input matInput formControlName="IsVihicle" readonly />
-            </mat-form-field>
-          </ng-template>
-        </div>
-
-        <div fxFlex="50%" fxLayout="row" fxLayoutWrap fxLayoutGap="10px" fxLayoutAlign="start center">
-          <mat-label fxFlex="30%" class="title-field">Type Of Vehicle</mat-label>
-          <mat-form-field fxFlex="70%" appearance="standard">
-            <mat-label>Type Of Vehicle</mat-label>
-            <mat-select formControlName="TypeId">
-              <mat-option [value]="">Please Select</mat-option>
-              <mat-option *ngFor="let category of vehicleCategories$ | async" [value]="category.Id">
-                {{ category.Name }}
-              </mat-option>
-            </mat-select>
-          </mat-form-field>
-        </div>
-      </div>
-
       <div fxLayout="row" fxLayout.xs="column" fxLayoutWrap fxLayoutGap="5%" fxLayoutAlign="center center">
         <div fxFlex="50%" fxLayout="row" fxLayoutWrap fxLayoutGap="10px" fxLayoutAlign="start center">
           <mat-label fxFlex="30%" class="title-field">Start Time</mat-label>
@@ -206,6 +134,84 @@
         </div>
       </div>
 
+      <div
+        class="form-control"
+        fxLayout="row"
+        fxLayout.xs="column"
+        fxLayoutWrap
+        fxLayoutGap="5%"
+        fxLayoutAlign="center center"
+      >
+        <div fxFlex="50%" fxLayout="row" fxLayoutWrap fxLayoutGap="10px" fxLayoutAlign="start center">
+          <mat-label fxFlex="30%" class="title-field">Type Payment</mat-label>
+          <mat-radio-group
+            fxFlex="70%"
+            aria-label="Select an option"
+            formControlName="TypePayment"
+            *ngIf="crudType !== CrudType.VIEW; else typePaymentView"
+          >
+            <mat-radio-button [value]="true" fxFlex="20%" fxFlex.xs="50%" color="primary">Yes</mat-radio-button>
+            <mat-radio-button [value]="false" fxFlex="20%" fxFlex.xs="50%" color="primary">No</mat-radio-button>
+          </mat-radio-group>
+          <ng-template #typePaymentView>
+            <mat-form-field fxFlex="70%" appearance="standard" class="form-input">
+              <mat-label>Type Payment</mat-label>
+              <input matInput formControlName="TypePayment" readonly />
+            </mat-form-field>
+          </ng-template>
+        </div>
+
+        <div
+          class="form-control"
+          fxFlex="50%"
+          fxLayout="row"
+          fxLayoutWrap
+          fxLayoutGap="10px"
+          fxLayoutAlign="start center"
+        >
+          <mat-label fxFlex="30%" class="title-field">Is Vehicle</mat-label>
+          <mat-radio-group
+            fxFlex="70%"
+            aria-label="Select an option"
+            formControlName="IsVehicle"
+            (change)="onRadioChange('IsVehicle', $event.value)"
+            [readonly]="crudType === CrudType.VIEW"
+            *ngIf="crudType !== CrudType.VIEW; else IsVehicleView"
+          >
+            <mat-radio-button [value]="true" fxFlex="20%" fxFlex.xs="50%" color="primary">Yes</mat-radio-button>
+            <mat-radio-button [value]="false" fxFlex="20%" fxFlex.xs="50%" color="primary">No</mat-radio-button>
+          </mat-radio-group>
+          <ng-template #IsVehicleView>
+            <mat-form-field fxFlex="70%" appearance="standard" class="form-input">
+              <mat-label>Is Vehicle</mat-label>
+              <input matInput formControlName="IsVehicle" readonly />
+            </mat-form-field>
+          </ng-template>
+        </div>
+      </div>
+
+      <!-- <div
+        fxLayout="row"
+        fxLayout.xs="column"
+        fxLayoutWrap
+        fxLayoutGap="5%"
+        fxLayoutAlign="center center"
+        fxLayoutAlign.xs="start start"
+      >
+        <div fxFlex="50%" fxLayout="row" fxLayoutWrap fxLayoutGap="10px" fxLayoutAlign="start center">
+          <mat-label fxFlex="30%" class="title-field">Type Of Vehicle</mat-label>
+          <mat-form-field fxFlex="70%" appearance="standard">
+            <mat-label>Type Of Vehicle</mat-label>
+            <mat-select formControlName="TypeId">
+              <mat-option [value]="">Please Select</mat-option>
+              <mat-option *ngFor="let category of vehicleCategories$ | async" [value]="category.Id">
+                {{ category.Name }}
+              </mat-option>
+            </mat-select>
+          </mat-form-field>
+        </div>
+      </div> -->
+
       <ng-template [appHasRole]="[Role.SECURITY, Role.SYSTEM_ADMIN]">
         <div fxLayout="row" fxLayout.xs="column" fxLayoutWrap fxLayoutGap="5%" fxLayoutAlign="center center">
           <div fxFlex="50%" fxLayout="row" fxLayoutWrap fxLayoutGap="10px" fxLayoutAlign="start center">
@@ -244,8 +250,109 @@
           </div>
         </div>
       </ng-template>
+
+      <div
+        fxLayout="column"
+        fxLayoutWrap
+        fxLayoutGap="10px"
+        fxLayoutAlign="center stretch"
+        *ngIf="requestEntryForm.controls?.IsVehicle.value"
+      >
+        <div class="form-control" fxLayout="row" fxLayoutWrap fxLayoutGap="10px" fxLayoutAlign="start center">
+          <mat-label class="title-field">Access Vehicles</mat-label>
+        </div>
+        <div>
+          <div fxLayout="row" fxLayout.xs="column" fxLayoutWrap fxLayoutGap="5%" fxLayoutAlign="center center">
+            <div fxFlex="40%" fxLayout="row" fxLayoutWrap fxLayoutGap="10px" fxLayoutAlign="start center">
+              <mat-label fxFlex="30%" class="title-field">Plate</mat-label>
+              <mat-form-field fxFlex="70%" appearance="standard" class="form-input">
+                <mat-label>Plate</mat-label>
+                <input matInput formControlName="Plate" [readonly]="crudType === CrudType.VIEW" />
+              </mat-form-field>
+            </div>
+            <div fxFlex="40%" fxLayout="row" fxLayoutWrap fxLayoutGap="10px" fxLayoutAlign="start center">
+              <mat-label fxFlex="30%" class="title-field">Type Of Vehicle</mat-label>
+              <mat-form-field fxFlex="70%" appearance="standard">
+                <mat-label>Type Of Vehicle</mat-label>
+                <mat-select formControlName="Type">
+                  <mat-option [value]="">Please Select</mat-option>
+                  <mat-option *ngFor="let category of vehicleCategories$ | async" [value]="category">
+                    {{ category.Name }}
+                  </mat-option>
+                </mat-select>
+              </mat-form-field>
+            </div>
+            <div fxFlex="20%" fxLayout="row" fxLayoutWrap fxLayoutGap="10px" fxLayoutAlign="start center">
+              <button mat-button (click)="addAccessVehicle()" mat-flat-button color="primary">Add</button>
+              <button
+                mat-button
+                (click)="deleteAccessVehicle()"
+                mat-flat-button
+                color="warn"
+                *ngIf="listSelectedVehicles.length > 0"
+              >
+                Delete
+              </button>
+            </div>
+          </div>
+
+          <app-data-table
+            [hasSelect]="true"
+            [hasFunctionalBtn]="false"
+            [dataList]="listAccessVehicles"
+            (selectedValuesEmitter)="listSelectedVehicles = $event"
+            [columns]="columns"
+          ></app-data-table>
+        </div>
+      </div>
     </form>
   </div>
+  <!-- <div *ngIf="requestEntryForm.controls?.IsVehicle.value" [formGroup]="accessVehicleForm">
+    <mat-toolbar><span>Access Vehicles</span></mat-toolbar>
+    <div class="row">
+      <div fxLayout="row" fxLayout.xs="column" fxLayoutWrap fxLayoutGap="5%" fxLayoutAlign="center center">
+        <div fxFlex="40%" fxLayout="row" fxLayoutWrap fxLayoutGap="10px" fxLayoutAlign="start center">
+          <mat-label fxFlex="30%" class="title-field">Plate</mat-label>
+          <mat-form-field fxFlex="70%" appearance="standard" class="form-input">
+            <mat-label>Plate</mat-label>
+            <input matInput formControlName="Plate" [readonly]="crudType === CrudType.VIEW" />
+          </mat-form-field>
+        </div>
+        <div fxFlex="40%" fxLayout="row" fxLayoutWrap fxLayoutGap="10px" fxLayoutAlign="start center">
+          <mat-label fxFlex="30%" class="title-field">Type Of Vehicle</mat-label>
+          <mat-form-field fxFlex="70%" appearance="standard">
+            <mat-label>Type Of Vehicle</mat-label>
+            <mat-select formControlName="Type">
+              <mat-option [value]="">Please Select</mat-option>
+              <mat-option *ngFor="let category of vehicleCategories$ | async" [value]="category">
+                {{ category.Name }}
+              </mat-option>
+            </mat-select>
+          </mat-form-field>
+        </div>
+        <div fxFlex="20%" fxLayout="row" fxLayoutWrap fxLayoutGap="10px" fxLayoutAlign="start center">
+          <button mat-button (click)="addAccessVehicle()" mat-flat-button color="primary">Add</button>
+          <button
+            mat-button
+            (click)="deleteAccessVehicle()"
+            mat-flat-button
+            color="warn"
+            *ngIf="listSelectedVehicles.length > 0"
+          >
+            Delete
+          </button>
+        </div>
+      </div>
+
+      <app-data-table
+        [hasSelect]="true"
+        [hasFunctionalBtn]="false"
+        [dataList]="listAccessVehicles"
+        (selectedValuesEmitter)="listSelectedVehicles = $event"
+        [columns]="columns"
+      ></app-data-table>
+    </div>
+  </div> -->
 
   <div class="row btn-footer">
     <div fxLayout="row" fxLayoutGap="10px" fxLayoutAlign="start center">

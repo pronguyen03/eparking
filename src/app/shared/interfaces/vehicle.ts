@@ -4,6 +4,7 @@ export interface IVehicle {
   CustomerId: number;
   Plate: string;
   TypeId: number;
+  TypeName?: string;
   CurrentStatus: string;
   DateOfPayment: string;
   ImagePath: string;

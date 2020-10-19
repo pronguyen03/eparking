@@ -39,13 +39,16 @@ export class MenuNavItemComponent implements OnInit, OnDestroy {
 
   onItemSelected(item: MenuItem): void {
     if (item.IsAction) {
-      this.sidenavService.hide();
+      // this.sidenavService.hide();
       this.router.navigate([item.RouterLink]);
     } else {
-      if (!this.expanded) {
-        this.sidenavService.show();
-      }
+      // if (!this.expanded) {
+      //   this.sidenavService.show();
+      // }
       this.expanded = !this.expanded;
+    }
+    if (!this.linkText) {
+      this.sidenavService.sideNavState$.next(true);
     }
   }
 
@@ -60,4 +63,5 @@ export class MenuNavItemComponent implements OnInit, OnDestroy {
   onHover(value: boolean): void {
     this.hover = value;
   }
+
 }

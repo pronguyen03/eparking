@@ -16,4 +16,12 @@ $green-theme: mat-light-theme(
 
 .green-theme {
   @include angular-material-theme($green-theme);
+  .form-control {
+    min-height: 60px;
+    .mat-radio-group {
+      // height: 60px;
+      align-items: center;
+    }
+
+  }
 }

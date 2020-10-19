@@ -1,5 +1,6 @@
 import { SelectionModel } from '@angular/cdk/collections';
 import { AfterViewInit, Component, EventEmitter, Input, OnChanges, OnInit, Output, ViewChild } from '@angular/core';
+import { MatCheckboxChange } from '@angular/material/checkbox';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatTableDataSource } from '@angular/material/table';
 import { ITableCol } from '@app/shared/interfaces/table-col';
@@ -18,6 +19,7 @@ export class DataTableComponent implements OnInit, AfterViewInit, OnChanges {
   @Output() viewEmitter = new EventEmitter<any>();
   @Output() editEmitter = new EventEmitter<any>();
   @Output() deleteEmitter = new EventEmitter<any>();
+  @Output() selectedValuesEmitter = new EventEmitter<any[]>();
   displayedColumns: string[];
   dataSource: MatTableDataSource<any> = new MatTableDataSource<any>(this.dataList);
   selection = new SelectionModel<any>(true, []);
@@ -38,6 +40,7 @@ export class DataTableComponent implements OnInit, AfterViewInit, OnChanges {
 
   ngOnChanges(): void {
     this.dataSource = new MatTableDataSource<any>(this.dataList);
+    this.selection.clear();
     this.dataSource.paginator = this.paginator;
   }
 
@@ -50,7 +53,13 @@ export class DataTableComponent implements OnInit, AfterViewInit, OnChanges {
 
   /** Selects all rows if they are not all selected; otherwise clear selection. */
   masterToggle(): void {
-    this.isAllSelected() ? this.selection.clear() : this.dataSource.data.forEach((row) => this.selection.select(row));
+    if (this.isAllSelected()) {
+      this.selection.clear();
+      this.selectedValuesEmitter.emit([]);
+    } else {
+      this.dataSource.data.forEach((row) => this.selection.select(row));
+      this.selectedValuesEmitter.emit(this.selection.selected);
+    }
   }
 
   onView(element: any): void {
@@ -71,5 +80,12 @@ export class DataTableComponent implements OnInit, AfterViewInit, OnChanges {
 
   toggleFilter(): void {
     this.hideFilter = !this.hideFilter;
+  }
+
+  onSelectItem(event: MatCheckboxChange, value: any): void {
+    if (event) {
+      this.selection.toggle(value);
+    }
+    this.selectedValuesEmitter.emit(this.selection.selected);
   }
 }

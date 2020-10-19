@@ -1,18 +1,20 @@
 <div class="sidenav-container" [@onSideNavChange]="sideNavState ? 'open' : 'close'">
   <div fxLayout="column" fxLayoutGap="10px" style="height: 100%">
-    <div>
+    <div style="overflow-y: auto">
       <mat-nav-list>
         <app-menu-nav-item
           *ngFor="let item of listMenu$ | async"
           [item]="item"
           [linkText]="linkText"
           [sideNavState]="sideNavState"
-        ></app-menu-nav-item>
+        >
+        </app-menu-nav-item>
       </mat-nav-list>
     </div>
   </div>
 
   <span class="spacer"></span>
+  <mat-divider></mat-divider>
   <div fxLayout="row" fxLayoutAlign="end center" style="padding: 0px 10px">
     <button mat-icon-button (click)="onSinenavToggle()">
       <mat-icon *ngIf="sideNavState">arrow_left</mat-icon>

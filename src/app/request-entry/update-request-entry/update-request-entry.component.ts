@@ -1,8 +1,11 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { MatDialog } from '@angular/material/dialog';
 import { ActivatedRoute, Router } from '@angular/router';
+import { ConfirmDialogComponent, ConfirmDialogModel } from '@app/shared/components/confirm-dialog/confirm-dialog.component';
 import { CrudType } from '@app/shared/enums/crud-type.enum';
 import { Role } from '@app/shared/enums/role.enum';
+import { IVehicle } from '@app/shared/interfaces/vehicle';
 import { IVehicleCategory } from '@app/shared/interfaces/vehicle-category';
 import { AuthenticationService } from '@app/shared/services/authentication.service';
 import { RequestEntryService } from '@app/shared/services/request-entry.service';
@@ -19,11 +22,20 @@ import { Observable } from 'rxjs';
 })
 export class UpdateRequestEntryComponent implements OnInit {
   requestEntryForm: FormGroup;
+  accessVehicleForm: FormGroup;
   vehicleCategories$: Observable<IVehicleCategory[]>;
   crudType: CrudType;
   CrudType = CrudType;
   Role = Role;
   id: number;
+
+  listAccessVehicles: Partial<IVehicle>[] = [];
+  listSelectedVehicles: Partial<IVehicle>[] = [];
+  columns = [
+    { key: 'colNo', display: 'No.' },
+    { key: 'Plate', display: 'Plate' },
+    { key: 'TypeName', display: 'Type' },
+  ];
   constructor(
     private fb: FormBuilder,
     private router: Router,
@@ -32,7 +44,8 @@ export class UpdateRequestEntryComponent implements OnInit {
     private requestEntryService: RequestEntryService,
     private toastr: ToastrService,
     private route: ActivatedRoute,
-    private vehicleCategoryService: VehicleCategoryService
+    private vehicleCategoryService: VehicleCategoryService,
+    private dialog: MatDialog,
   ) {}
 
   ngOnInit(): void {
@@ -58,13 +71,18 @@ export class UpdateRequestEntryComponent implements OnInit {
       VisitorTel: [''],
       VisitorPassport: [''],
       NumberVisitor: [1, Validators.required],
-      IsVihicle: [true],
+      IsVehicle: [true],
       StartTime: [''],
       EndTime: [''],
       TypeId: [null],
       TypePayment: [false],
       InputRealTime: [''],
       NoteDone: [''],
+    });
+
+    this.accessVehicleForm = this.fb.group({
+      Plate: ['', Validators.required],
+      Type: [0, Validators.required]
     });
   }
 
@@ -80,7 +98,7 @@ export class UpdateRequestEntryComponent implements OnInit {
         VisitorTel: requestEntry.VisitorTel,
         VisitorPassport: requestEntry.VisitorPassport,
         NumberVisitor: requestEntry.NumberVisitor,
-        IsVihicle: this.crudType === CrudType.VIEW ? requestEntry.IsVihicle ? 'YES' : 'NO' : requestEntry.IsVihicle,
+        IsVehicle: this.crudType === CrudType.VIEW ? requestEntry.IsVihicle ? 'YES' : 'NO' : requestEntry.IsVihicle,
         StartTime: this.timeService.convertToDateTime(requestEntry.StartTime),
         EndTime: this.timeService.convertToDateTime(requestEntry.EndTime),
         TypeId: requestEntry.TypeId,
@@ -115,7 +133,7 @@ export class UpdateRequestEntryComponent implements OnInit {
       VisitorTel,
       VisitorPassport,
       NumberVisitor,
-      IsVihicle,
+      IsVehicle,
       StartTime,
       EndTime,
       TypeId,
@@ -131,7 +149,7 @@ export class UpdateRequestEntryComponent implements OnInit {
       VisitorTel,
       VisitorPassport,
       NumberVisitor,
-      IsVihicle,
+      IsVihicle: IsVehicle,
       StartTime: this.timeService.toDateTimeString(StartTime),
       EndTime: this.timeService.toDateTimeString(EndTime),
       TypeId,
@@ -157,7 +175,7 @@ export class UpdateRequestEntryComponent implements OnInit {
       VisitorTel,
       VisitorPassport,
       NumberVisitor,
-      IsVihicle,
+      IsVehicle,
       StartTime,
       EndTime,
       TypeId,
@@ -170,7 +188,7 @@ export class UpdateRequestEntryComponent implements OnInit {
       VisitorTel,
       VisitorPassport,
       NumberVisitor,
-      IsVihicle,
+      IsVihicle: IsVehicle,
       StartTime: this.timeService.toDateTimeString(StartTime),
       EndTime: this.timeService.toDateTimeString(EndTime),
       TypeId,
@@ -188,7 +206,7 @@ export class UpdateRequestEntryComponent implements OnInit {
 
   onRadioChange(formName: string, value: boolean): void {
     switch (formName) {
-      case 'IsVihicle':
+      case 'IsVehicle':
         if (value) {
           this.requestEntryForm.controls.TypeId.enable();
         } else {
@@ -198,5 +216,42 @@ export class UpdateRequestEntryComponent implements OnInit {
       default:
         break;
     }
+  }
+
+  addAccessVehicle(): void {
+    if (this.accessVehicleForm.valid) {
+      const {
+        Plate,
+        Type
+      }: { Plate: string, Type: IVehicleCategory} = this.accessVehicleForm.value;
+      this.listAccessVehicles.push({
+        Plate,
+        TypeId: Type.Id,
+        TypeName: Type.Name
+      });
+
+      this.listAccessVehicles = [...this.listAccessVehicles];
+    }
+  }
+
+  deleteAccessVehicle(): void {
+    const dialogData = new ConfirmDialogModel('Delete Confirm', 'Are you sure you want to delete these vehicles?');
+
+    const dialogRef = this.dialog.open(ConfirmDialogComponent, {
+      minWidth: '400px',
+      data: dialogData,
+    });
+
+    dialogRef.afterClosed().subscribe((dialogResult) => {
+      if (dialogResult) {
+        this.listSelectedVehicles.forEach(valueSelect => {
+          this.listAccessVehicles = this.listAccessVehicles.filter((value) => {
+            return value !== valueSelect;
+          });
+        });
+        this.listAccessVehicles = [...this.listAccessVehicles];
+        this.listSelectedVehicles = [];
+      }
+    });
   }
 }

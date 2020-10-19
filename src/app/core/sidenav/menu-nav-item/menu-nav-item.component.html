@@ -11,7 +11,9 @@
     class="text-menu-item"
     [@animateText]="linkText ? 'show' : 'hide'"
     [ngStyle]="{
-      display: linkText ? 'flex' : 'none'
+      display: linkText ? 'flex' : 'none',
+      'margin-left': depth ? (depth < 2 ? '10px' : '20px') : '0px',
+      'margin-right': item.IsAction ? '10px' : '0px'
     }"
   >
     <span *ngIf="linkText"> {{ item.Name }}</span>
@@ -27,3 +29,4 @@
   <app-menu-nav-item *ngFor="let child of item.ChildsMenu" [item]="child" [linkText]="linkText" [depth]="depth + 1">
   </app-menu-nav-item>
 </div>
+<mat-divider *ngIf="!depth"></mat-divider>
