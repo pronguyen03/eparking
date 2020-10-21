@@ -11,7 +11,11 @@
       [editable]="false"
     >
     </mat-step>
-    <mat-step [completed]="vehicleForm?.controls.Status.value === VehicleStatus.APPROVED" label="Done" [editable]="false">
+    <mat-step
+      [completed]="vehicleForm?.controls.Status.value === VehicleStatus.APPROVED"
+      label="Done"
+      [editable]="false"
+    >
     </mat-step>
   </mat-horizontal-stepper>
   <div class="row">
@@ -53,20 +57,26 @@
           <mat-form-field fxFlex="70%" appearance="standard" class="form-input">
             <mat-label>Plate</mat-label>
             <!-- <mat-icon matSuffix>person</mat-icon> -->
-            <input matInput formControlName="Plate" />
+            <input matInput formControlName="Plate" class="upper-case" />
+            <mat-error
+              *ngIf="
+                vehicleForm.controls.Plate.hasError('maxlength') &&
+                (vehicleForm.controls.Plate.touched || vehicleForm.controls.Plate.dirty)
+              "
+              >Max 10 characters</mat-error
+            >
+            <mat-error
+              *ngIf="
+                vehicleForm.controls.Plate.hasError('pattern') &&
+                (vehicleForm.controls.Plate.touched || vehicleForm.controls.Plate.dirty)
+              "
+              >Only allow to input characters and numbers.</mat-error
+            >
           </mat-form-field>
         </div>
       </div>
 
       <div fxLayout="row" fxLayout.xs="column" fxLayoutWrap fxLayoutGap="5%" fxLayoutAlign="center center">
-        <div fxFlex="50%" fxLayout="row" fxLayoutWrap fxLayoutGap="10px" fxLayoutAlign="start center">
-          <mat-label fxFlex="30%" class="title-field">Current Status</mat-label>
-          <mat-form-field fxFlex="70%" appearance="standard">
-            <mat-label>Current Status</mat-label>
-            <input matInput formControlName="CurrentStatus" />
-          </mat-form-field>
-        </div>
-
         <div fxFlex="50%" fxLayout="row" fxLayoutWrap fxLayoutGap="10px" fxLayoutAlign="center center">
           <mat-label fxFlex="30%" class="title-field">Payment Date</mat-label>
           <mat-form-field fxFlex="70%" appearance="standard">
@@ -76,9 +86,25 @@
             <mat-datepicker #picker disabled="false"></mat-datepicker>
           </mat-form-field>
         </div>
+
+        <div fxFlex="50%" fxLayout="row" fxLayoutWrap fxLayoutGap="10px" fxLayoutAlign="center center">
+          <mat-label fxFlex="30%" class="title-field">Note</mat-label>
+          <mat-form-field fxFlex="70%" appearance="standard">
+            <mat-label>Note</mat-label>
+            <input matInput formControlName="Notes" readonly />
+            <!-- <textarea matInput></textarea> -->
+          </mat-form-field>
+        </div>
       </div>
 
-      <div fxLayout="row" fxLayout.xs="column" fxLayoutWrap fxLayoutGap="5%" fxLayoutAlign="center center">
+      <div
+        fxLayout="row"
+        fxLayout.xs="column"
+        fxLayoutWrap
+        fxLayoutGap="5%"
+        fxLayoutAlign="center center"
+        *ngIf="crudType !== CrudType.CREATE"
+      >
         <div fxFlex="50%" fxLayout="row" fxLayoutWrap fxLayoutGap="10px" fxLayoutAlign="center center">
           <mat-label fxFlex="30%" class="title-field">Approval Status</mat-label>
           <mat-form-field fxFlex="70%" appearance="standard">
@@ -91,14 +117,13 @@
           </mat-form-field>
         </div>
 
-        <div fxFlex="50%" fxLayout="row" fxLayoutWrap fxLayoutGap="10px" fxLayoutAlign="center center">
-          <mat-label fxFlex="30%" class="title-field">Note</mat-label>
+        <!-- <div fxFlex="50%" fxLayout="row" fxLayoutWrap fxLayoutGap="10px" fxLayoutAlign="start center">
+          <mat-label fxFlex="30%" class="title-field">Current Status</mat-label>
           <mat-form-field fxFlex="70%" appearance="standard">
-            <mat-label>Note</mat-label>
-            <input matInput formControlName="Notes" readonly />
-            <!-- <textarea matInput></textarea> -->
+            <mat-label>Current Status</mat-label>
+            <input matInput formControlName="CurrentStatus" />
           </mat-form-field>
-        </div>
+        </div> -->
       </div>
       <div
         *ngIf="vehicleForm.controls.Status.value === VehicleStatus.APPROVED"
@@ -123,6 +148,37 @@
             <input matInput />
           </mat-form-field>
         </div>
+      </div>
+
+      <div fxLayout="row" fxLayout.xs="column" fxLayoutWrap fxLayoutGap="5%" fxLayoutAlign="center center">
+        <div fxFlex="50%" fxLayout="row" fxLayoutWrap fxLayoutGap="10px" fxLayoutAlign="center center">
+          <mat-label fxFlex="30%" class="title-field">Image</mat-label>
+          <div fxFlex="70%">
+            <mat-card>
+              <mat-card-content>
+                <ul>
+                  <li *ngFor="let file of files">
+                    <mat-progress-bar [value]="file.progress"></mat-progress-bar>
+                    <span id="file-label"> </span>
+                  </li>
+                </ul>
+              </mat-card-content>
+              <mat-card-actions>
+                <button mat-button color="primary" (click)="onClick()">
+                  <mat-icon>file_upload</mat-icon>
+                  Upload
+                </button>
+              </mat-card-actions> </mat-card
+            ><input type="file" #fileInput id="fileUpload" name="fileUpload" accept="image/*" style="display: none" />
+            <!-- <input style="display: none" type="file" accept='image/*' (change)="onFileChanged($event)" #fileInput />
+            <img [src]="imgURL" height="200" *ngIf="imgURL">
+            <button (click)="fileInput.click()" mat-raised-button color="accent">Select File</button>
+            <div class="image-upload">
+
+            </div> -->
+          </div>
+        </div>
+        <div fxFlex="50%"></div>
       </div>
     </form>
   </div>
@@ -166,5 +222,4 @@
       <!-- <button mat-raised-button color="accent">Accent</button> -->
     </div>
   </div>
-
 </div>

@@ -79,7 +79,7 @@ export class AccessVehicleDetailComponent implements OnInit {
     this.accessVehicleForm = this.fb.group({
       Id: [null],
       RepuestEntryId: [null, Validators.required],
-      Plate: ['', Validators.required],
+      Plate: ['', [Validators.required, Validators.maxLength(9), Validators.pattern('^[a-zA-Z0-9-]*$')]],
       TypeId: [null]
     });
   }

@@ -74,7 +74,7 @@ export class UpdateRequestEntryComponent implements OnInit {
       IsVehicle: [true],
       StartTime: [''],
       EndTime: [''],
-      TypeId: [null],
+      TypeId: [0],
       TypePayment: [false],
       InputRealTime: [''],
       NoteDone: [''],
@@ -106,6 +106,7 @@ export class UpdateRequestEntryComponent implements OnInit {
         InputRealTime: this.timeService.convertToDateTime(requestEntry.InputRealTime),
         NoteDone: requestEntry.NoteDone,
       });
+      // this.listAccessVehicles = requestEntry.
     });
   }
 
@@ -140,6 +141,7 @@ export class UpdateRequestEntryComponent implements OnInit {
       TypePayment,
       InputRealTime,
       NoteDone,
+
     } = this.requestEntryForm.value;
     const inputData = {
       EParkingId: environment.parkingId,
@@ -160,7 +162,8 @@ export class UpdateRequestEntryComponent implements OnInit {
       NoteDone,
     };
 
-    this.requestEntryService.addRequestEntry(inputData).subscribe((res) => {
+    const ItemDetaileds = this.listAccessVehicles;
+    this.requestEntryService.addRequestEntry(inputData, ItemDetaileds).subscribe((res) => {
       if (res.Code === '100') {
         this.toastr.success('Created successfully.', 'Vehicle');
         this.back();

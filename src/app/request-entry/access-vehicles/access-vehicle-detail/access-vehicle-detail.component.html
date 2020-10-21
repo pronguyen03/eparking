@@ -24,7 +24,21 @@
         <mat-form-field fxFlex="70%" appearance="standard" class="form-input">
           <mat-label>Plate</mat-label>
           <!-- <mat-icon matSuffix>person</mat-icon> -->
-          <input matInput formControlName="Plate" />
+          <input matInput formControlName="Plate" class="upper-case" />
+          <mat-error
+            *ngIf="
+              accessVehicleForm.controls.Plate.hasError('maxlength') &&
+              (accessVehicleForm.controls.Plate.touched || accessVehicleForm.controls.Plate.dirty)
+            "
+            >Max 10 characters</mat-error
+          >
+          <mat-error
+            *ngIf="
+              accessVehicleForm.controls.Plate.hasError('pattern') &&
+              (accessVehicleForm.controls.Plate.touched || accessVehicleForm.controls.Plate.dirty)
+            "
+            >Only allow to input characters and numbers.</mat-error
+          >
         </mat-form-field>
       </div>
     </div>

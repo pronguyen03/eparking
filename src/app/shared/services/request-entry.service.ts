@@ -5,6 +5,7 @@ import { BehaviorSubject, Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { ApiResponse } from '../interfaces/api-response';
 import { IRequestEntry } from '../interfaces/request-entry';
+import { IVehicle } from '../interfaces/vehicle';
 
 @Injectable({
   providedIn: 'root',
@@ -47,9 +48,10 @@ export class RequestEntryService {
       .pipe(map((res) => res.Data));
   }
 
-  addRequestEntry(inputData: Partial<IRequestEntry>): Observable<ApiResponse> {
+  addRequestEntry(inputData: Partial<IRequestEntry>, ItemDetaileds: Partial<IVehicle>[]): Observable<ApiResponse> {
     return this.http.post<ApiResponse>(`${this.url}/Add`, {
       Item: inputData,
+      ItemDetaileds
     });
   }
 

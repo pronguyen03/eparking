@@ -1,5 +1,6 @@
-import { Component, OnInit } from '@angular/core';
-import { FormBuilder, FormGroup } from '@angular/forms';
+import { HttpEventType } from '@angular/common/http';
+import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
 import { ActivatedRoute, Router } from '@angular/router';
 import {
@@ -11,11 +12,13 @@ import { Role } from '@app/shared/enums/role.enum';
 import { VehicleStatus } from '@app/shared/enums/vehicle-status.enum';
 import { IVehicleCategory } from '@app/shared/interfaces/vehicle-category';
 import { AuthenticationService } from '@app/shared/services/authentication.service';
+import { UploadService } from '@app/shared/services/upload.service';
 import { VehicleCategoryService } from '@app/shared/services/vehicle-category.service';
 import { VehicleService } from '@app/shared/services/vehicle.service';
 import { environment } from '@environments/environment';
 import { ToastrService } from 'ngx-toastr';
 import { Observable } from 'rxjs';
+import { map } from 'rxjs/operators';
 
 @Component({
   selector: 'app-vehicle-detail',
@@ -31,6 +34,9 @@ export class VehicleDetailComponent implements OnInit {
   crudType: CrudType;
   id: number;
 
+  @ViewChild('fileInput', {static: false}) fileInput: ElementRef;
+  files  = [];
+
   constructor(
     private router: Router,
     private route: ActivatedRoute,
@@ -39,7 +45,8 @@ export class VehicleDetailComponent implements OnInit {
     private vehicleCategoryService: VehicleCategoryService,
     private authService: AuthenticationService,
     private toastr: ToastrService,
-    public dialog: MatDialog
+    public dialog: MatDialog,
+    private uploadService: UploadService
   ) {}
 
   ngOnInit(): void {
@@ -60,7 +67,7 @@ export class VehicleDetailComponent implements OnInit {
       CustomerId: [''],
       CustomerName: [''],
       TypeId: [''],
-      Plate: [''],
+      Plate: ['', [Validators.maxLength(9), Validators.pattern('^[a-zA-Z0-9-]*$')]],
       DateOfPayment: [''],
       CurrentStatus: [''],
       Status: [VehicleStatus.NEW],
@@ -206,4 +213,44 @@ export class VehicleDetailComponent implements OnInit {
       }
     });
   }
+
+  callUploadService(file): void {
+    // const formData = new FormData();
+    // formData.append('file', file.data);
+    // file.inProgress = true;
+    // this.uploadService.upload(formData).pipe(
+    //   map(event => {
+    //     switch (event.type) {
+    //       case HttpEventType.UploadProgress:
+    //         file.progress = Math.round(event.loaded * 100 / event.total);
+    //         break;
+    //       case HttpEventType.Response:
+    //         return event;
+    //     }
+    //   }).subscribe((event: any) => {
+    //     if (typeof (event) === 'object') {
+    //       console.log(event.body);
+    //     }
+    //   });
+  }
+
+  private upload(): void {
+    this.fileInput.nativeElement.value = '';
+    this.files.forEach(file => {
+      this.callUploadService(file);
+    });
+
+  }
+
+  onClick(): void {
+    const fileInput = this.fileInput.nativeElement;
+    fileInput.onchange = () => {
+      this.files = [];
+      for (const file of fileInput.files) {
+        this.files.push({ data: file, inProgress: false, progress: 0});
+      }
+      this.upload();
+    };
+    fileInput.click();
+}
 }
