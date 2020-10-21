@@ -19,6 +19,7 @@ import { MasterDataModule } from './master-data/master-data.module';
 import { ToastrModule } from 'ngx-toastr';
 import { RequestEntryComponent } from './request-entry/request-entry.component';
 import { UpdateRequestEntryComponent } from './request-entry/update-request-entry/update-request-entry.component';
+import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 @NgModule({
   declarations: [AppComponent, LoginComponent, HomeComponent, RequestEntryComponent, UpdateRequestEntryComponent],
   imports: [
@@ -32,6 +33,7 @@ import { UpdateRequestEntryComponent } from './request-entry/update-request-entr
     SharedModule,
     CoreModule,
     NgxSpinnerModule,
+    FontAwesomeModule,
     ToastrModule.forRoot(),
   ],
   providers: [
