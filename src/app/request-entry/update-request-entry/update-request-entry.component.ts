@@ -5,6 +5,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { ConfirmDialogComponent, ConfirmDialogModel } from '@app/shared/components/confirm-dialog/confirm-dialog.component';
 import { CrudType } from '@app/shared/enums/crud-type.enum';
 import { Role } from '@app/shared/enums/role.enum';
+import { IAccessVehicle } from '@app/shared/interfaces/access-vehicle';
 import { IVehicle } from '@app/shared/interfaces/vehicle';
 import { IVehicleCategory } from '@app/shared/interfaces/vehicle-category';
 import { AuthenticationService } from '@app/shared/services/authentication.service';
@@ -29,8 +30,8 @@ export class UpdateRequestEntryComponent implements OnInit {
   Role = Role;
   id: number;
 
-  listAccessVehicles: Partial<IVehicle>[] = [];
-  listSelectedVehicles: Partial<IVehicle>[] = [];
+  listAccessVehicles: IAccessVehicle[] = [];
+  listSelectedVehicles: IAccessVehicle[] = [];
   columns = [
     { key: 'colNo', display: 'No.' },
     { key: 'Plate', display: 'Plate' },
@@ -91,7 +92,9 @@ export class UpdateRequestEntryComponent implements OnInit {
   }
 
   getRequestEntryById(requestId: number): void {
-    this.requestEntryService.getRequestEntryById(requestId).subscribe((requestEntry) => {
+    this.requestEntryService.getRequestEntryById(requestId).subscribe((res) => {
+      const requestEntry = res.Item;
+      const requestEntryDetails = res.ItemDetaileds;
       this.requestEntryForm.patchValue({
         RequestDetailed: requestEntry.RequestDetailed,
         VisitorName: requestEntry.VisitorName,
@@ -106,7 +109,7 @@ export class UpdateRequestEntryComponent implements OnInit {
         InputRealTime: this.timeService.convertToDateTime(requestEntry.InputRealTime),
         NoteDone: requestEntry.NoteDone,
       });
-      // this.listAccessVehicles = requestEntry.
+      this.listAccessVehicles = requestEntryDetails;
     });
   }
 
@@ -231,7 +234,7 @@ export class UpdateRequestEntryComponent implements OnInit {
         Plate,
         TypeId: Type.Id,
         TypeName: Type.Name
-      });
+      } as IAccessVehicle);
 
       this.listAccessVehicles = [...this.listAccessVehicles];
     }

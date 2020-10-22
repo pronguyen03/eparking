@@ -27,6 +27,7 @@
         fxLayoutWrap
         fxLayoutGap="5%"
         fxLayoutAlign="center center"
+        fxLayoutAlign.xs="space-around stretch"
       >
         <div fxFlex="50%" fxLayout="row" fxLayoutWrap fxLayoutGap="10px" fxLayoutAlign="center center">
           <mat-label fxFlex="30%" class="title-field">Customer Name</mat-label>
@@ -37,7 +38,14 @@
         </div>
         <div fxFlex="50%"></div>
       </div>
-      <div fxLayout="row" fxLayout.xs="column" fxLayoutWrap fxLayoutGap="5%" fxLayoutAlign="center center">
+      <div
+        fxLayout="row"
+        fxLayout.xs="column"
+        fxLayoutWrap
+        fxLayoutGap="5%"
+        fxLayoutAlign="center center"
+        fxLayoutAlign.xs="space-around stretch"
+      >
         <div fxFlex="50%" fxLayout="row" fxLayoutWrap fxLayoutGap="10px" fxLayoutAlign="start center">
           <mat-label fxFlex="30%" class="title-field">Type Of Vehicle</mat-label>
           <mat-form-field fxFlex="70%" appearance="standard">
@@ -76,7 +84,14 @@
         </div>
       </div>
 
-      <div fxLayout="row" fxLayout.xs="column" fxLayoutWrap fxLayoutGap="5%" fxLayoutAlign="center center">
+      <div
+        fxLayout="row"
+        fxLayout.xs="column"
+        fxLayoutWrap
+        fxLayoutGap="5%"
+        fxLayoutAlign="center center"
+        fxLayoutAlign.xs="space-around stretch"
+      >
         <div fxFlex="50%" fxLayout="row" fxLayoutWrap fxLayoutGap="10px" fxLayoutAlign="center center">
           <mat-label fxFlex="30%" class="title-field">Payment Date</mat-label>
           <mat-form-field fxFlex="70%" appearance="standard">
@@ -103,6 +118,7 @@
         fxLayoutWrap
         fxLayoutGap="5%"
         fxLayoutAlign="center center"
+        fxLayoutAlign.xs="space-around stretch"
         *ngIf="crudType !== CrudType.CREATE"
       >
         <div fxFlex="50%" fxLayout="row" fxLayoutWrap fxLayoutGap="10px" fxLayoutAlign="center center">
@@ -117,6 +133,7 @@
           </mat-form-field>
         </div>
 
+        <div fxFlex="50%"></div>
         <!-- <div fxFlex="50%" fxLayout="row" fxLayoutWrap fxLayoutGap="10px" fxLayoutAlign="start center">
           <mat-label fxFlex="30%" class="title-field">Current Status</mat-label>
           <mat-form-field fxFlex="70%" appearance="standard">
@@ -132,6 +149,7 @@
         fxLayoutWrap
         fxLayoutGap="5%"
         fxLayoutAlign="center center"
+        fxLayoutAlign.xs="space-around stretch"
       >
         <div fxFlex="50%" fxLayout="row" fxLayoutWrap fxLayoutGap="10px" fxLayoutAlign="center center">
           <mat-label fxFlex="30%" class="title-field">Approver</mat-label>
@@ -150,20 +168,38 @@
         </div>
       </div>
 
-      <div fxLayout="row" fxLayout.xs="column" fxLayoutWrap fxLayoutGap="5%" fxLayoutAlign="center center">
+      <div
+        fxLayout="row"
+        fxLayout.xs="column"
+        fxLayoutWrap
+        fxLayoutGap="5%"
+        fxLayoutAlign="start start"
+        fxLayoutAlign.xs="space-around stretch"
+      >
         <div fxFlex="50%" fxLayout="row" fxLayoutWrap fxLayoutGap="10px" fxLayoutAlign="center center">
           <mat-label fxFlex="30%" class="title-field">Image</mat-label>
           <div fxFlex="70%">
             <mat-card>
               <mat-card-content>
-                <ul>
-                  <li *ngFor="let file of files">
-                    <mat-progress-bar [value]="file.progress"></mat-progress-bar>
-                    <span id="file-label"> </span>
-                  </li>
-                </ul>
+                <div *ngFor="let file of files" fxLayout="row" fxLayoutAlign="center center">
+                  <mat-progress-spinner
+                    *ngIf="file.progress !== 100"
+                    color="primary"
+                    mode="determinate"
+                    [value]="file.progress"
+                  >
+                  </mat-progress-spinner>
+                  <img
+                    *ngIf="vehicleForm.controls.ImagePath.value"
+                    [src]="vehicleForm.controls.ImagePath.value"
+                    fxFlex="70%"
+                    style="width: 100%; height: auto"
+                  />
+                  <!-- <mat-progress-bar [value]="file.progress"></mat-progress-bar>
+                    <span id="file-label"> </span> -->
+                </div>
               </mat-card-content>
-              <mat-card-actions>
+              <mat-card-actions *ngIf="crudType !== CrudType.VIEW">
                 <button mat-button color="primary" (click)="onClick()">
                   <mat-icon>file_upload</mat-icon>
                   Upload

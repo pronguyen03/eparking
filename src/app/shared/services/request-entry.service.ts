@@ -3,6 +3,7 @@ import { Injectable } from '@angular/core';
 import { environment } from '@environments/environment';
 import { BehaviorSubject, Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
+import { IAccessVehicle } from '../interfaces/access-vehicle';
 import { ApiResponse } from '../interfaces/api-response';
 import { IRequestEntry } from '../interfaces/request-entry';
 import { IVehicle } from '../interfaces/vehicle';
@@ -38,7 +39,7 @@ export class RequestEntryService {
       .pipe(map((res) => res.Data));
   }
 
-  getRequestEntryById(requestId: number): Observable<IRequestEntry> {
+  getRequestEntryById(requestId: number): Observable<{ Item: IRequestEntry, ItemDetaileds: IAccessVehicle[]}> {
     return this.http
       .post<ApiResponse>(`${this.url}/GetbyId`, {
         Item: {

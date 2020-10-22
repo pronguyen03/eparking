@@ -15,5 +15,6 @@ export interface IVehicle {
   DateApproved: string;
   Notes: string;
   Status: number;
+  StatusName?: string;
   CustomerName: string;
 }

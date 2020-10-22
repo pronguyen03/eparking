@@ -1,4 +1,4 @@
-import { HttpEventType } from '@angular/common/http';
+import { HttpEventType, HttpResponse } from '@angular/common/http';
 import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
@@ -10,9 +10,9 @@ import {
 import { CrudType } from '@app/shared/enums/crud-type.enum';
 import { Role } from '@app/shared/enums/role.enum';
 import { VehicleStatus } from '@app/shared/enums/vehicle-status.enum';
+import { ApiResponse } from '@app/shared/interfaces/api-response';
 import { IVehicleCategory } from '@app/shared/interfaces/vehicle-category';
 import { AuthenticationService } from '@app/shared/services/authentication.service';
-import { UploadService } from '@app/shared/services/upload.service';
 import { VehicleCategoryService } from '@app/shared/services/vehicle-category.service';
 import { VehicleService } from '@app/shared/services/vehicle.service';
 import { environment } from '@environments/environment';
@@ -35,7 +35,7 @@ export class VehicleDetailComponent implements OnInit {
   id: number;
 
   @ViewChild('fileInput', {static: false}) fileInput: ElementRef;
-  files  = [];
+  files: { data: any, inProgress: boolean, progress: number }[]  = [];
 
   constructor(
     private router: Router,
@@ -46,7 +46,6 @@ export class VehicleDetailComponent implements OnInit {
     private authService: AuthenticationService,
     private toastr: ToastrService,
     public dialog: MatDialog,
-    private uploadService: UploadService
   ) {}
 
   ngOnInit(): void {
@@ -98,6 +97,7 @@ export class VehicleDetailComponent implements OnInit {
         IsApproved: vehicle.IsApproved,
         WhoApproved: vehicle.WhoApproved,
         Notes: vehicle.Notes,
+        ImagePath: vehicle.ImagePath
       });
     });
   }
@@ -117,7 +117,7 @@ export class VehicleDetailComponent implements OnInit {
 
   create(): void {
     if (this.vehicleForm.valid) {
-      const { Plate, TypeId, CurrentStatus, DateOfPayment, Notes } = this.vehicleForm.value;
+      const { Plate, TypeId, CurrentStatus, DateOfPayment, Notes, ImagePath } = this.vehicleForm.value;
       const inputData = {
         EParkingId: environment.parkingId,
         CustomerId: this.authService.currentUserValue.CustomerId,
@@ -125,7 +125,7 @@ export class VehicleDetailComponent implements OnInit {
         TypeId,
         CurrentStatus,
         DateOfPayment,
-        ImagePath: '',
+        ImagePath,
         Notes,
       };
 
@@ -141,14 +141,14 @@ export class VehicleDetailComponent implements OnInit {
   }
 
   update(): void {
-    const { Plate, TypeId, CurrentStatus, DateOfPayment, Notes } = this.vehicleForm.value;
+    const { Plate, TypeId, CurrentStatus, DateOfPayment, Notes, ImagePath } = this.vehicleForm.value;
     const inputData = {
       Id: this.id,
       Plate,
       TypeId,
       CurrentStatus,
       DateOfPayment,
-      ImagePath: '',
+      ImagePath,
       Notes,
     };
 
@@ -215,23 +215,29 @@ export class VehicleDetailComponent implements OnInit {
   }
 
   callUploadService(file): void {
-    // const formData = new FormData();
-    // formData.append('file', file.data);
-    // file.inProgress = true;
-    // this.uploadService.upload(formData).pipe(
-    //   map(event => {
-    //     switch (event.type) {
-    //       case HttpEventType.UploadProgress:
-    //         file.progress = Math.round(event.loaded * 100 / event.total);
-    //         break;
-    //       case HttpEventType.Response:
-    //         return event;
-    //     }
-    //   }).subscribe((event: any) => {
-    //     if (typeof (event) === 'object') {
-    //       console.log(event.body);
-    //     }
-    //   });
+    const formData = new FormData();
+    formData.append('files', file.data);
+    file.inProgress = true;
+    this.vehicleService.uploadImage(formData).pipe(
+      map((res: any) => {
+        switch (res.type) {
+          case HttpEventType.UploadProgress:
+            file.progress = Math.round(res.loaded * 100 / res.total);
+            break;
+          case HttpEventType.Response:
+            return res;
+        }
+      })).subscribe((res: HttpResponse<ApiResponse>) => {
+          if (typeof (res) === 'object') {
+            const body = res.body;
+            if (body.Code === '100') {
+              this.toastr.success('Uploaded Image successfully.', 'Vehicle');
+              this.vehicleForm.patchValue({
+                ImagePath: body.Data
+            });
+          }
+        }
+      });
   }
 
   private upload(): void {

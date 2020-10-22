@@ -6,6 +6,7 @@ import {
   ConfirmDialogModel,
 } from '@app/shared/components/confirm-dialog/confirm-dialog.component';
 import { CrudType } from '@app/shared/enums/crud-type.enum';
+import { VehicleStatus } from '@app/shared/enums/vehicle-status.enum';
 import { ITableCol } from '@app/shared/interfaces/table-col';
 import { IVehicle } from '@app/shared/interfaces/vehicle';
 import { AuthenticationService } from '@app/shared/services/authentication.service';
@@ -25,7 +26,8 @@ export class VehiclesComponent implements OnInit {
     { key: 'ContactName', display: 'Contact Name' },
     { key: 'DateOfPayment', display: 'Payment Date', type: 'date' },
     { key: 'Actived', display: 'Actived', type: 'boolean' },
-    { key: 'IsApproved', display: 'Is Approved', type: 'boolean' },
+    { key: 'StatusName', display: 'Status'},
+    // { key: 'IsApproved', display: 'Is Approved', type: 'boolean' },
     { key: 'WhoApproved', display: 'Approver' },
     { key: 'DateApproved', display: 'Approval Date' },
   ];
@@ -44,6 +46,23 @@ export class VehiclesComponent implements OnInit {
 
   getVehiclesByCustomer(customerId: number): void {
     this.vehicleService.getVehiclesByCustomer(customerId).subscribe((vehicles) => {
+      vehicles = vehicles.map(vehicle => {
+        switch (vehicle.Status) {
+          case VehicleStatus.NEW:
+            vehicle.StatusName = 'New';
+            break;
+          case VehicleStatus.PENDING:
+            vehicle.StatusName = 'Pending Approval';
+            break;
+          case VehicleStatus.APPROVED:
+            vehicle.StatusName = 'Approved';
+            break;
+          default:
+            vehicle.StatusName = 'New';
+            break;
+        }
+        return vehicle;
+      });
       this.vehicles = vehicles;
     });
   }

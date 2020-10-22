@@ -5,6 +5,8 @@ import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { IVehicle } from '../interfaces/vehicle';
 import { ApiResponse } from '../interfaces/api-response';
+import { UserService } from './user.service';
+import { AuthenticationService } from './authentication.service';
 
 @Injectable({
   providedIn: 'root',
@@ -13,7 +15,7 @@ export class VehicleService {
   routeUrl = 'Vihicles';
   url: string;
 
-  constructor(private http: HttpClient) {
+  constructor(private http: HttpClient, private authenticationService: AuthenticationService) {
     this.url = `${environment.apiUrl}/${this.routeUrl}`;
   }
 
@@ -79,6 +81,14 @@ export class VehicleService {
         Id: id,
         Notes: note,
       },
+    });
+  }
+
+  uploadImage(formData: FormData): any {
+    const currentUser = this.authenticationService.currentUserValue;
+    return this.http.post<ApiResponse>(`${this.url}/UploadFiles?token=${ encodeURIComponent(currentUser.TokenKey)}`, formData, {
+      reportProgress: true,
+      observe: 'events'
     });
   }
 }

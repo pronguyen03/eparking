@@ -3,4 +3,5 @@ export interface IAccessVehicle {
   RequestEntryId: number;
   Plate: string;
   TypeId: number;
+  TypeName?: string;
 }
