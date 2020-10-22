@@ -33,6 +33,7 @@ export class VehicleDetailComponent implements OnInit {
   vehicleCategories$: Observable<IVehicleCategory[]>;
   crudType: CrudType;
   id: number;
+  imageURLResource = environment.host + '/Resources/VihicleImages/';
 
   @ViewChild('fileInput', {static: false}) fileInput: ElementRef;
   files: { data: any, inProgress: boolean, progress: number }[]  = [];

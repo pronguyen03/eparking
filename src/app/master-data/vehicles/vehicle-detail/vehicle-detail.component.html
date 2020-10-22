@@ -181,17 +181,19 @@
           <div fxFlex="70%">
             <mat-card>
               <mat-card-content>
-                <div *ngFor="let file of files" fxLayout="row" fxLayoutAlign="center center">
-                  <mat-progress-spinner
-                    *ngIf="file.progress !== 100"
-                    color="primary"
-                    mode="determinate"
-                    [value]="file.progress"
-                  >
-                  </mat-progress-spinner>
+                <div fxLayout="row" fxLayoutAlign="center center">
+                  <ng-container *ngFor="let file of files">
+                    <mat-progress-spinner
+                      *ngIf="file.progress !== 100"
+                      color="primary"
+                      mode="determinate"
+                      [value]="file.progress"
+                    >
+                    </mat-progress-spinner>
+                  </ng-container>
                   <img
                     *ngIf="vehicleForm.controls.ImagePath.value"
-                    [src]="vehicleForm.controls.ImagePath.value"
+                    [src]="imageURLResource + vehicleForm.controls.ImagePath.value"
                     fxFlex="70%"
                     style="width: 100%; height: auto"
                   />
