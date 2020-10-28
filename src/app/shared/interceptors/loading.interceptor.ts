@@ -17,16 +17,24 @@ export class LoadingInterceptor implements HttpInterceptor {
     private spinner: NgxSpinnerService
   ) { }
 
-  intercept(request: HttpRequest<unknown>, next: HttpHandler): Observable<HttpEvent<unknown>> {
+  intercept(request: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
+    const body = request.body;
+    const isValidatorRequest = body.isValidatorRequest;
     if (this.activeRequest === 0) {
-      this.spinner.show();
+      if (!isValidatorRequest) {
+        this.spinner.show();
+      }
     }
 
-    this.activeRequest++;
+    if (!isValidatorRequest) {
+      this.activeRequest++;
+    }
 
     return next.handle(request).pipe(
       finalize(() => {
-        this.activeRequest--;
+        if (!isValidatorRequest) {
+          this.activeRequest--;
+        }
         if (this.activeRequest === 0) {
           this.spinner.hide();
         }

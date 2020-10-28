@@ -1,14 +1,14 @@
 <mat-toolbar>
-  <span>Khách Hàng</span>
+  <span>Người Dùng</span>
 </mat-toolbar>
 <div class="row">
   <app-data-table
     [hasSelect]="false"
-    [dataList]="customers"
+    [dataList]="users"
     [columns]="columns"
     (viewEmitter)="viewDetail($event)"
-    (editEmitter)="editCustomer($event)"
-    (deleteEmitter)="deleteCustomer($event)"
+    (editEmitter)="editUser($event)"
+    (deleteEmitter)="deleteUser($event)"
   ></app-data-table>
 </div>
 

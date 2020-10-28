@@ -1,93 +1,177 @@
 <div class="green-theme">
+  <mat-toolbar>
+    <span>Chi Tiết Khách Hàng</span>
+  </mat-toolbar>
+
   <div class="row">
-    <div fxLayout="row" fxLayout.xs="column" fxLayoutWrap fxLayoutGap="0.5%" fxLayoutAlign="center center">
-      <div fxFlex="20%">
-        <mat-form-field appearance="standard">
-          <mat-label>Customer Name</mat-label>
-          <mat-icon matSuffix>person</mat-icon>
-          <input matInput />
-        </mat-form-field>
-      </div>
+    <form [formGroup]="customerForm">
+      <div
+        fxLayout="row"
+        fxLayout.xs="column"
+        fxLayoutWrap
+        fxLayoutGap="5%"
+        fxLayoutAlign="center center"
+        fxLayoutAlign.xs="space-around stretch"
+      >
+        <div fxFlex="50%" fxLayout="row" fxLayoutWrap fxLayoutGap="10px" fxLayoutAlign="start center">
+          <mat-label fxFlex="30%" class="title-field">Customer Name</mat-label>
+          <mat-form-field fxFlex="70%" appearance="standard">
+            <mat-label>Customer Name</mat-label>
+            <input matInput formControlName="CustomerName" [readonly]="crudType === CrudType.VIEW" />
+            <!-- <mat-icon matSuffix>home</mat-icon> -->
+          </mat-form-field>
+        </div>
 
-      <div fxFlex="20%">
-        <mat-form-field appearance="legacy">
-          <mat-label>Address</mat-label>
-          <mat-icon matSuffix>home</mat-icon>
-          <input matInput />
-        </mat-form-field>
-      </div>
-      <div fxFlex="20%">
-        <mat-form-field appearance="legacy">
-          <mat-label>Contact Name</mat-label>
-          <mat-icon matSuffix>person</mat-icon>
-          <input matInput />
-        </mat-form-field>
-      </div>
-      <div fxFlex="20%">
-        <mat-form-field appearance="legacy">
-          <mat-label>Mobile</mat-label>
-          <input matInput />
-          <mat-icon matSuffix>smartphone</mat-icon>
-        </mat-form-field>
-      </div>
-    </div>
-    <div fxLayout="row" fxLayout.xs="column" fxLayoutWrap fxLayoutGap="0.5%" fxLayoutAlign="center center">
-      <div fxFlex="20%">
-        <mat-form-field appearance="legacy">
-          <mat-label>Tel No.</mat-label>
-          <input matInput />
-          <mat-icon matSuffix>phone</mat-icon>
-        </mat-form-field>
-      </div>
-      <div fxFlex="20%">
-        <mat-form-field appearance="legacy">
-          <mat-label>Fax No.</mat-label>
-          <mat-icon matSuffix>weekend</mat-icon>
-          <input matInput />
-        </mat-form-field>
-      </div>
-      <div fxFlex="20%">
-        <mat-form-field appearance="legacy">
-          <mat-label>Email</mat-label>
-          <input matInput />
-          <mat-icon matSuffix>email</mat-icon>
-        </mat-form-field>
-      </div>
-      <div fxFlex="20%">
-        <mat-form-field appearance="legacy">
-          <mat-label>Tax Code</mat-label>
-          <mat-icon matSuffix>attach_money</mat-icon>
-          <input matInput />
-        </mat-form-field>
-      </div>
-    </div>
-
-    <div fxLayout="row" fxLayout.xs="column" fxLayoutWrap fxLayoutGap="0.5%" fxLayoutAlign="center center">
-      <div fxFlex="20%">
-        <mat-form-field appearance="legacy">
-          <mat-label>Account</mat-label>
-          <mat-icon matSuffix>account_box</mat-icon>
-          <input matInput />
-        </mat-form-field>
-      </div>
-      <div fxFlex="20%">
-        <mat-form-field appearance="legacy">
-          <mat-label>Bank</mat-label>
-          <mat-icon matSuffix>account_balance</mat-icon>
-          <input matInput />
-        </mat-form-field>
-      </div>
-      <div fxFlex="30%" class="form-input-row">
-        <label class="title-field" style="width: 30%">Status</label>
-        <div class="select-field" style="width: 70%">
-          <mat-radio-group aria-label="Select an option" fxLayout="column">
-            <mat-radio-button value="true">Active</mat-radio-button>
-            <mat-radio-button value="false">Inactive</mat-radio-button>
-          </mat-radio-group>
+        <div fxFlex="50%" fxLayout="row" fxLayoutWrap fxLayoutGap="10px" fxLayoutAlign="start center">
+          <mat-label fxFlex="30%" class="title-field">Address</mat-label>
+          <mat-form-field fxFlex="70%" appearance="standard">
+            <mat-label>Address</mat-label>
+            <input matInput formControlName="Address" [readonly]="crudType === CrudType.VIEW" />
+            <!-- <mat-icon matSuffix>home</mat-icon> -->
+          </mat-form-field>
         </div>
       </div>
-      <div fxFlex="10%"></div>
+
+      <div
+        fxLayout="row"
+        fxLayout.xs="column"
+        fxLayoutWrap
+        fxLayoutGap="5%"
+        fxLayoutAlign="center center"
+        fxLayoutAlign.xs="space-around stretch"
+      >
+        <div fxFlex="50%" fxLayout="row" fxLayoutWrap fxLayoutGap="10px" fxLayoutAlign="start center">
+          <mat-label fxFlex="30%" class="title-field">Contact Name</mat-label>
+          <mat-form-field fxFlex="70%" appearance="standard">
+            <mat-label>Contact Name</mat-label>
+            <input matInput formControlName="ContactName" [readonly]="crudType === CrudType.VIEW" />
+            <!-- <mat-icon matSuffix>home</mat-icon> -->
+          </mat-form-field>
+        </div>
+        <div fxFlex="50%" fxLayout="row" fxLayoutWrap fxLayoutGap="10px" fxLayoutAlign="start center">
+          <mat-label fxFlex="30%" class="title-field">Mobile</mat-label>
+          <mat-form-field fxFlex="70%" appearance="standard">
+            <mat-label>Mobile</mat-label>
+            <input matInput formControlName="Mobile" [readonly]="crudType === CrudType.VIEW" />
+            <!-- <mat-icon matSuffix>home</mat-icon> -->
+          </mat-form-field>
+        </div>
+      </div>
+
+      <div
+        fxLayout="row"
+        fxLayout.xs="column"
+        fxLayoutWrap
+        fxLayoutGap="5%"
+        fxLayoutAlign="center center"
+        fxLayoutAlign.xs="space-around stretch"
+      >
+        <div fxFlex="50%" fxLayout="row" fxLayoutWrap fxLayoutGap="10px" fxLayoutAlign="start center">
+          <mat-label fxFlex="30%" class="title-field">Tel No.</mat-label>
+          <mat-form-field fxFlex="70%" appearance="standard">
+            <mat-label>Tel No.</mat-label>
+            <input matInput formControlName="Tel" [readonly]="crudType === CrudType.VIEW" />
+            <!-- <mat-icon matSuffix>home</mat-icon> -->
+          </mat-form-field>
+        </div>
+        <div fxFlex="50%" fxLayout="row" fxLayoutWrap fxLayoutGap="10px" fxLayoutAlign="start center">
+          <mat-label fxFlex="30%" class="title-field">Fax No.</mat-label>
+          <mat-form-field fxFlex="70%" appearance="standard">
+            <mat-label>Fax No.</mat-label>
+            <input matInput formControlName="Fax" [readonly]="crudType === CrudType.VIEW" />
+            <!-- <mat-icon matSuffix>home</mat-icon> -->
+          </mat-form-field>
+        </div>
+      </div>
+
+      <div
+        fxLayout="row"
+        fxLayout.xs="column"
+        fxLayoutWrap
+        fxLayoutGap="5%"
+        fxLayoutAlign="center center"
+        fxLayoutAlign.xs="space-around stretch"
+      >
+        <div fxFlex="50%" fxLayout="row" fxLayoutWrap fxLayoutGap="10px" fxLayoutAlign="start center">
+          <mat-label fxFlex="30%" class="title-field">Email</mat-label>
+          <mat-form-field fxFlex="70%" appearance="standard">
+            <mat-label>Email</mat-label>
+            <input matInput formControlName="Email" [readonly]="crudType === CrudType.VIEW" />
+            <!-- <mat-icon matSuffix>home</mat-icon> -->
+          </mat-form-field>
+        </div>
+        <div fxFlex="50%" fxLayout="row" fxLayoutWrap fxLayoutGap="10px" fxLayoutAlign="start center">
+          <mat-label fxFlex="30%" class="title-field">Tax Code</mat-label>
+          <mat-form-field fxFlex="70%" appearance="standard">
+            <mat-label>Tax Code</mat-label>
+            <input matInput formControlName="TaxCode" [readonly]="crudType === CrudType.VIEW" />
+            <!-- <mat-icon matSuffix>home</mat-icon> -->
+          </mat-form-field>
+        </div>
+      </div>
+
+      <div
+        fxLayout="row"
+        fxLayout.xs="column"
+        fxLayoutWrap
+        fxLayoutGap="5%"
+        fxLayoutAlign="center center"
+        fxLayoutAlign.xs="space-around stretch"
+      >
+        <div fxFlex="50%" fxLayout="row" fxLayoutWrap fxLayoutGap="10px" fxLayoutAlign="start center">
+          <mat-label fxFlex="30%" class="title-field">Account</mat-label>
+          <mat-form-field fxFlex="70%" appearance="standard">
+            <mat-label>Account</mat-label>
+            <input matInput formControlName="Account" [readonly]="crudType === CrudType.VIEW" />
+            <!-- <mat-icon matSuffix>home</mat-icon> -->
+          </mat-form-field>
+        </div>
+        <div fxFlex="50%" fxLayout="row" fxLayoutWrap fxLayoutGap="10px" fxLayoutAlign="start center">
+          <mat-label fxFlex="30%" class="title-field">Bank</mat-label>
+          <mat-form-field fxFlex="70%" appearance="standard">
+            <mat-label>Bank</mat-label>
+            <input matInput formControlName="Bank" [readonly]="crudType === CrudType.VIEW" />
+            <!-- <mat-icon matSuffix>home</mat-icon> -->
+          </mat-form-field>
+        </div>
+      </div>
+
+      <div
+        fxLayout="row"
+        fxLayout.xs="column"
+        fxLayoutWrap
+        fxLayoutGap="5%"
+        fxLayoutAlign="center center"
+        fxLayoutAlign.xs="space-around stretch"
+      >
+        <div fxFlex="50%" fxLayout="row" fxLayoutWrap fxLayoutGap="10px" fxLayoutAlign="start center">
+          <mat-label fxFlex="30%" class="title-field">Disable</mat-label>
+          <mat-radio-group
+            fxFlex="70%"
+            aria-label="Select an option"
+            formControlName="Disable"
+            *ngIf="crudType !== CrudType.VIEW; else disableView"
+          >
+            <mat-radio-button [value]="true" fxFlex="20%" fxFlex.xs="50%" color="primary">Yes</mat-radio-button>
+            <mat-radio-button [value]="false" fxFlex="20%" fxFlex.xs="50%" color="primary">No</mat-radio-button>
+          </mat-radio-group>
+          <ng-template #disableView>
+            <mat-form-field fxFlex="70%" appearance="standard" class="form-input">
+              <mat-label>Disable</mat-label>
+              <input matInput formControlName="DisableName" readonly />
+            </mat-form-field>
+          </ng-template>
+        </div>
+        <div fxFlex="50%"></div>
+      </div>
+    </form>
+  </div>
+
+  <div class="row btn-footer">
+    <div fxLayout="row" fxLayoutGap="10px" fxLayoutAlign="start center">
+      <button *ngIf="crudType !== CrudType.VIEW" mat-raised-button color="primary" (click)="save()">Save</button>
+      <button mat-raised-button (click)="back()">Back</button>
+      <!-- <button mat-raised-button color="accent">Accent</button> -->
     </div>
   </div>
 </div>
-
