@@ -1,7 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { Observable } from 'rxjs';
-import { map } from 'rxjs/operators';
+import { Observable, of } from 'rxjs';
+import { debounce, debounceTime, map, switchMap, switchMapTo } from 'rxjs/operators';
 import { environment } from '../../../environments/environment';
 import { ApiResponse } from '../interfaces/api-response';
 import { IUser } from '../interfaces/user';
@@ -28,6 +28,60 @@ export class UserService {
 
   deleteUser(userId: number): Observable<ApiResponse> {
     return this.http.post<ApiResponse>(`${this.url}/Delete`, {
+      Item: {
+        Id: userId
+      }
+    });
+  }
+
+  getUserById(userId: number): Observable<IUser> {
+    return this.http
+      .post<ApiResponse>(`${this.url}/GetbyId`, {
+        Item: {
+          Id: userId,
+        },
+      })
+      .pipe(map((res) => res.Data));
+  }
+
+  addUser(inputData: Partial<IUser>): Observable<ApiResponse> {
+    return this.http.post<ApiResponse>(`${this.url}/Add`, {
+      Item: inputData,
+    });
+  }
+
+  updateUser(inputData: Partial<IUser>): Observable<ApiResponse> {
+    return this.http.post<ApiResponse>(`${this.url}/Update`, {
+      Item: inputData,
+    });
+  }
+
+  validateExistUsername(customerId: number, username: string): Observable<boolean> {
+    return of({
+      Item: {
+        CustomerId: customerId,
+        UserName: username
+      },
+      isValidatorRequest: true
+    }).pipe(
+      debounceTime(500),
+      switchMap(body => this.http.post<ApiResponse>(`${this.url}/CheckUserName`, body))
+    ).pipe(
+      map(res => res.Data as boolean),
+    );
+  }
+
+  changePassword(userId: number, password: string): Observable<ApiResponse> {
+    return this.http.post<ApiResponse>(`${this.url}/ChangePsw`, {
+      Item: {
+        Id: userId,
+        Password: password
+      }
+    });
+  }
+
+  resetPassword(userId: number): Observable<ApiResponse> {
+    return this.http.post<ApiResponse>(`${this.url}/ResetPass`, {
       Item: {
         Id: userId
       }

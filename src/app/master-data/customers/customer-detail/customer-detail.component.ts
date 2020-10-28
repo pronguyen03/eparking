@@ -133,7 +133,7 @@ export class CustomerDetailComponent implements OnInit {
 
       this.customerService.addCustomer(reqData).subscribe((res) => {
         if (res.Code === '100') {
-          this.toastr.success('Created Employee successfully.', 'Customer');
+          this.toastr.success('Created successfully.', 'Customer');
           this.back();
         }
       });

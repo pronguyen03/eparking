@@ -1,4 +1,6 @@
 export interface IUser {
+  EParkingId: number;
+  CustomerId: number;
   Id: number;
   Username: string;
   FullName: string;

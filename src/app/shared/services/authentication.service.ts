@@ -1,9 +1,9 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { BehaviorSubject, Observable, of } from 'rxjs';
-import { environment } from '../../../environments/environment';
 import { User } from '../models/user';
 import { map } from 'rxjs/operators';
+import { encode, decode } from 'js-base64';
 @Injectable({
   providedIn: 'root',
 })
@@ -64,5 +64,10 @@ export class AuthenticationService {
     // remove user from local storage to log user out
     localStorage.removeItem('currentUser');
     this.currentUserSubject.next(null);
+  }
+
+  encodePassword(password: string): string {
+    const saltPassword = password + '123eparking@';
+    return encode(saltPassword);
   }
 }
