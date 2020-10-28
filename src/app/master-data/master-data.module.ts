@@ -12,6 +12,8 @@ import { EmployeeDetailComponent } from './employees/employee-detail/employee-de
 import { UsersComponent } from './users/users.component';
 import { UserDetailComponent } from './users/user-detail/user-detail.component';
 import { ChangePasswordComponent } from './users/change-password/change-password.component';
+import { VehicleCategoriesComponent } from './vehicle-categories/vehicle-categories.component';
+import { VehicleCategoryDetailComponent } from './vehicle-categories/vehicle-category-detail/vehicle-category-detail.component';
 @NgModule({
   declarations: [
     CustomersComponent,
@@ -22,7 +24,9 @@ import { ChangePasswordComponent } from './users/change-password/change-password
     EmployeeDetailComponent,
     UsersComponent,
     UserDetailComponent,
-    ChangePasswordComponent],
+    ChangePasswordComponent,
+    VehicleCategoriesComponent,
+    VehicleCategoryDetailComponent],
   imports: [CommonModule, SharedModule, MasterDataRoutingModule],
 })
 export class MasterDataModule {}

@@ -1,54 +1,36 @@
 <div class="green-theme">
   <mat-toolbar>
-    <span>Chi Tiết Nhân Viên</span>
+    <span>Chi Tiết Loại Xe</span>
   </mat-toolbar>
 
   <div class="row">
-    <form [formGroup]="employeeForm">
-      <!-- UNNESSARY YET. -->
-      <!-- <div
-        *ngIf="crudType !== CrudType.CREATE"
-        fxLayout="row"
-        fxLayout.xs="column"
-        fxLayoutWrap
-        fxLayoutGap="5%"
-        fxLayoutAlign="center center"
-      >
-        <div fxFlex="50%" fxLayout="row" fxLayoutWrap fxLayoutGap="10px" fxLayoutAlign="center center">
-          <mat-label fxFlex="30%" class="title-field">Customer Name</mat-label>
-          <mat-form-field fxFlex="70%" appearance="standard">
-            <mat-label>Customer Name</mat-label>
-            <input matInput formControlName="CustomerName" />
-          </mat-form-field>
-        </div>
-        <div fxFlex="50%"></div>
-      </div> -->
+    <form [formGroup]="categoryForm">
       <div fxLayout="row" fxLayout.xs="column" fxLayoutWrap fxLayoutGap="5%" fxLayoutAlign="center center">
         <div fxFlex="50%" fxLayout="row" fxLayoutWrap fxLayoutGap="10px" fxLayoutAlign="start center">
-          <mat-label fxFlex="30%" class="title-field">Employee Name</mat-label>
+          <mat-label fxFlex="30%" class="title-field">Name</mat-label>
           <mat-form-field fxFlex="70%" appearance="standard">
-            <mat-label>Employee Name</mat-label>
-            <input matInput formControlName="EmployeeName" />
+            <mat-label>Name</mat-label>
+            <input matInput formControlName="Name" [readonly]="crudType === CrudType.VIEW" />
           </mat-form-field>
         </div>
 
         <div fxFlex="50%" fxLayout="row" fxLayoutWrap fxLayoutGap="10px" fxLayoutAlign="start center">
-          <mat-label fxFlex="30%" class="title-field">Tel No.</mat-label>
+          <mat-label fxFlex="30%" class="title-field">Description</mat-label>
           <mat-form-field fxFlex="70%" appearance="standard" class="form-input">
-            <mat-label>Tel No.</mat-label>
+            <mat-label>Description</mat-label>
             <!-- <mat-icon matSuffix>person</mat-icon> -->
-            <input matInput formControlName="Tel" />
+            <input matInput formControlName="Description" [readonly]="crudType === CrudType.VIEW" />
           </mat-form-field>
         </div>
       </div>
 
       <div fxLayout="row" fxLayout.xs="column" fxLayoutWrap fxLayoutGap="5%" fxLayoutAlign="center center">
         <div fxFlex="50%" fxLayout="row" fxLayoutWrap fxLayoutGap="10px" fxLayoutAlign="start center">
-          <mat-label fxFlex="30%" class="title-field">Passport</mat-label>
+          <mat-label fxFlex="30%" class="title-field">Price</mat-label>
           <mat-form-field fxFlex="70%" appearance="standard" class="form-input">
-            <mat-label>Passport</mat-label>
+            <mat-label>Price</mat-label>
             <!-- <mat-icon matSuffix>person</mat-icon> -->
-            <input matInput formControlName="EmployeePassport" />
+            <input matInput formControlName="Price" [readonly]="crudType === CrudType.VIEW" />
           </mat-form-field>
         </div>
         <div fxFlex="50%"></div>

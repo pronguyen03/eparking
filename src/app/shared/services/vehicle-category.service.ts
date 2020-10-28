@@ -26,4 +26,36 @@ export class VehicleCategoryService {
       })
       .pipe(map((res) => res.Data));
   }
+
+  addVehicleCategory(inputData: Partial<IVehicleCategory>): Observable<ApiResponse> {
+    return this.http.post<ApiResponse>(`${this.url}/Add`, {
+      Item: inputData,
+    });
+  }
+
+  deleteCategory(categoryId: number): Observable<ApiResponse> {
+    return this.http
+      .post<ApiResponse>(`${this.url}/GetbyId`, {
+        Item: {
+          Id: categoryId,
+        },
+      })
+      .pipe(map((res) => res.Data));
+  }
+
+  getVehicleCategoryById(categoryId: number): Observable<IVehicleCategory> {
+    return this.http
+      .post<ApiResponse>(`${this.url}/GetbyId`, {
+        Item: {
+          Id: categoryId,
+        },
+      })
+      .pipe(map((res) => res.Data));
+  }
+
+  updateVehicleCategory(inputData: Partial<IVehicleCategory>): Observable<ApiResponse> {
+    return this.http.post<ApiResponse>(`${this.url}/Update`, {
+      Item: inputData,
+    });
+  }
 }
