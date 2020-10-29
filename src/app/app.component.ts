@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
+import { TranslateService } from '@ngx-translate/core';
 import { first } from 'rxjs/operators';
 import { onMainContentChange } from './animations/animations';
 import { User } from './shared/models/user';
@@ -18,8 +19,12 @@ export class AppComponent {
   currentUser: User;
 
   constructor(
+    public translate: TranslateService,
     private sidenavService: SidenavService,
     private authenticationService: AuthenticationService) {
+      translate.addLangs(['en', 'vi']);
+      translate.setDefaultLang('vi');
+      translate.use('vi');
     this.sidenavService.sideNavState$.subscribe((res) => {
       this.onSideNavChange = res;
     });

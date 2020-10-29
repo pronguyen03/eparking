@@ -15,7 +15,7 @@ export class ErrorInterceptor implements HttpInterceptor {
       tap((event) => {
         if (event instanceof HttpResponse) {
           const body = event.body;
-          if (body.Code !== '100') {
+          if (body.Code !== '100' && !event.url.includes('/assets/i18n')) {
             switch (body) {
               case '101':
                 this.authenticationService.logout();

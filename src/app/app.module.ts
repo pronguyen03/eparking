@@ -10,16 +10,23 @@ import { FlexLayoutModule } from '@angular/flex-layout';
 import { LoginComponent } from './login/login.component';
 import { HomeComponent } from './home/home.component';
 import { ReactiveFormsModule } from '@angular/forms';
-import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
+import { HttpClient, HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { JwtInterceptor } from './shared/interceptors/jwt.interceptor';
 import { ErrorInterceptor } from './shared/interceptors/error.interceptor';
 import { NgxSpinnerModule } from 'ngx-spinner';
 import { LoadingInterceptor } from './shared/interceptors/loading.interceptor';
-import { MasterDataModule } from './master-data/master-data.module';
 import { ToastrModule } from 'ngx-toastr';
 import { RequestEntryComponent } from './request-entry/request-entry.component';
 import { UpdateRequestEntryComponent } from './request-entry/update-request-entry/update-request-entry.component';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
+import { TranslateLoader, TranslateModule } from '@ngx-translate/core';
+import { TranslateHttpLoader } from '@ngx-translate/http-loader';
+
+// AoT requires an exported function for factories
+export function HttpLoaderFactory(http: HttpClient): TranslateHttpLoader {
+  return new TranslateHttpLoader(http);
+}
+
 @NgModule({
   declarations: [AppComponent, LoginComponent, HomeComponent, RequestEntryComponent, UpdateRequestEntryComponent],
   imports: [
@@ -35,6 +42,13 @@ import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
     NgxSpinnerModule,
     FontAwesomeModule,
     ToastrModule.forRoot(),
+    TranslateModule.forRoot({
+      loader: {
+        provide: TranslateLoader,
+        useFactory: HttpLoaderFactory,
+        deps: [HttpClient]
+      }
+    })
   ],
   providers: [
     { provide: HTTP_INTERCEPTORS, useClass: LoadingInterceptor, multi: true },

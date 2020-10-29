@@ -27,6 +27,8 @@
     "@fortawesome/angular-fontawesome": "^0.7.0",
     "@fortawesome/fontawesome-svg-core": "^1.2.32",
     "@fortawesome/free-solid-svg-icons": "^5.15.1",
+    "@ngx-translate/core": "^13.0.0",
+    "@ngx-translate/http-loader": "^6.0.0",
     "date-fns": "^2.16.1",
     "js-base64": "^3.5.2",
     "ngx-spinner": "^10.0.1",

@@ -6,10 +6,11 @@ import { SidenavComponent } from './sidenav/sidenav.component';
 import { FooterComponent } from './footer/footer.component';
 import { MenuNavItemComponent } from './sidenav/menu-nav-item/menu-nav-item.component';
 import { FlexLayoutModule } from '@angular/flex-layout';
+import { TranslateModule } from '@ngx-translate/core';
 
 @NgModule({
   declarations: [HeaderComponent, SidenavComponent, FooterComponent, MenuNavItemComponent],
-  imports: [CommonModule, SharedModule, FlexLayoutModule],
-  exports: [HeaderComponent, SidenavComponent, FooterComponent],
+  imports: [CommonModule, SharedModule, FlexLayoutModule, TranslateModule],
+  exports: [HeaderComponent, SidenavComponent, FooterComponent, TranslateModule],
 })
 export class CoreModule {}

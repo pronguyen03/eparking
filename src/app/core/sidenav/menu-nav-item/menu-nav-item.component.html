@@ -16,7 +16,7 @@
       'margin-right': item.IsAction ? '10px' : '0px'
     }"
   >
-    <span *ngIf="linkText"> {{ item.Name }}</span>
+    <span *ngIf="linkText"> {{ item.Name | translate }}</span>
     <span fxFlex *ngIf="item.ChildsMenu && item.ChildsMenu.length">
       <span fxFlex></span>
       <mat-icon style="color: inherit" [@indicatorRotate]="expanded ? 'expanded' : 'collapsed'">{{
