@@ -1,17 +1,17 @@
 <mat-toolbar>
-  <span>Loại Xe</span>
+  <span>Giá</span>
 </mat-toolbar>
 <div class="row">
   <app-data-table
     [hasSelect]="false"
-    [dataList]="categories"
+    [dataList]="prices"
     [columns]="columns"
     (viewEmitter)="viewDetail($event)"
-    (editEmitter)="editCategory($event)"
-    (deleteEmitter)="deleteCategory($event)"
+    (editEmitter)="editPrice($event)"
+    (deleteEmitter)="deletePrice($event)"
   ></app-data-table>
 </div>
 
-<!-- <div class="fab-features-btn green-theme">
+<div class="fab-features-btn green-theme">
   <button mat-fab color="primary" (click)="addNew()"><mat-icon>add</mat-icon></button>
-</div> -->
+</div>

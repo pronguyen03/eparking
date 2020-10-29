@@ -31,8 +31,8 @@ export class RequestEntryComponent implements OnInit {
     { key: 'RequestDetailed', display: 'Request Detail' },
     { key: 'VisitorName', display: 'Visitor Name' },
     { key: 'NumberVisitor', display: 'No. Of Visitors' },
-    { key: 'StartTime', display: 'Start Time', type: 'date' },
-    { key: 'EndTime', display: 'End Time', type: 'date' },
+    { key: 'StartTime', display: 'Start Time', type: 'dateTimeString' },
+    { key: 'EndTime', display: 'End Time', type: 'dateTimeString' },
     { key: 'CustomerName', display: 'Customer Name' },
   ];
 

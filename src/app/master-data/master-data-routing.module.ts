@@ -5,6 +5,8 @@ import { CustomerDetailComponent } from './customers/customer-detail/customer-de
 import { CustomersComponent } from './customers/customers.component';
 import { EmployeeDetailComponent } from './employees/employee-detail/employee-detail.component';
 import { EmployeesComponent } from './employees/employees.component';
+import { PriceDetailComponent } from './prices/price-detail/price-detail.component';
+import { PricesComponent } from './prices/prices.component';
 import { UserDetailComponent } from './users/user-detail/user-detail.component';
 import { UsersComponent } from './users/users.component';
 import { VehicleCategoriesComponent } from './vehicle-categories/vehicle-categories.component';
@@ -32,6 +34,11 @@ const routes: Routes = [
   { path: 'vehicle-categories', component: VehicleCategoriesComponent, canActivate: [AuthGuard] },
   { path: 'vehicle-categories/detail/:crudType', component: VehicleCategoryDetailComponent, canActivate: [AuthGuard] },
   { path: 'vehicle-categories/detail/:crudType/:id', component: VehicleCategoryDetailComponent, canActivate: [AuthGuard] },
+
+  { path: 'prices', component: PricesComponent, canActivate: [AuthGuard] },
+  { path: 'prices/detail/:crudType', component: PriceDetailComponent, canActivate: [AuthGuard] },
+  { path: 'prices/detail/:crudType/:id', component: PriceDetailComponent, canActivate: [AuthGuard] },
+
 ];
 
 @NgModule({

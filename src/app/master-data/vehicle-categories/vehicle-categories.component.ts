@@ -3,6 +3,7 @@ import { MatDialog } from '@angular/material/dialog';
 import { Router } from '@angular/router';
 import { ConfirmDialogComponent, ConfirmDialogModel } from '@app/shared/components/confirm-dialog/confirm-dialog.component';
 import { CrudType } from '@app/shared/enums/crud-type.enum';
+import { ITableCol } from '@app/shared/interfaces/table-col';
 import { IVehicleCategory } from '@app/shared/interfaces/vehicle-category';
 import { VehicleCategoryService } from '@app/shared/services/vehicle-category.service';
 import { environment } from '@environments/environment';
@@ -16,7 +17,7 @@ import { ToastrService } from 'ngx-toastr';
 export class VehicleCategoriesComponent implements OnInit {
   categories: IVehicleCategory[] = [];
 
-  columns = [
+  columns: ITableCol[] = [
     { key: 'Id', display: 'Id' },
     { key: 'Name', display: 'Name' },
     { key: 'Description', display: 'Description' },

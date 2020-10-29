@@ -86,6 +86,18 @@
               <mat-label>{{ element[column.key] | date: 'HH:mm yyyy-MM-dd' }}</mat-label>
             </td>
           </ng-container>
+
+          <ng-container *ngSwitchCase="'dateString'">
+            <td mat-cell *matCellDef="let element">
+              <mat-label>{{ element[column.key] | customDate | date: 'yyyy-MM-dd' }}</mat-label>
+            </td>
+          </ng-container>
+
+          <ng-container *ngSwitchCase="'dateTimeString'">
+            <td mat-cell *matCellDef="let element">
+              <mat-label>{{ element[column.key] | customDate | date: 'HH:mm yyyy-MM-dd' }}</mat-label>
+            </td>
+          </ng-container>
         </ng-container>
       </ng-container>
 
