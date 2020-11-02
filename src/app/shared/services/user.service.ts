@@ -87,4 +87,8 @@ export class UserService {
       }
     });
   }
+
+  login(requestData: any): Observable<ApiResponse> {
+    return this.http.post<ApiResponse>(`${this.url}/Login`, requestData);
+  }
 }

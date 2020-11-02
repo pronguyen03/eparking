@@ -19,4 +19,5 @@ export interface IUser {
   Actived: boolean;
   RoleName: string;
   TokenKey?: string;
+  ExpriedTime?: Date;
 }

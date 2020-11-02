@@ -47,9 +47,8 @@ export class LoginComponent implements OnInit {
 
     this.authenticationService
       .login(this.loginForm.value.username, this.loginForm.value.password)
-      .pipe(first())
       .subscribe(
-        () => {
+        (data) => {
           const returnUrl = this.route.snapshot.queryParams.returnUrl || '/';
           this.router.navigate([returnUrl]);
         },
