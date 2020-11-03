@@ -7,6 +7,7 @@ import { encode, decode } from 'js-base64';
 import { UserService } from './user.service';
 import { ApiResponse } from '../interfaces/api-response';
 import { IUser } from '../interfaces/user';
+import { Router } from '@angular/router';
 @Injectable({
   providedIn: 'root',
 })
@@ -15,7 +16,7 @@ export class AuthenticationService {
   public currentUser: Observable<IUser>;
   public isAuthenticated: boolean;
 
-  constructor(private http: HttpClient, private userService: UserService) {
+  constructor(private http: HttpClient, private userService: UserService, private router: Router) {
     this.currentUserSubject = new BehaviorSubject<IUser>(JSON.parse(localStorage.getItem('currentUser')));
     this.currentUser = this.currentUserSubject.asObservable();
   }
@@ -38,22 +39,12 @@ export class AuthenticationService {
       ItemLogs
     };
     return this.userService.login(requestData).pipe(
-      concatMap((res: ApiResponse) => {
+      map((res: ApiResponse) => {
         if (res.Code !== '102') {
           const data = res.Data;
-          const user: any = {};
+          const user: IUser = data.Item;
           user.TokenKey = data.TokenKey;
-          user.ExpriedTime = data.ExpriedTime;
-          user.Id = data.UserId;
-          this.currentUserSubject.next(user);
-          const user$ = this.userService.getUserById(data.UserId).pipe(
-            map(userRes => {
-              userRes.TokenKey = data.TokenKey;
-              userRes.ExpriedTime = data.ExpriedTime;
-              return userRes;
-            })
-          );
-          return user$;
+          return user;
         }
       })
     ).pipe(
@@ -63,48 +54,13 @@ export class AuthenticationService {
         return user;
       }
     ));
-    // return of({
-    //   EParkingId: 1,
-    //   CustomerId: 5,
-    //   Id: 2,
-    //   Username: 'cuongnv',
-    //   PassWord: '1234',
-    //   FullName: 'Nfdsfdsfdsfdsdng',
-    //   Sex: true,
-    //   Dob: null,
-    //   Mobile: '',
-    //   Email: '',
-    //   Address: 'Hà Nội',
-    //   Zalo: '',
-    //   Skype: '',
-    //   Facebook: '',
-    //   AccountNumber: '',
-    //   Bank: '',
-    //   RoleId: 2,
-    //   Image: 'fdsfadsfdsadsaafdas',
-    //   Actived: true,
-    //   TokenKey: '1234567890',
-    // }).pipe(
-    //   map((user) => {
-    //     localStorage.setItem('currentUser', JSON.stringify(user));
-    //     this.currentUserSubject.next(user);
-    //     return user;
-    //   })
-    // );
-    // return this.http.post<any>(`${environment.apiUrl}/users/authenticate`, { username, password })
-    //   .pipe(
-    //     map((user) => {
-    //       localStorage.setItem('currentUser', JSON.stringify(user));
-    //       this.currentUserSubject.next(user);
-    //       return user;
-    //     })
-    //   );
   }
 
   logout(): void {
     // remove user from local storage to log user out
     localStorage.removeItem('currentUser');
     this.currentUserSubject.next(null);
+    this.router.navigate(['/login']);
   }
 
   encodePassword(password: string): string {

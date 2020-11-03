@@ -6,7 +6,7 @@
     <form class="example-form" [formGroup]="loginForm" (ngSubmit)="onSubmit()">
       <mat-card-content>
         <mat-form-field class="example-full-width form-input-column">
-          <input matInput placeholder="Username" formControlName="username" />
+          <input matInput placeholder="Username" formControlName="username" (keyup.enter)="onSubmit()" />
           <!-- <mat-error *ngIf="f.username.invalid && f.username.errors.required">Username is required</mat-error> -->
         </mat-form-field>
 
@@ -16,6 +16,7 @@
             placeholder="Password"
             formControlName="password"
             [type]="hidePassword ? 'password' : 'text'"
+            (keyup.enter)="onSubmit()"
           />
           <button
             mat-icon-button
