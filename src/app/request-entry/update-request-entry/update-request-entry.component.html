@@ -276,7 +276,13 @@
             <mat-label fxFlex="30%" class="title-field">Plate</mat-label>
             <mat-form-field fxFlex="70%" appearance="standard" class="form-input">
               <mat-label>Plate</mat-label>
-              <input matInput formControlName="Plate" [readonly]="crudType === CrudType.VIEW" class="upper-case" />
+              <input
+                matInput
+                formControlName="Plate"
+                [readonly]="crudType === CrudType.VIEW"
+                class="upper-case"
+                (keypress)="omitSpecialChar($event)"
+              />
             </mat-form-field>
           </div>
           <div fxFlex="40%" fxLayout="row" fxLayoutWrap fxLayoutGap="10px" fxLayoutAlign="start center">

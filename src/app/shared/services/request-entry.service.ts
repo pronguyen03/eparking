@@ -39,6 +39,25 @@ export class RequestEntryService {
       .pipe(map((res) => res.Data));
   }
 
+  getRequestsByParking(
+    parkingId: number,
+    fromDate: string,
+    toDate: string,
+    vehicleType?: number
+  ): Observable<IRequestEntry[]> {
+    return this.http
+      .post<ApiResponse>(`${this.url}/GetbyParking`, {
+        Item: {
+          EParkingId: parkingId,
+        },
+        FromDate: fromDate,
+        ToDate: toDate,
+        Type: vehicleType,
+      })
+      .pipe(map((res) => res.Data));
+  }
+
+
   getRequestEntryById(requestId: number): Observable<{ Item: IRequestEntry, ItemDetaileds: IAccessVehicle[]}> {
     return this.http
       .post<ApiResponse>(`${this.url}/GetbyId`, {

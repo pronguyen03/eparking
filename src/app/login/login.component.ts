@@ -31,6 +31,7 @@ export class LoginComponent implements OnInit {
     this.loginForm = this.fb.group({
       username: ['', Validators.required],
       password: ['', Validators.required],
+      saveProfileFlag: [false]
     });
   }
 
@@ -47,7 +48,7 @@ export class LoginComponent implements OnInit {
     }
 
     this.authenticationService
-      .login(this.loginForm.value.username, this.loginForm.value.password)
+      .login(this.loginForm.value.username, this.loginForm.value.password, this.loginForm.value.saveProfileFlag)
       .subscribe(
         (data) => {
           const returnUrl = this.route.snapshot.queryParams.returnUrl || '/';

@@ -14,9 +14,10 @@ import {
 } from '@angular-material-components/datetime-picker';
 import { BooleanPipe } from './pipes/boolean.pipe';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
+import { TranslateModule } from '@ngx-translate/core';
 
 const components = [DataTableComponent, ConfirmDialogComponent];
-const modules = [NgxMatDatetimePickerModule, NgxMatTimepickerModule, NgxMatNativeDateModule, FontAwesomeModule];
+const modules = [NgxMatDatetimePickerModule, NgxMatTimepickerModule, NgxMatNativeDateModule, FontAwesomeModule, TranslateModule];
 const directives = [HasRoleDirective];
 const pipes = [BooleanPipe];
 @NgModule({

@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { CrudType } from '@app/shared/enums/crud-type.enum';
+import { Role } from '@app/shared/enums/role.enum';
 import { IAccessVehicle } from '@app/shared/interfaces/access-vehicle';
 import { IRequestEntry } from '@app/shared/interfaces/request-entry';
 import { IVehicleCategory } from '@app/shared/interfaces/vehicle-category';
@@ -43,11 +44,19 @@ export class AccessVehicleDetailComponent implements OnInit {
   ngOnInit(): void {
     this.initForm();
     this.vehicleCategories$ = this.vehicleCategoryService.getVehicleCategoriesByParking(environment.parkingId);
-
-    this.requestEntries$ = this.requestEntryService.getRequestsByCustomer(
-      this.authService.currentUserValue.CustomerId,
-      this.timeService.toDateTimeString(startOfYear(new Date())),
-      this.timeService.toDateTimeString(endOfDay(new Date())));
+    if (this.authService.currentUserValue.RoleId === Role.PARKING_ADMIN || this.authService.currentUserValue.RoleId === Role.SYSTEM_ADMIN) {
+      this.requestEntries$ = this.requestEntryService.getRequestsByParking(
+        environment.parkingId,
+        this.timeService.toDateTimeString(startOfYear(new Date())),
+        this.timeService.toDateTimeString(endOfDay(new Date()))
+      );
+    } else {
+      this.requestEntries$ = this.requestEntryService.getRequestsByCustomer(
+        this.authService.currentUserValue.CustomerId,
+        this.timeService.toDateTimeString(startOfYear(new Date())),
+        this.timeService.toDateTimeString(endOfDay(new Date()))
+      );
+    }
 
     combineLatest([
       this.route.params,
@@ -139,6 +148,11 @@ export class AccessVehicleDetailComponent implements OnInit {
         this.back();
       }
     });
+  }
+
+  omitSpecialChar(event): boolean {
+    const k = event.charCode;  //         k = event.keyCode;  (Both can be used)
+    return((k > 64 && k < 91) || (k > 96 && k < 123) || k === 8 || k === 32 || (k >= 48 && k <= 57));
   }
 
 }

@@ -6,11 +6,13 @@ import {
   ConfirmDialogModel,
 } from '@app/shared/components/confirm-dialog/confirm-dialog.component';
 import { CrudType } from '@app/shared/enums/crud-type.enum';
+import { Role } from '@app/shared/enums/role.enum';
 import { VehicleStatus } from '@app/shared/enums/vehicle-status.enum';
 import { ITableCol } from '@app/shared/interfaces/table-col';
 import { IVehicle } from '@app/shared/interfaces/vehicle';
 import { AuthenticationService } from '@app/shared/services/authentication.service';
 import { VehicleService } from '@app/shared/services/vehicle.service';
+import { environment } from '@environments/environment';
 import { ToastrService } from 'ngx-toastr';
 
 @Component({
@@ -41,7 +43,34 @@ export class VehiclesComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
-    this.getVehiclesByCustomer(this.authService.currentUserValue.CustomerId);
+    if (this.authService.currentUserValue.RoleId === Role.PARKING_ADMIN || this.authService.currentUserValue.RoleId === Role.SYSTEM_ADMIN) {
+      this.getVehiclesByParking(environment.parkingId);
+    } else {
+      this.getVehiclesByCustomer(this.authService.currentUserValue.CustomerId);
+    }
+  }
+
+  getVehiclesByParking(parkingId: number): void {
+    this.vehicleService.getVehiclesByParking(parkingId).subscribe((vehicles) => {
+      vehicles = vehicles.map(vehicle => {
+        switch (vehicle.Status) {
+          case VehicleStatus.NEW:
+            vehicle.StatusName = 'New';
+            break;
+          case VehicleStatus.PENDING:
+            vehicle.StatusName = 'Pending Approval';
+            break;
+          case VehicleStatus.APPROVED:
+            vehicle.StatusName = 'Approved';
+            break;
+          default:
+            vehicle.StatusName = 'New';
+            break;
+        }
+        return vehicle;
+      });
+      this.vehicles = vehicles;
+    });
   }
 
   getVehiclesByCustomer(customerId: number): void {

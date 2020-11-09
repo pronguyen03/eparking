@@ -1,6 +1,6 @@
 <div class="green-theme">
   <mat-toolbar>
-    <span>Vehicle Detail</span>
+    <span>{{ 'Vehicle_Detail' | translate }}</span>
   </mat-toolbar>
 
   <mat-horizontal-stepper labelPosition="bottom" [linear]="false" #stepper>
@@ -20,24 +20,6 @@
   </mat-horizontal-stepper>
   <div class="row">
     <form [formGroup]="vehicleForm">
-      <div
-        *ngIf="crudType !== CrudType.CREATE"
-        fxLayout="row"
-        fxLayout.xs="column"
-        fxLayoutWrap
-        fxLayoutGap="5%"
-        fxLayoutAlign="center center"
-        fxLayoutAlign.xs="space-around stretch"
-      >
-        <div fxFlex="50%" fxLayout="row" fxLayoutWrap fxLayoutGap="10px" fxLayoutAlign="center center">
-          <mat-label fxFlex="30%" class="title-field">Customer Name</mat-label>
-          <mat-form-field fxFlex="70%" appearance="standard">
-            <mat-label>Customer Name</mat-label>
-            <input matInput formControlName="CustomerName" />
-          </mat-form-field>
-        </div>
-        <div fxFlex="50%"></div>
-      </div>
       <div
         fxLayout="row"
         fxLayout.xs="column"
@@ -65,7 +47,7 @@
           <mat-form-field fxFlex="70%" appearance="standard" class="form-input">
             <mat-label>Plate</mat-label>
             <!-- <mat-icon matSuffix>person</mat-icon> -->
-            <input matInput formControlName="Plate" class="upper-case" />
+            <input matInput formControlName="Plate" class="upper-case" (keypress)="omitSpecialChar($event)" />
             <mat-error
               *ngIf="
                 vehicleForm.controls.Plate.hasError('maxlength') &&
@@ -112,7 +94,7 @@
         </div>
       </div>
 
-      <div
+      <!-- <div
         fxLayout="row"
         fxLayout.xs="column"
         fxLayoutWrap
@@ -134,14 +116,14 @@
         </div>
 
         <div fxFlex="50%"></div>
-        <!-- <div fxFlex="50%" fxLayout="row" fxLayoutWrap fxLayoutGap="10px" fxLayoutAlign="start center">
+         <div fxFlex="50%" fxLayout="row" fxLayoutWrap fxLayoutGap="10px" fxLayoutAlign="start center">
           <mat-label fxFlex="30%" class="title-field">Current Status</mat-label>
           <mat-form-field fxFlex="70%" appearance="standard">
             <mat-label>Current Status</mat-label>
             <input matInput formControlName="CurrentStatus" />
           </mat-form-field>
-        </div> -->
-      </div>
+        </div>
+      </div> -->
       <div
         *ngIf="vehicleForm.controls.Status.value === VehicleStatus.APPROVED"
         fxLayout="row"
@@ -232,12 +214,12 @@
       </button>
       <ng-template [appHasRole]="[Role.PARKING_ADMIN, Role.SYSTEM_ADMIN]">
         <button
-          *ngIf="crudType === CrudType.VIEW && vehicleForm?.controls.Status.value === VehicleStatus.NEW"
+          *ngIf="vehicleForm?.controls.Status.value === VehicleStatus.NEW"
           mat-raised-button
           color="primary"
           (click)="confirmDialog('handover', 'Handover', 'Are you sure you want to handover to approve this vehicle?')"
         >
-          Handover
+          {{ 'Approval_Handover' | translate }}
         </button>
         <button
           *ngIf="crudType === CrudType.VIEW && vehicleForm?.controls.Status.value === VehicleStatus.PENDING"

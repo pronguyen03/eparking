@@ -8,20 +8,17 @@
     <mat-icon>menu</mat-icon>
   </button>
   <span>E-Parking</span>
-  <!-- <a mat-flat-button color="primary" routerLink="/" routerLinkActive="active">Home</a> -->
   <span class="example-spacer"></span>
-  <div fxFlex="10%" style="font-size: 14px">
-    <mat-select #select (selectionChange)="switchLang(select.value)" [(ngModel)]="selectedLang">
-      <mat-option *ngFor="let language of languages" [value]="language.key">{{ language.display }}</mat-option>
-    </mat-select>
+  <div>
+    <button mat-button [matMenuTriggerFor]="menu">{{ fullName }} <mat-icon>arrow_drop_down</mat-icon></button>
+    <mat-menu #menu="matMenu">
+      <button mat-menu-item color="primary" (click)="changePassword()">
+        <mat-icon>security</mat-icon>{{ 'Change_Password' | translate }}
+      </button>
+      <button mat-menu-item color="primary" (click)="logout()">
+        <mat-icon>exit_to_app</mat-icon>{{ 'Logout' | translate }}
+      </button>
+    </mat-menu>
   </div>
-  <a mat-flat-button color="primary" (click)="logout()"> {{ 'Logout' | translate }}</a>
+  <!-- <a mat-flat-button color="primary" (click)="logout()"> {{ 'Logout' | translate }}</a> -->
 </mat-toolbar>
-<!-- <div fxFlex="row" fxLayoutAlign="center center" fxLayoutGap="10px" class="header">
-  <button mat-icon-button (click)="sidenav.toggle()">
-    <mat-icon>menu</mat-icon>
-  </button>
-
-  <span>Angular Base</span>
-  <span class="spacer"></span>
-</div> -->

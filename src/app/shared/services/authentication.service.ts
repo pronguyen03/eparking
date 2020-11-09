@@ -25,7 +25,7 @@ export class AuthenticationService {
     return this.currentUserSubject.value;
   }
 
-  login(username: string, password: string): Observable<any> {
+  login(username: string, password: string, saveProfile: boolean): Observable<any> {
     const ItemLogs = {
       IP: '' ,
       Browser: '' ,
@@ -49,7 +49,9 @@ export class AuthenticationService {
       })
     ).pipe(
       map((user) => {
-        localStorage.setItem('currentUser', JSON.stringify(user));
+        if (saveProfile) {
+          localStorage.setItem('currentUser', JSON.stringify(user));
+        }
         this.currentUserSubject.next(user);
         return user;
       }

@@ -1,1 +1,8 @@
-<div style="padding: 10px">Powered by Frank Nguyen 2020.</div>
+<div fxLayoutAlign="row" fxLayoutAlign="space-between center" style="padding-right: 90px">
+  <div style="padding: 10px">Powered by Frank Nguyen 2020.</div>
+  <div fxFlex="8%" fxFlex.xs="25%" style="font-size: 14px">
+    <mat-select #select (selectionChange)="switchLang(select.value)" [(ngModel)]="selectedLang">
+      <mat-option *ngFor="let language of languages" [value]="language.key">{{ language.display }}</mat-option>
+    </mat-select>
+  </div>
+</div>

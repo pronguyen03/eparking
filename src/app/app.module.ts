@@ -21,6 +21,7 @@ import { UpdateRequestEntryComponent } from './request-entry/update-request-entr
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { TranslateLoader, TranslateModule } from '@ngx-translate/core';
 import { TranslateHttpLoader } from '@ngx-translate/http-loader';
+import { RestrictAlphanumericDirective } from './restrict-alphanumeric.directive';
 
 // AoT requires an exported function for factories
 export function HttpLoaderFactory(http: HttpClient): TranslateHttpLoader {
@@ -28,7 +29,7 @@ export function HttpLoaderFactory(http: HttpClient): TranslateHttpLoader {
 }
 
 @NgModule({
-  declarations: [AppComponent, LoginComponent, HomeComponent, RequestEntryComponent, UpdateRequestEntryComponent],
+  declarations: [AppComponent, LoginComponent, HomeComponent, RequestEntryComponent, UpdateRequestEntryComponent, RestrictAlphanumericDirective],
   imports: [
     BrowserModule,
     ReactiveFormsModule,

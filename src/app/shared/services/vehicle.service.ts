@@ -29,6 +29,16 @@ export class VehicleService {
       .pipe(map((res) => res.Data));
   }
 
+  getVehiclesByParking(parkingId: number): Observable<IVehicle[]> {
+    return this.http
+    .post<ApiResponse>(`${this.url}/GetbyParking`, {
+      Item: {
+        eParkingId: parkingId,
+      },
+    })
+    .pipe(map((res) => res.Data));
+  }
+
   getVehicleById(vehicleId: number): Observable<IVehicle> {
     return this.http
       .post<ApiResponse>(`${this.url}/GetbyId`, {

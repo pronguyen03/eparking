@@ -24,7 +24,7 @@
         <mat-form-field fxFlex="70%" appearance="standard" class="form-input">
           <mat-label>Plate</mat-label>
           <!-- <mat-icon matSuffix>person</mat-icon> -->
-          <input matInput formControlName="Plate" class="upper-case" />
+          <input matInput formControlName="Plate" class="upper-case" (keypress)="omitSpecialChar($event)" />
           <mat-error
             *ngIf="
               accessVehicleForm.controls.Plate.hasError('maxlength') &&

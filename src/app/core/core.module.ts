@@ -10,7 +10,7 @@ import { TranslateModule } from '@ngx-translate/core';
 
 @NgModule({
   declarations: [HeaderComponent, SidenavComponent, FooterComponent, MenuNavItemComponent],
-  imports: [CommonModule, SharedModule, FlexLayoutModule, TranslateModule],
-  exports: [HeaderComponent, SidenavComponent, FooterComponent, TranslateModule],
+  imports: [CommonModule, SharedModule, FlexLayoutModule],
+  exports: [HeaderComponent, SidenavComponent, FooterComponent],
 })
 export class CoreModule {}

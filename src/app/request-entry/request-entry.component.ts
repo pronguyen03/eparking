@@ -18,6 +18,7 @@ import { TimeService } from '@app/shared/services/time.service';
 import { IRequestEntry } from '@app/shared/interfaces/request-entry';
 import { IVehicleCategory } from '@app/shared/interfaces/vehicle-category';
 import { switchMap } from 'rxjs/operators';
+import { Role } from '@app/shared/enums/role.enum';
 
 @Component({
   selector: 'app-request-entry',
@@ -59,9 +60,13 @@ export class RequestEntryComponent implements OnInit {
         if (Object.keys(filterValue).length === 0 && filterValue.constructor === Object) {
           return of(null);
         }
-
-        return this.getRequestsByCustomer(filterValue.CustomerId,
-          filterValue.FromDate, filterValue.ToDate, filterValue.Type);
+        if (this.authService.currentUserValue.RoleId === Role.PARKING_ADMIN || this.authService.currentUserValue.RoleId === Role.SYSTEM_ADMIN) {
+          return this.getRequestsByParking(environment.parkingId,
+            filterValue.FromDate, filterValue.ToDate, filterValue.Type)
+        } else {
+          return this.getRequestsByCustomer(filterValue.CustomerId,
+            filterValue.FromDate, filterValue.ToDate, filterValue.Type);
+        }
       })
     );
   }
@@ -76,6 +81,11 @@ export class RequestEntryComponent implements OnInit {
       ToDate: ['', Validators.required],
       Type: [0, Validators.required],
     });
+  }
+
+  getRequestsByParking(parkingId: number, fromDate: string, toDate: string, vehicleType: number): Observable<IRequestEntry[]> {
+    return this.requestEntryService
+      .getRequestsByParking(parkingId, fromDate, toDate, vehicleType);
   }
 
   getRequestsByCustomer(customerId: number, fromDate: string, toDate: string, vehicleType: number): Observable<IRequestEntry[]> {
