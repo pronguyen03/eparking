@@ -273,13 +273,6 @@ export class UserDetailComponent implements OnInit {
       };
   }
 
-  changePassword(): void {
-    this.dialog.open(ChangePasswordComponent, {
-      minWidth: '600px',
-      data: this.id,
-    });
-  }
-
   resetPassword(): void {
     const dialogData = new ConfirmDialogModel('Reset Confirm', 'Are you sure you want to reset password?');
 

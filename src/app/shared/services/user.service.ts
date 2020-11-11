@@ -71,12 +71,13 @@ export class UserService {
     );
   }
 
-  changePassword(userId: number, password: string): Observable<ApiResponse> {
+  changePassword(userId: number, oldPassword: string,  newPassword: string): Observable<ApiResponse> {
     return this.http.post<ApiResponse>(`${this.url}/ChangePsw`, {
       Item: {
         Id: userId,
-        Password: password
-      }
+        Password: newPassword
+      },
+      OldPassword: oldPassword
     });
   }
 
