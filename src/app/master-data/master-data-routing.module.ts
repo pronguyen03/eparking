@@ -5,6 +5,8 @@ import { CustomerDetailComponent } from './customers/customer-detail/customer-de
 import { CustomersComponent } from './customers/customers.component';
 import { EmployeeDetailComponent } from './employees/employee-detail/employee-detail.component';
 import { EmployeesComponent } from './employees/employees.component';
+import { PendingApprovalVehicleDetailComponent } from './pending-approval-vehicles/pending-approval-vehicle-detail/pending-approval-vehicle-detail.component';
+import { PendingApprovalVehiclesComponent } from './pending-approval-vehicles/pending-approval-vehicles.component';
 import { PriceDetailComponent } from './prices/price-detail/price-detail.component';
 import { PricesComponent } from './prices/prices.component';
 import { UserDetailComponent } from './users/user-detail/user-detail.component';
@@ -38,6 +40,10 @@ const routes: Routes = [
   { path: 'prices', component: PricesComponent, canActivate: [AuthGuard] },
   { path: 'prices/detail/:crudType', component: PriceDetailComponent, canActivate: [AuthGuard] },
   { path: 'prices/detail/:crudType/:id', component: PriceDetailComponent, canActivate: [AuthGuard] },
+
+  { path: 'pending-approval-vehicles', component: PendingApprovalVehiclesComponent, canActivate: [AuthGuard] },
+  { path: 'pending-approval-vehicles/detail/:crudType', component: PendingApprovalVehicleDetailComponent, canActivate: [AuthGuard] },
+  { path: 'pending-approval-vehicles/detail/:crudType/:id', component: PendingApprovalVehicleDetailComponent, canActivate: [AuthGuard] },
 
 ];
 

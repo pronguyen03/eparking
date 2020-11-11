@@ -1,7 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { AbstractControl, FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
-import { first } from 'rxjs/operators';
 import { AuthenticationService } from '../shared/services/authentication.service';
 
 @Component({
@@ -33,6 +32,16 @@ export class LoginComponent implements OnInit {
       password: ['', Validators.required],
       saveProfileFlag: [false]
     });
+
+    if (localStorage.getItem('loginInfo')) {
+      const loginInfo: { username: string, password: string } =  JSON.parse(localStorage.getItem('loginInfo'));
+      if (loginInfo) {
+        this.loginForm.patchValue({
+          username: loginInfo.username,
+          password: loginInfo.password,
+        });
+      }
+    }
   }
 
   get f(): { [key: string]: AbstractControl } {
@@ -50,7 +59,7 @@ export class LoginComponent implements OnInit {
     this.authenticationService
       .login(this.loginForm.value.username, this.loginForm.value.password, this.loginForm.value.saveProfileFlag)
       .subscribe(
-        (data) => {
+        () => {
           const returnUrl = this.route.snapshot.queryParams.returnUrl || '/';
           this.router.navigate([returnUrl]);
         },

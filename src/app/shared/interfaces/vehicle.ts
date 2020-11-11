@@ -1,4 +1,6 @@
-export interface IVehicle {
+import { ICommonData } from './common-data';
+
+export interface IVehicle extends ICommonData {
   Id: number;
   eParkingId: number;
   CustomerId: number;

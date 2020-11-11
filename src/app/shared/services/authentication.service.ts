@@ -1,9 +1,8 @@
-import { HttpClient, HttpResponse } from '@angular/common/http';
+import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { BehaviorSubject, forkJoin, Observable, of } from 'rxjs';
-import { User } from '../models/user';
-import { concatMap, map, switchMap } from 'rxjs/operators';
-import { encode, decode } from 'js-base64';
+import { BehaviorSubject, Observable } from 'rxjs';
+import { map } from 'rxjs/operators';
+import { encode } from 'js-base64';
 import { UserService } from './user.service';
 import { ApiResponse } from '../interfaces/api-response';
 import { IUser } from '../interfaces/user';
@@ -50,8 +49,11 @@ export class AuthenticationService {
     ).pipe(
       map((user) => {
         if (saveProfile) {
-          localStorage.setItem('currentUser', JSON.stringify(user));
+          localStorage.setItem('loginInfo', JSON.stringify({username, password}));
+        } else {
+          localStorage.removeItem('loginInfo');
         }
+        localStorage.setItem('currentUser', JSON.stringify(user));
         this.currentUserSubject.next(user);
         return user;
       }

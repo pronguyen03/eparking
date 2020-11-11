@@ -1,4 +1,6 @@
-export interface IPrice {
+import { ICommonData } from './common-data';
+
+export interface IPrice extends ICommonData {
   Id: number;
   eParkingId: number;
   CustomerId: number;

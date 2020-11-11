@@ -1,6 +1,7 @@
 import { Component, HostBinding, Input, OnDestroy, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { MenuItem } from '@app/shared/classes/menu-item';
+import { ToastrService } from 'ngx-toastr';
 import { Subscription } from 'rxjs';
 import { animateText, indicatorRotate } from 'src/app/animations/animations';
 import { SidenavService } from 'src/app/shared/services/sidenav.service';
@@ -22,7 +23,7 @@ export class MenuNavItemComponent implements OnInit, OnDestroy {
   navStateSubscription: Subscription;
   hover: boolean;
 
-  constructor(public router: Router, private sidenavService: SidenavService) {
+  constructor(public router: Router, private sidenavService: SidenavService, private toastr: ToastrService) {
     if (this.depth === undefined) {
       this.depth = 0;
     }
@@ -45,7 +46,11 @@ export class MenuNavItemComponent implements OnInit, OnDestroy {
       // if (!this.expanded) {
       //   this.sidenavService.show();
       // }
-      this.expanded = !this.expanded;
+      if (item.RouterLink) {
+        this.toastr.info('This feature is coming soon.');
+      } else {
+        this.expanded = !this.expanded;
+      }
     }
     if (!this.linkText) {
       this.sidenavService.sideNavState$.next(true);

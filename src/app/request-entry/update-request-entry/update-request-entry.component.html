@@ -80,7 +80,7 @@
 
       <div fxLayout="row" fxLayout.xs="column" fxLayoutWrap fxLayoutGap="5%" fxLayoutAlign="center center">
         <div fxFlex="50%" fxLayout="row" fxLayoutWrap fxLayoutGap="10px" fxLayoutAlign="start center">
-          <mat-label fxFlex="30%" class="title-field">Start Time</mat-label>
+          <mat-label fxFlex="30%" class="title-field">Start Time<span class="required">*</span></mat-label>
           <mat-form-field fxFlex="70%" appearance="standard" class="form-input">
             <input
               matInput
@@ -96,18 +96,25 @@
               [showSeconds]="false"
               [stepHour]="1"
               [stepMinute]="1"
-              [touchUi]="true"
+              [touchUi]="false"
               color="primary"
               [enableMeridian]="false"
               [disableMinute]="false"
               [hideTime]="false"
             >
             </ngx-mat-datetime-picker>
+            <mat-error
+              *ngIf="
+                requestEntryForm.controls.StartTime.hasError('required') &&
+                (requestEntryForm.controls.StartTime.touched || requestEntryForm.controls.StartTime.dirty)
+              "
+              >This field is required</mat-error
+            >
           </mat-form-field>
         </div>
 
         <div fxFlex="50%" fxLayout="row" fxLayoutWrap fxLayoutGap="10px" fxLayoutAlign="start center">
-          <mat-label fxFlex="30%" class="title-field">End Time</mat-label>
+          <mat-label fxFlex="30%" class="title-field">End Time<span class="required">*</span></mat-label>
           <mat-form-field fxFlex="70%" appearance="standard" class="form-input">
             <input
               matInput
@@ -123,13 +130,20 @@
               [showSeconds]="false"
               [stepHour]="1"
               [stepMinute]="1"
-              [touchUi]="true"
+              [touchUi]="false"
               color="primary"
               [enableMeridian]="false"
               [disableMinute]="false"
               [hideTime]="false"
             >
             </ngx-mat-datetime-picker>
+            <mat-error
+              *ngIf="
+                requestEntryForm.controls.EndTime.hasError('required') &&
+                (requestEntryForm.controls.EndTime.touched || requestEntryForm.controls.EndTime.dirty)
+              "
+              >This field is required</mat-error
+            >
           </mat-form-field>
         </div>
       </div>

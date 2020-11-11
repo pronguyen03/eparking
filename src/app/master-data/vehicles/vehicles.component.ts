@@ -59,9 +59,11 @@ export class VehiclesComponent implements OnInit {
             break;
           case VehicleStatus.PENDING:
             vehicle.StatusName = 'Pending Approval';
+            vehicle.canDelete = false;
             break;
           case VehicleStatus.APPROVED:
             vehicle.StatusName = 'Approved';
+            vehicle.canDelete = false;
             break;
           default:
             vehicle.StatusName = 'New';
@@ -82,9 +84,11 @@ export class VehiclesComponent implements OnInit {
             break;
           case VehicleStatus.PENDING:
             vehicle.StatusName = 'Pending Approval';
+            vehicle.canDelete = false;
             break;
           case VehicleStatus.APPROVED:
             vehicle.StatusName = 'Approved';
+            vehicle.canDelete = false;
             break;
           default:
             vehicle.StatusName = 'New';

@@ -16,6 +16,8 @@ import { VehicleCategoriesComponent } from './vehicle-categories/vehicle-categor
 import { VehicleCategoryDetailComponent } from './vehicle-categories/vehicle-category-detail/vehicle-category-detail.component';
 import { PricesComponent } from './prices/prices.component';
 import { PriceDetailComponent } from './prices/price-detail/price-detail.component';
+import { PendingApprovalVehiclesComponent } from './pending-approval-vehicles/pending-approval-vehicles.component';
+import { PendingApprovalVehicleDetailComponent } from './pending-approval-vehicles/pending-approval-vehicle-detail/pending-approval-vehicle-detail.component';
 @NgModule({
   declarations: [
     CustomersComponent,
@@ -30,7 +32,9 @@ import { PriceDetailComponent } from './prices/price-detail/price-detail.compone
     VehicleCategoriesComponent,
     VehicleCategoryDetailComponent,
     PricesComponent,
-    PriceDetailComponent],
+    PriceDetailComponent,
+    PendingApprovalVehiclesComponent,
+    PendingApprovalVehicleDetailComponent],
   imports: [CommonModule, SharedModule, MasterDataRoutingModule],
 })
 export class MasterDataModule {}

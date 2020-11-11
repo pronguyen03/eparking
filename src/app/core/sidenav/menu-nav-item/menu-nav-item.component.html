@@ -6,7 +6,14 @@
   (mouseout)="onHover(false)"
   [fxLayoutAlign]="sideNavState ? 'flex-start' : 'center'"
 >
-  <mat-icon mat-list-icon>{{ item.Icon }}</mat-icon>
+  <div class="icon-menu-item">
+    <img
+      [ngStyle]="{
+        visibility: depth ? 'hidden' : 'visible'
+      }"
+      [src]="!depth ? '../../../../assets/images/' + item.Icon + '.svg' : ''"
+    />
+  </div>
   <div
     class="text-menu-item"
     [@animateText]="linkText ? 'show' : 'hide'"

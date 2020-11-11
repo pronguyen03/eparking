@@ -1,4 +1,6 @@
-export interface IRequestEntry {
+import { ICommonData } from './common-data';
+
+export interface IRequestEntry extends ICommonData {
   Id: number;
   EParkingId: number;
   CustomerId: number;

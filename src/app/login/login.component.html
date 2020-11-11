@@ -3,7 +3,7 @@
     <mat-card-header>
       <mat-card-title>{{ 'Login' | translate }}</mat-card-title>
     </mat-card-header>
-    <form class="example-form" [formGroup]="loginForm" (ngSubmit)="onSubmit()">
+    <form class="example-form" [formGroup]="loginForm">
       <mat-card-content>
         <mat-form-field class="example-full-width form-input-column">
           <input matInput placeholder="Username" formControlName="username" (keyup.enter)="onSubmit()" />
@@ -18,17 +18,22 @@
             [type]="hidePassword ? 'password' : 'text'"
             (keyup.enter)="onSubmit()"
           />
-          <button mat-icon-button matSuffix (click)="hidePassword = !hidePassword">
+          <button
+            mat-icon-button
+            matSuffix
+            (mousedown)="hidePassword = false"
+            (mouseup)="hidePassword = true; $event.stopPropagation()"
+            (click)="$event.stopPropagation()"
+          >
             <mat-icon>{{ hidePassword ? 'visibility_off' : 'visibility' }}</mat-icon>
           </button>
-          <!-- <mat-error *ngIf="f.password.invalid && f.password.errors.required">Password is required</mat-error> -->
         </mat-form-field>
 
         <mat-checkbox class="example-margin" formControlName="saveProfileFlag">{{
           'Save_Login_Profile' | translate
         }}</mat-checkbox>
       </mat-card-content>
-      <button type="submit" mat-stroked-button color="accent" class="btn-block" [disabled]="loginForm.invalid">
+      <button mat-stroked-button color="accent" class="btn-block" [disabled]="loginForm.invalid" (click)="onSubmit()">
         {{ 'Login' | translate }}
       </button>
     </form>

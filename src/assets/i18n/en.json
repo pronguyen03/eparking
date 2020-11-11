@@ -24,6 +24,14 @@
   "Access_Vehicle_Detail": "Access Vehicle Detail",
   "Report": "Report",
   "Vehicle_Management": "Vehicle Management",
+  "Pending_Approval_Vehicle": "Pending Approval Vehicle",
+  "Inactive_Vehicle": "Inactive Vehicle",
   "Debit": "Debit",
-  "Approval_Handover": "Approval Handover"
+  "Approval_Handover": "Approval Handover",
+  "Approval_Handover_Confirm": "'Are you sure you want to handover to approve this vehicle?'",
+  "Approve_Vehicle_Confirm": "Are you sure you want to approve this vehicle?",
+  "Save": "Save",
+  "Approve": "Approve",
+  "Back": "Back",
+  "Cancel_Approval": "Cancel Approval"
 }

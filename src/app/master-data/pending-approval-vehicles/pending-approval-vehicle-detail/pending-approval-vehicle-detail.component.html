@@ -1,6 +1,6 @@
 <div class="green-theme">
   <mat-toolbar>
-    <span>{{ 'Vehicle_Detail' | translate }}</span>
+    <span>{{ 'Pending_Approval_Vehicle' | translate }}</span>
   </mat-toolbar>
 
   <mat-horizontal-stepper labelPosition="bottom" [linear]="false" #stepper>
@@ -47,7 +47,13 @@
           <mat-form-field fxFlex="70%" appearance="standard" class="form-input">
             <mat-label>Plate</mat-label>
             <!-- <mat-icon matSuffix>person</mat-icon> -->
-            <input matInput formControlName="Plate" class="upper-case" (keypress)="omitSpecialChar($event)" />
+            <input
+              matInput
+              formControlName="Plate"
+              class="upper-case"
+              (keypress)="omitSpecialChar($event)"
+              [readonly]="crudType === CrudType.VIEW"
+            />
             <mat-error
               *ngIf="
                 vehicleForm.controls.Plate.hasError('maxlength') &&
@@ -80,7 +86,7 @@
             <mat-label>Choose a date</mat-label>
             <input matInput [matDatepicker]="picker" formControlName="DateOfPayment" readonly />
             <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
-            <mat-datepicker #picker disabled="false"></mat-datepicker>
+            <mat-datepicker #picker [disabled]="crudType === CrudType.VIEW"></mat-datepicker>
           </mat-form-field>
         </div>
 
@@ -212,16 +218,6 @@
       >
         {{ 'Save' | translate }}
       </button>
-      <ng-template [appHasRole]="[Role.CUSTOMER]">
-        <button
-          *ngIf="vehicleForm?.controls.Status.value === VehicleStatus.NEW && crudType !== CrudType.CREATE"
-          mat-raised-button
-          color="primary"
-          (click)="confirmDialog('handover', 'Handover', 'Are you sure you want to handover to approve this vehicle?')"
-        >
-          {{ 'Approval_Handover' | translate }}
-        </button>
-      </ng-template>
       <ng-template [appHasRole]="[Role.PARKING_ADMIN, Role.SYSTEM_ADMIN]">
         <button
           *ngIf="crudType === CrudType.VIEW && vehicleForm?.controls.Status.value === VehicleStatus.PENDING"
@@ -235,7 +231,7 @@
           *ngIf="crudType === CrudType.VIEW && vehicleForm?.controls.Status.value === VehicleStatus.PENDING"
           mat-raised-button
           color="warn"
-          (click)="confirmDialog('cancel', 'Cancel Confirm', 'Are you sure you want to cancel this vehicle?')"
+          (click)="confirmDialog('cancel', 'Cancel Confirm', 'Approve_Vehicle_Confirm')"
         >
           {{ 'Cancel_Approval' | translate }}
         </button>

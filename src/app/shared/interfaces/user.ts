@@ -1,4 +1,6 @@
-export interface IUser {
+import { ICommonData } from './common-data';
+
+export interface IUser extends ICommonData {
   EParkingId: number;
   CustomerId: number;
   Id: number;

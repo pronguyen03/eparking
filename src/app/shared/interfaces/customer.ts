@@ -1,4 +1,6 @@
-export interface ICustomer {
+import { ICommonData } from './common-data';
+
+export interface ICustomer extends ICommonData{
   CustomerId: number;
   eParkingId: number;
   CustomerName: string;
