@@ -118,15 +118,19 @@ export class UpdateRequestEntryComponent implements OnInit {
   }
 
   save(): void {
-    switch (this.crudType) {
-      case CrudType.CREATE:
-        this.create();
-        break;
-      case CrudType.EDIT:
-        this.update();
-        break;
-      default:
-        break;
+    if (this.requestEntryForm.valid) {
+      switch (this.crudType) {
+        case CrudType.CREATE:
+          this.create();
+          break;
+        case CrudType.EDIT:
+          this.update();
+          break;
+        default:
+          break;
+      }
+    } else {
+      this.requestEntryForm.markAllAsTouched();
     }
   }
 

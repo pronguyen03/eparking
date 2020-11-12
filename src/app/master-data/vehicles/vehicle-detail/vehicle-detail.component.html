@@ -29,7 +29,7 @@
         fxLayoutAlign.xs="space-around stretch"
       >
         <div fxFlex="50%" fxLayout="row" fxLayoutWrap fxLayoutGap="10px" fxLayoutAlign="start center">
-          <mat-label fxFlex="30%" class="title-field">Type Of Vehicle</mat-label>
+          <mat-label fxFlex="30%" class="title-field">Type Of Vehicle<span class="required">*</span></mat-label>
           <mat-form-field fxFlex="70%" appearance="standard">
             <mat-label>Type Of Vehicle</mat-label>
             <mat-select formControlName="TypeId">
@@ -38,7 +38,13 @@
                 {{ category.Name }}
               </mat-option>
             </mat-select>
-            <!-- <mat-icon matSuffix>home</mat-icon> -->
+            <mat-error
+              *ngIf="
+                vehicleForm.controls.TypeId.hasError('required') &&
+                (vehicleForm.controls.TypeId.touched || vehicleForm.controls.TypeId.dirty)
+              "
+              >This field is required</mat-error
+            >
           </mat-form-field>
         </div>
 
@@ -75,12 +81,19 @@
         fxLayoutAlign.xs="space-around stretch"
       >
         <div fxFlex="50%" fxLayout="row" fxLayoutWrap fxLayoutGap="10px" fxLayoutAlign="center center">
-          <mat-label fxFlex="30%" class="title-field">Payment Date</mat-label>
+          <mat-label fxFlex="30%" class="title-field">Payment Date<span class="required">*</span></mat-label>
           <mat-form-field fxFlex="70%" appearance="standard">
             <mat-label>Choose a date</mat-label>
             <input matInput [matDatepicker]="picker" formControlName="DateOfPayment" readonly />
             <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
             <mat-datepicker #picker disabled="false"></mat-datepicker>
+            <mat-error
+              *ngIf="
+                vehicleForm.controls.DateOfPayment.hasError('required') &&
+                (vehicleForm.controls.DateOfPayment.touched || vehicleForm.controls.DateOfPayment.dirty)
+              "
+              >This field is required</mat-error
+            >
           </mat-form-field>
         </div>
 

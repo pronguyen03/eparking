@@ -14,7 +14,7 @@
         fxLayoutAlign.xs="space-around stretch"
       >
         <div fxFlex="50%" fxLayout="row" fxLayoutWrap fxLayoutGap="10px" fxLayoutAlign="center center">
-          <mat-label fxFlex="30%" class="title-field">Customer</mat-label>
+          <mat-label fxFlex="30%" class="title-field">Customer<span class="required">*</span></mat-label>
           <mat-form-field fxFlex="70%" appearance="standard">
             <mat-label>Customer</mat-label>
             <mat-select formControlName="CustomerId" [disabled]="crudType === CrudType.VIEW">
@@ -23,10 +23,17 @@
                 {{ customer.CustomerName }}
               </mat-option>
             </mat-select>
+            <mat-error
+              *ngIf="
+                priceForm.controls.CustomerId.hasError('required') &&
+                (priceForm.controls.CustomerId.touched || priceForm.controls.CustomerId.dirty)
+              "
+              >This field is required</mat-error
+            >
           </mat-form-field>
         </div>
         <div fxFlex="50%" fxLayout="row" fxLayoutWrap fxLayoutGap="10px" fxLayoutAlign="start center">
-          <mat-label fxFlex="30%" class="title-field">Contract Number<span class="required">*</span></mat-label>
+          <mat-label fxFlex="30%" class="title-field">Contract Number</mat-label>
           <mat-form-field fxFlex="70%" appearance="standard">
             <mat-label>Contract Number</mat-label>
             <input matInput formControlName="ContractsNumber" [readonly]="crudType === CrudType.VIEW" />
@@ -43,21 +50,35 @@
         fxLayoutAlign.xs="space-around stretch"
       >
         <div fxFlex="50%" fxLayout="row" fxLayoutWrap fxLayoutGap="10px" fxLayoutAlign="start center">
-          <mat-label fxFlex="30%" class="title-field">From Date</mat-label>
+          <mat-label fxFlex="30%" class="title-field">From Date<span class="required">*</span></mat-label>
           <mat-form-field fxFlex="70%" appearance="standard">
             <mat-label>From Date</mat-label>
             <input matInput [matDatepicker]="pickerFromDate" formControlName="ValidFromDate" readonly />
             <mat-datepicker-toggle matSuffix [for]="pickerFromDate"></mat-datepicker-toggle>
             <mat-datepicker #pickerFromDate [disabled]="crudType === CrudType.VIEW"></mat-datepicker>
+            <mat-error
+              *ngIf="
+                priceForm.controls.ValidFromDate.hasError('required') &&
+                (priceForm.controls.ValidFromDate.touched || priceForm.controls.ValidFromDate.dirty)
+              "
+              >This field is required</mat-error
+            >
           </mat-form-field>
         </div>
         <div fxFlex="50%" fxLayout="row" fxLayoutWrap fxLayoutGap="10px" fxLayoutAlign="start center">
-          <mat-label fxFlex="30%" class="title-field">To Date</mat-label>
+          <mat-label fxFlex="30%" class="title-field">To Date<span class="required">*</span></mat-label>
           <mat-form-field fxFlex="70%" appearance="standard">
             <mat-label>To Date</mat-label>
             <input matInput [matDatepicker]="pickerToDate" formControlName="ValidToDate" readonly />
             <mat-datepicker-toggle matSuffix [for]="pickerToDate"></mat-datepicker-toggle>
             <mat-datepicker #pickerToDate [disabled]="crudType === CrudType.VIEW"></mat-datepicker>
+            <mat-error
+              *ngIf="
+                priceForm.controls.ValidToDate.hasError('required') &&
+                (priceForm.controls.ValidToDate.touched || priceForm.controls.ValidToDate.dirty)
+              "
+              >This field is required</mat-error
+            >
           </mat-form-field>
         </div>
       </div>

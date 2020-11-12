@@ -58,7 +58,9 @@
     </ng-container>
   </div>
 
-  <div class="fab-features-btn green-theme">
-    <button mat-fab color="primary" (click)="addNew()"><mat-icon>add</mat-icon></button>
-  </div>
+  <ng-template [appHasRole]="[Role.CUSTOMER, Role.PARKING_ADMIN, Role.SYSTEM_ADMIN]">
+    <div class="fab-features-btn green-theme">
+      <button mat-fab color="primary" (click)="addNew()"><mat-icon>add</mat-icon></button>
+    </div>
+  </ng-template>
 </div>

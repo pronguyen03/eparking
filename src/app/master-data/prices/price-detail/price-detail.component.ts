@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { FormBuilder, FormGroup } from '@angular/forms';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
 import { Router, ActivatedRoute } from '@angular/router';
 import { CrudType } from '@app/shared/enums/crud-type.enum';
@@ -36,7 +36,7 @@ export class PriceDetailComponent implements OnInit {
     private dialog: MatDialog,
     private priceService: PriceService,
     private timeService: TimeService
-  ) { }
+  ) {}
 
   ngOnInit(): void {
     this.initForm();
@@ -55,10 +55,10 @@ export class PriceDetailComponent implements OnInit {
     this.priceForm = this.fb.group({
       Id: [0],
       eParkingId: [environment.parkingId],
-      CustomerId: [0],
+      CustomerId: [null, Validators.required],
       ContractsNumber: [''],
-      ValidFromDate: [null],
-      ValidToDate: [null],
+      ValidFromDate: [null, Validators.required],
+      ValidToDate: [null, Validators.required],
       IsActived: [true],
       IsActivedName: [''],
       ActiveTime: ['']
@@ -70,7 +70,7 @@ export class PriceDetailComponent implements OnInit {
   }
 
   getPriceById(priceId: number): void {
-    this.priceService.getPriceById(priceId).subscribe(price => {
+    this.priceService.getPriceById(priceId).subscribe((price) => {
       this.priceForm.patchValue({
         Id: price.Id,
         eParkingId: price.eParkingId,
@@ -86,36 +86,33 @@ export class PriceDetailComponent implements OnInit {
   }
 
   save(): void {
-    switch (this.crudType) {
-      case CrudType.CREATE:
-        this.create();
-        break;
-      case CrudType.EDIT:
-        this.update();
-        break;
-      default:
-        break;
+    if (this.priceForm.valid) {
+      switch (this.crudType) {
+        case CrudType.CREATE:
+          this.create();
+          break;
+        case CrudType.EDIT:
+          this.update();
+          break;
+        default:
+          break;
+      }
+    } else {
+      this.priceForm.markAllAsTouched();
     }
   }
 
   create(): void {
     if (this.priceForm.valid) {
-      const {
-        Id,
-        CustomerId,
-        ContractsNumber,
-        ValidFromDate,
-        ValidToDate,
-        IsActived
-       } = this.priceForm.value;
+      const { Id, CustomerId, ContractsNumber, ValidFromDate, ValidToDate, IsActived } = this.priceForm.value;
 
       const reqData = {
         Id,
         EParkingId: environment.parkingId,
         CustomerId,
         ContractsNumber,
-        ValidFromDate: format(ValidFromDate, 'yyyyMMdd'),
-        ValidToDate: format(ValidToDate, 'yyyyMMdd'),
+        ValidFromDate: ValidFromDate ? format(ValidFromDate, 'yyyyMMdd') : null,
+        ValidToDate: ValidToDate ? format(ValidToDate, 'yyyyMMdd') : null,
         IsActived
       };
 
@@ -128,20 +125,14 @@ export class PriceDetailComponent implements OnInit {
     }
   }
 
-
   update(): void {
     if (this.priceForm.valid) {
-      const {
-        Id,
-        ContractsNumber,
-        ValidFromDate,
-        ValidToDate
-       } = this.priceForm.value;
+      const { Id, ContractsNumber, ValidFromDate, ValidToDate } = this.priceForm.value;
       const reqData = {
         Id: this.id,
         ContractsNumber,
-        ValidFromDate: format(ValidFromDate, 'yyyyMMdd'),
-        ValidToDate: format(ValidToDate, 'yyyyMMdd'),
+        ValidFromDate: ValidFromDate ? format(ValidFromDate, 'yyyyMMdd') : null,
+        ValidToDate: ValidToDate ? format(ValidToDate, 'yyyyMMdd') : null
       };
 
       this.priceService.updatePrice(reqData).subscribe((res) => {
@@ -152,5 +143,4 @@ export class PriceDetailComponent implements OnInit {
       });
     }
   }
-
 }

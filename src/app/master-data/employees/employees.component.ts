@@ -20,7 +20,6 @@ export class EmployeesComponent implements OnInit {
   employees: Employee[] = [];
 
   columns = [
-    { key: 'eParkingId', display: 'EParking ID' },
     { key: 'EmployeeName', display: 'Employee Name' },
     { key: 'Tel', display: 'Tel No.' },
     { key: 'EmployeePassport', display: 'Employee Passport' },

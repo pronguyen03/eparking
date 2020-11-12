@@ -30,6 +30,13 @@
           <mat-form-field fxFlex="70%" appearance="standard">
             <mat-label>Full Name</mat-label>
             <input matInput formControlName="FullName" [readonly]="crudType === CrudType.VIEW" />
+            <mat-error
+              *ngIf="
+                userForm.controls.FullName.hasError('required') &&
+                (userForm.controls.FullName.touched || userForm.controls.FullName.dirty)
+              "
+              >This field is required</mat-error
+            >
           </mat-form-field>
         </div>
       </div>
@@ -49,6 +56,13 @@
             <input matInput formControlName="Username" [readonly]="crudType !== CrudType.CREATE" />
             <mat-error
               *ngIf="
+                userForm.controls.Username.hasError('required') &&
+                (userForm.controls.Username.touched || userForm.controls.Username.dirty)
+              "
+              >This field is required</mat-error
+            >
+            <mat-error
+              *ngIf="
                 userForm.controls.Username.hasError('existUsername') &&
                 (userForm.controls.Username.touched || userForm.controls.Username.dirty)
               "
@@ -66,6 +80,13 @@
             <mat-form-field fxFlex="70%" appearance="standard">
               <mat-label>Password</mat-label>
               <input matInput formControlName="PassWord" type="password" [readonly]="crudType === CrudType.VIEW" />
+              <mat-error
+                *ngIf="
+                  userForm.controls.PassWord.hasError('required') &&
+                  (userForm.controls.PassWord.touched || userForm.controls.PassWord.dirty)
+                "
+                >This field is required</mat-error
+              >
             </mat-form-field>
           </div>
         </ng-template>
@@ -245,9 +266,9 @@
     <div fxLayout="row" fxLayoutGap="10px" fxLayoutAlign="start center">
       <button *ngIf="crudType !== CrudType.VIEW" mat-raised-button color="primary" (click)="save()">Save</button>
       <ng-template [appHasRole]="[Role.PARKING_ADMIN, Role.SYSTEM_ADMIN]">
-        <button *ngIf="crudType === CrudType.EDIT" mat-raised-button color="primary" (click)="changePassword()">
+        <!-- <button *ngIf="crudType === CrudType.EDIT" mat-raised-button color="primary" (click)="changePassword()">
           Change Password
-        </button>
+        </button> -->
         <button
           *ngIf="crudType === CrudType.EDIT"
           mat-raised-button

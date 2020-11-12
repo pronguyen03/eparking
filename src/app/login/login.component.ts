@@ -39,6 +39,7 @@ export class LoginComponent implements OnInit {
         this.loginForm.patchValue({
           username: loginInfo.username,
           password: loginInfo.password,
+          saveProfileFlag: true
         });
       }
     }

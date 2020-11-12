@@ -5,7 +5,7 @@ import { MatDialog } from '@angular/material/dialog';
 import { ActivatedRoute, Router } from '@angular/router';
 import {
   ConfirmDialogComponent,
-  ConfirmDialogModel,
+  ConfirmDialogModel
 } from '@app/shared/components/confirm-dialog/confirm-dialog.component';
 import { CrudType } from '@app/shared/enums/crud-type.enum';
 import { Role } from '@app/shared/enums/role.enum';
@@ -23,7 +23,7 @@ import { map } from 'rxjs/operators';
 @Component({
   selector: 'app-vehicle-detail',
   templateUrl: './vehicle-detail.component.html',
-  styleUrls: ['./vehicle-detail.component.scss'],
+  styleUrls: ['./vehicle-detail.component.scss']
 })
 export class VehicleDetailComponent implements OnInit {
   Role = Role;
@@ -35,8 +35,8 @@ export class VehicleDetailComponent implements OnInit {
   id: number;
   imageURLResource = environment.host + '/Resources/VihicleImages/';
 
-  @ViewChild('fileInput', {static: false}) fileInput: ElementRef;
-  files: { data: any, inProgress: boolean, progress: number }[]  = [];
+  @ViewChild('fileInput', { static: false }) fileInput: ElementRef;
+  files: { data: any; inProgress: boolean; progress: number }[] = [];
 
   constructor(
     private router: Router,
@@ -46,7 +46,7 @@ export class VehicleDetailComponent implements OnInit {
     private vehicleCategoryService: VehicleCategoryService,
     private authService: AuthenticationService,
     private toastr: ToastrService,
-    public dialog: MatDialog,
+    public dialog: MatDialog
   ) {}
 
   ngOnInit(): void {
@@ -66,15 +66,15 @@ export class VehicleDetailComponent implements OnInit {
     this.vehicleForm = this.fb.group({
       CustomerId: [''],
       CustomerName: [''],
-      TypeId: [''],
+      TypeId: ['', Validators.required],
       Plate: ['', [Validators.maxLength(9), Validators.pattern('^[a-zA-Z0-9]*$')]],
-      DateOfPayment: [''],
+      DateOfPayment: ['', Validators.required],
       CurrentStatus: [''],
       Status: [VehicleStatus.NEW],
       IsApproved: [false],
       WhoApproved: [''],
       Notes: [''],
-      ImagePath: [''],
+      ImagePath: ['']
     });
   }
 
@@ -104,15 +104,19 @@ export class VehicleDetailComponent implements OnInit {
   }
 
   save(): void {
-    switch (this.crudType) {
-      case CrudType.CREATE:
-        this.create();
-        break;
-      case CrudType.EDIT:
-        this.update();
-        break;
-      default:
-        break;
+    if (this.vehicleForm.valid) {
+      switch (this.crudType) {
+        case CrudType.CREATE:
+          this.create();
+          break;
+        case CrudType.EDIT:
+          this.update();
+          break;
+        default:
+          break;
+      }
+    } else {
+      this.vehicleForm.markAllAsTouched();
     }
   }
 
@@ -127,7 +131,7 @@ export class VehicleDetailComponent implements OnInit {
         CurrentStatus,
         DateOfPayment,
         ImagePath,
-        Notes,
+        Notes
       };
 
       this.vehicleService.addVehicle(inputData).subscribe((res) => {
@@ -136,8 +140,6 @@ export class VehicleDetailComponent implements OnInit {
           this.back();
         }
       });
-    } else {
-      this.toastr.error('Input Data is invalid. Please check again', 'Error');
     }
   }
 
@@ -150,7 +152,7 @@ export class VehicleDetailComponent implements OnInit {
       CurrentStatus,
       DateOfPayment,
       ImagePath,
-      Notes,
+      Notes
     };
 
     this.vehicleService.updateVehicle(inputData).subscribe((res) => {
@@ -193,7 +195,7 @@ export class VehicleDetailComponent implements OnInit {
 
     const dialogRef = this.dialog.open(ConfirmDialogComponent, {
       minWidth: '400px',
-      data: dialogData,
+      data: dialogData
     });
 
     dialogRef.afterClosed().subscribe((dialogResult) => {
@@ -219,22 +221,26 @@ export class VehicleDetailComponent implements OnInit {
     const formData = new FormData();
     formData.append('files', file.data);
     file.inProgress = true;
-    this.vehicleService.uploadImage(formData).pipe(
-      map((res: any) => {
-        switch (res.type) {
-          case HttpEventType.UploadProgress:
-            file.progress = Math.round(res.loaded * 100 / res.total);
-            break;
-          case HttpEventType.Response:
-            return res;
-        }
-      })).subscribe((res: HttpResponse<ApiResponse>) => {
-          if (typeof (res) === 'object') {
-            const body = res.body;
-            if (body.Code === '100') {
-              this.toastr.success('Uploaded Image successfully.', 'Vehicle');
-              this.vehicleForm.patchValue({
-                ImagePath: body.Data
+    this.vehicleService
+      .uploadImage(formData)
+      .pipe(
+        map((res: any) => {
+          switch (res.type) {
+            case HttpEventType.UploadProgress:
+              file.progress = Math.round((res.loaded * 100) / res.total);
+              break;
+            case HttpEventType.Response:
+              return res;
+          }
+        })
+      )
+      .subscribe((res: HttpResponse<ApiResponse>) => {
+        if (typeof res === 'object') {
+          const body = res.body;
+          if (body.Code === '100') {
+            this.toastr.success('Uploaded Image successfully.', 'Vehicle');
+            this.vehicleForm.patchValue({
+              ImagePath: body.Data
             });
           }
         }
@@ -243,7 +249,7 @@ export class VehicleDetailComponent implements OnInit {
 
   private upload(): void {
     this.fileInput.nativeElement.value = '';
-    this.files.forEach(file => {
+    this.files.forEach((file) => {
       this.callUploadService(file);
     });
   }
@@ -253,7 +259,7 @@ export class VehicleDetailComponent implements OnInit {
     fileInput.onchange = () => {
       this.files = [];
       for (const file of fileInput.files) {
-        this.files.push({ data: file, inProgress: false, progress: 0});
+        this.files.push({ data: file, inProgress: false, progress: 0 });
       }
       this.upload();
     };
@@ -261,7 +267,7 @@ export class VehicleDetailComponent implements OnInit {
   }
 
   omitSpecialChar(event): boolean {
-    const k = event.charCode;  //         k = event.keyCode;  (Both can be used)
-    return((k > 64 && k < 91) || (k > 96 && k < 123) || k === 8 || k === 32 || (k >= 48 && k <= 57));
+    const k = event.charCode; //         k = event.keyCode;  (Both can be used)
+    return (k > 64 && k < 91) || (k > 96 && k < 123) || k === 8 || k === 32 || (k >= 48 && k <= 57);
   }
 }

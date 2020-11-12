@@ -29,6 +29,13 @@
           <mat-form-field fxFlex="70%" appearance="standard">
             <mat-label>Request Detail</mat-label>
             <input matInput formControlName="RequestDetailed" [readonly]="crudType === CrudType.VIEW" />
+            <mat-error
+              *ngIf="
+                requestEntryForm.controls.RequestDetailed.hasError('required') &&
+                (requestEntryForm.controls.RequestDetailed.touched || requestEntryForm.controls.RequestDetailed.dirty)
+              "
+              >This field is required</mat-error
+            >
           </mat-form-field>
         </div>
 
@@ -41,6 +48,13 @@
           <mat-form-field fxFlex="70%" appearance="standard" class="form-input">
             <mat-label>Visitor Name</mat-label>
             <input matInput formControlName="VisitorName" [readonly]="crudType === CrudType.VIEW" />
+            <mat-error
+              *ngIf="
+                requestEntryForm.controls.VisitorName.hasError('required') &&
+                (requestEntryForm.controls.VisitorName.touched || requestEntryForm.controls.VisitorName.dirty)
+              "
+              >This field is required</mat-error
+            >
           </mat-form-field>
         </div>
 

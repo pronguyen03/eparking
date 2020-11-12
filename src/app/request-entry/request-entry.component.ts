@@ -39,7 +39,7 @@ export class RequestEntryComponent implements OnInit {
 
   vehicleCategories$: Observable<IVehicleCategory[]>;
   searchForm: FormGroup;
-
+  Role = Role;
   constructor(
     private authService: AuthenticationService,
     private requestEntryService: RequestEntryService,
@@ -60,9 +60,10 @@ export class RequestEntryComponent implements OnInit {
         if (Object.keys(filterValue).length === 0 && filterValue.constructor === Object) {
           return of(null);
         }
-        if (this.authService.currentUserValue.RoleId === Role.PARKING_ADMIN || this.authService.currentUserValue.RoleId === Role.SYSTEM_ADMIN) {
+        if (this.authService.currentUserValue.RoleId === Role.PARKING_ADMIN
+            || this.authService.currentUserValue.RoleId === Role.SYSTEM_ADMIN) {
           return this.getRequestsByParking(environment.parkingId,
-            filterValue.FromDate, filterValue.ToDate, filterValue.Type)
+            filterValue.FromDate, filterValue.ToDate, filterValue.Type);
         } else {
           return this.getRequestsByCustomer(filterValue.CustomerId,
             filterValue.FromDate, filterValue.ToDate, filterValue.Type);

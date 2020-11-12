@@ -65,7 +65,7 @@ export class UserDetailComponent implements OnInit {
   initForm(): void {
     this.userForm = this.fb.group({
       EParkingId: [environment.parkingId],
-      CustomerId: [null],
+      CustomerId: [0],
       Id: [0],
       Username: ['', [Validators.required]],
       PassWord: [''],
@@ -137,15 +137,19 @@ export class UserDetailComponent implements OnInit {
   }
 
   save(): void {
-    switch (this.crudType) {
-      case CrudType.CREATE:
-        this.create();
-        break;
-      case CrudType.EDIT:
-        this.update();
-        break;
-      default:
-        break;
+    if (this.userForm.valid) {
+      switch (this.crudType) {
+        case CrudType.CREATE:
+          this.create();
+          break;
+        case CrudType.EDIT:
+          this.update();
+          break;
+        default:
+          break;
+      }
+    } else {
+      this.userForm.markAllAsTouched();
     }
   }
 
