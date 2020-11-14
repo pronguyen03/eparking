@@ -25,7 +25,7 @@
   "Report": "Báo Cáo",
   "Vehicle_Management": "Quản lý xe tháng",
   "Pending_Approval_Vehicle": "Xe Chờ Duyệt",
-  "Inactive_Vehicle": "Xe Chờ Xóa",
+  "Inactive_Vehicle": "Hủy Xe Tháng",
   "Debit": "Debit",
   "Approval_Handover": "Chuyển Duyệt",
   "Approval_Handover_Confirm": "Bạn chắc chắn muốn chuyển duyệt xe này?",
@@ -33,5 +33,6 @@
   "Save": "Lưu",
   "Approve": "Duyệt",
   "Back": "Quay Lại",
-  "Cancel_Approval": "Hủy Duyệt"
+  "Cancel_Approval": "Hủy Duyệt",
+  "Confirm_Input": "Xác nhận đã vào"
 }

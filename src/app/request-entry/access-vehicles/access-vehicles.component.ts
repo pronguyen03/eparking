@@ -4,7 +4,7 @@ import { MatDialog } from '@angular/material/dialog';
 import { NavigationExtras, Router } from '@angular/router';
 import {
   ConfirmDialogComponent,
-  ConfirmDialogModel,
+  ConfirmDialogModel
 } from '@app/shared/components/confirm-dialog/confirm-dialog.component';
 import { CrudType } from '@app/shared/enums/crud-type.enum';
 import { IAccessVehicle } from '@app/shared/interfaces/access-vehicle';
@@ -16,7 +16,7 @@ import { Observable } from 'rxjs';
 @Component({
   selector: 'app-access-vehicles',
   templateUrl: './access-vehicles.component.html',
-  styleUrls: ['./access-vehicles.component.scss'],
+  styleUrls: ['./access-vehicles.component.scss']
 })
 export class AccessVehiclesComponent implements OnInit {
   requestsEntry$: Observable<IRequestEntry[]>;
@@ -27,7 +27,7 @@ export class AccessVehiclesComponent implements OnInit {
     { key: 'Id', display: 'ID' },
     { key: 'RepuestEntryId', display: 'Repuest Entry Id' },
     { key: 'Plate', display: 'Plate' },
-    { key: 'TypeId', display: 'TypeId' },
+    { key: 'TypeId', display: 'TypeId' }
   ];
   constructor(
     private fb: FormBuilder,
@@ -49,7 +49,7 @@ export class AccessVehiclesComponent implements OnInit {
 
   initForm(): void {
     this.searchForm = this.fb.group({
-      RepuestEntryId: ['', Validators.required],
+      RepuestEntryId: ['', Validators.required]
     });
   }
 
@@ -63,8 +63,8 @@ export class AccessVehiclesComponent implements OnInit {
         Id: vehicle.Id,
         RequestEntryId: vehicle.RequestEntryId,
         Plate: vehicle.Plate,
-        TypeId: vehicle.TypeId,
-      },
+        TypeId: vehicle.TypeId
+      }
     };
     this.router.navigate(['request-entry/access-vehicles/detail', CrudType.VIEW], navigationExtras);
   }
@@ -75,8 +75,8 @@ export class AccessVehiclesComponent implements OnInit {
         Id: vehicle.Id,
         RequestEntryId: vehicle.RequestEntryId,
         Plate: vehicle.Plate,
-        TypeId: vehicle.TypeId,
-      },
+        TypeId: vehicle.TypeId
+      }
     };
     this.router.navigate(['request-entry/access-vehicles/detail', CrudType.EDIT], navigationExtras);
   }
@@ -86,7 +86,7 @@ export class AccessVehiclesComponent implements OnInit {
 
     const dialogRef = this.dialog.open(ConfirmDialogComponent, {
       minWidth: '400px',
-      data: dialogData,
+      data: dialogData
     });
 
     dialogRef.afterClosed().subscribe((dialogResult) => {

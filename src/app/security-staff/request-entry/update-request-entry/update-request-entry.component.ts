@@ -3,15 +3,15 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
 import { ActivatedRoute, Router } from '@angular/router';
 import {
-  ConfirmDialogComponent,
-  ConfirmDialogModel
+  ConfirmDialogModel,
+  ConfirmDialogComponent
 } from '@app/shared/components/confirm-dialog/confirm-dialog.component';
 import { CrudType } from '@app/shared/enums/crud-type.enum';
 import { Role } from '@app/shared/enums/role.enum';
 import { IAccessVehicle } from '@app/shared/interfaces/access-vehicle';
-import { IVehicle } from '@app/shared/interfaces/vehicle';
 import { IVehicleCategory } from '@app/shared/interfaces/vehicle-category';
 import { AuthenticationService } from '@app/shared/services/authentication.service';
+import { RequestEntryDetailService } from '@app/shared/services/request-entry-detail.service';
 import { RequestEntryService } from '@app/shared/services/request-entry.service';
 import { TimeService } from '@app/shared/services/time.service';
 import { VehicleCategoryService } from '@app/shared/services/vehicle-category.service';
@@ -38,7 +38,7 @@ export class UpdateRequestEntryComponent implements OnInit {
   columns = [
     { key: 'colNo', display: 'No.' },
     { key: 'Plate', display: 'Plate' },
-    { key: 'TypeName', display: 'Type' }
+    { key: 'Name', display: 'Type' }
   ];
   constructor(
     private fb: FormBuilder,
@@ -49,7 +49,8 @@ export class UpdateRequestEntryComponent implements OnInit {
     private toastr: ToastrService,
     private route: ActivatedRoute,
     private vehicleCategoryService: VehicleCategoryService,
-    private dialog: MatDialog
+    private dialog: MatDialog,
+    private requestEntryDetailService: RequestEntryDetailService
   ) {}
 
   ngOnInit(): void {
@@ -118,7 +119,7 @@ export class UpdateRequestEntryComponent implements OnInit {
   }
 
   back(): void {
-    this.router.navigateByUrl('request-entry');
+    this.router.navigateByUrl('security-staff/request-entry');
   }
 
   save(): void {
@@ -139,46 +140,7 @@ export class UpdateRequestEntryComponent implements OnInit {
   }
 
   create(): void {
-    const {
-      RequestDetailed,
-      VisitorName,
-      VisitorTel,
-      VisitorPassport,
-      NumberVisitor,
-      IsVehicle,
-      StartTime,
-      EndTime,
-      TypeId,
-      TypePayment,
-      InputRealTime,
-      NoteDone
-    } = this.requestEntryForm.value;
-    const inputData = {
-      EParkingId: environment.parkingId,
-      CustomerId: this.authService.currentUserValue.CustomerId,
-      RequestDetailed,
-      VisitorName,
-      VisitorTel,
-      VisitorPassport,
-      NumberVisitor,
-      IsVihicle: IsVehicle,
-      StartTime: this.timeService.toDateTimeString(StartTime),
-      EndTime: this.timeService.toDateTimeString(EndTime),
-      TypeId,
-      TypePayment,
-      UserInitial: this.authService.currentUserValue.Id,
-      DateOfInitial: '',
-      InputRealTime: this.timeService.toDateTimeString(InputRealTime),
-      NoteDone
-    };
-
-    const ItemDetaileds = this.listAccessVehicles;
-    this.requestEntryService.addRequestEntry(inputData, ItemDetaileds).subscribe((res) => {
-      if (res.Code === '100') {
-        this.toastr.success('Created successfully.', 'Vehicle');
-        this.back();
-      }
-    });
+    this.toastr.info('Can not create here.');
   }
 
   update(): void {
@@ -192,7 +154,8 @@ export class UpdateRequestEntryComponent implements OnInit {
       StartTime,
       EndTime,
       TypeId,
-      TypePayment
+      TypePayment,
+      NoteDone
     } = this.requestEntryForm.value;
     const inputData = {
       Id: this.id,
@@ -206,7 +169,8 @@ export class UpdateRequestEntryComponent implements OnInit {
       EndTime: this.timeService.toDateTimeString(EndTime),
       TypeId,
       TypePayment,
-      UserUpdate: this.authService.currentUserValue.Id
+      UserUpdate: this.authService.currentUserValue.Id,
+      NoteDone
     };
 
     this.requestEntryService.updateRequestEntry(inputData).subscribe((res) => {
@@ -234,13 +198,22 @@ export class UpdateRequestEntryComponent implements OnInit {
   addAccessVehicle(): void {
     if (this.accessVehicleForm.valid) {
       const { Plate, Type }: { Plate: string; Type: IVehicleCategory } = this.accessVehicleForm.value;
-      this.listAccessVehicles.push({
+      const inputData: IAccessVehicle = {
+        RequestEntryId: this.id,
         Plate,
-        TypeId: Type.Id,
-        Name: Type.Name
-      } as IAccessVehicle);
-
-      this.listAccessVehicles = [...this.listAccessVehicles];
+        TypeId: Type.Id
+      };
+      this.requestEntryDetailService.addRequestEntryDetail(inputData).subscribe((res) => {
+        if (res.Code === '100') {
+          this.accessVehicleForm.reset();
+          this.listAccessVehicles.push({
+            Plate,
+            TypeId: Type.Id,
+            Name: Type.Name
+          } as IAccessVehicle);
+          this.listAccessVehicles = [...this.listAccessVehicles];
+        }
+      });
     }
   }
 
@@ -254,13 +227,17 @@ export class UpdateRequestEntryComponent implements OnInit {
 
     dialogRef.afterClosed().subscribe((dialogResult) => {
       if (dialogResult) {
-        this.listSelectedVehicles.forEach((valueSelect) => {
-          this.listAccessVehicles = this.listAccessVehicles.filter((value) => {
-            return value !== valueSelect;
+        for (const valueSelect of this.listSelectedVehicles) {
+          this.requestEntryDetailService.deleteRequestEntryDetail(valueSelect.Id).subscribe((res) => {
+            if (res.Code === '100') {
+              this.listAccessVehicles = this.listAccessVehicles.filter((value) => {
+                return value.Id !== valueSelect.Id;
+              });
+            }
           });
-        });
-        this.listAccessVehicles = [...this.listAccessVehicles];
-        this.listSelectedVehicles = [];
+          this.listAccessVehicles = [...this.listAccessVehicles];
+          this.listSelectedVehicles = [];
+        }
       }
     });
   }
@@ -268,5 +245,23 @@ export class UpdateRequestEntryComponent implements OnInit {
   omitSpecialChar(event): boolean {
     const k = event.charCode; //         k = event.keyCode;  (Both can be used)
     return (k > 64 && k < 91) || (k > 96 && k < 123) || k === 8 || k === 32 || (k >= 48 && k <= 57);
+  }
+
+  confirmInput(): void {
+    const dialogData = new ConfirmDialogModel(
+      'Input Confirm',
+      'Do you want to confirm the vehicles come into park with this request?'
+    );
+
+    const dialogRef = this.dialog.open(ConfirmDialogComponent, {
+      minWidth: '400px',
+      data: dialogData
+    });
+
+    dialogRef.afterClosed().subscribe((dialogResult) => {
+      if (dialogResult) {
+        this.toastr.success('Confirmed successfully (Just demo).');
+      }
+    });
   }
 }

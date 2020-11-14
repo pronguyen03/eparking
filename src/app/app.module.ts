@@ -29,7 +29,14 @@ export function HttpLoaderFactory(http: HttpClient): TranslateHttpLoader {
 }
 
 @NgModule({
-  declarations: [AppComponent, LoginComponent, HomeComponent, RequestEntryComponent, UpdateRequestEntryComponent, RestrictAlphanumericDirective],
+  declarations: [
+    AppComponent,
+    LoginComponent,
+    HomeComponent,
+    RequestEntryComponent,
+    UpdateRequestEntryComponent,
+    RestrictAlphanumericDirective
+  ],
   imports: [
     BrowserModule,
     ReactiveFormsModule,
@@ -54,10 +61,10 @@ export function HttpLoaderFactory(http: HttpClient): TranslateHttpLoader {
   providers: [
     { provide: HTTP_INTERCEPTORS, useClass: LoadingInterceptor, multi: true },
     { provide: HTTP_INTERCEPTORS, useClass: JwtInterceptor, multi: true },
-    { provide: HTTP_INTERCEPTORS, useClass: ErrorInterceptor, multi: true },
+    { provide: HTTP_INTERCEPTORS, useClass: ErrorInterceptor, multi: true }
     // fakeBackendProvider,
   ],
   bootstrap: [AppComponent],
-  schemas: [CUSTOM_ELEMENTS_SCHEMA],
+  schemas: [CUSTOM_ELEMENTS_SCHEMA]
 })
 export class AppModule {}
