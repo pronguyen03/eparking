@@ -19,6 +19,12 @@ const routes: Routes = [
     canActivate: [AuthGuard]
   },
   {
+    path: 'manager',
+    loadChildren: () => import('./manager/manager.module').then((m) => m.ManagerModule),
+    data: { roles: [Role.PARKING_ADMIN, Role.SYSTEM_ADMIN] },
+    canActivate: [AuthGuard]
+  },
+  {
     path: 'security-staff',
     loadChildren: () => import('./security-staff/security-staff.module').then((m) => m.SecurityStaffModule),
     data: { roles: [Role.PARKING_ADMIN, Role.SECURITY, Role.SYSTEM_ADMIN] },

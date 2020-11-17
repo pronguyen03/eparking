@@ -13,5 +13,7 @@ Run `ng build` to build the project. The build artifacts will be stored in the `
 ## Further help
 
 Author: Nguyen Anh Nguyen
+
 Email: yaphets1603@gmail.com
+
 Phone/Zalo: 0935570445

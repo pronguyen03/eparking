@@ -1,6 +1,5 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-
 import { MasterDataRoutingModule } from './master-data-routing.module';
 import { SharedModule } from '../shared/shared.module';
 import { CustomersComponent } from './customers/customers.component';
@@ -16,10 +15,6 @@ import { VehicleCategoriesComponent } from './vehicle-categories/vehicle-categor
 import { VehicleCategoryDetailComponent } from './vehicle-categories/vehicle-category-detail/vehicle-category-detail.component';
 import { PricesComponent } from './prices/prices.component';
 import { PriceDetailComponent } from './prices/price-detail/price-detail.component';
-import { PendingApprovalVehiclesComponent } from './pending-approval-vehicles/pending-approval-vehicles.component';
-import { PendingApprovalVehicleDetailComponent } from './pending-approval-vehicles/pending-approval-vehicle-detail/pending-approval-vehicle-detail.component';
-import { InactiveVehicleDetailComponent } from './inactive-vehicles/inactive-vehicle-detail/inactive-vehicle-detail.component';
-import { InactiveVehiclesComponent } from './inactive-vehicles/inactive-vehicles.component';
 @NgModule({
   declarations: [
     CustomersComponent,
@@ -34,11 +29,8 @@ import { InactiveVehiclesComponent } from './inactive-vehicles/inactive-vehicles
     VehicleCategoriesComponent,
     VehicleCategoryDetailComponent,
     PricesComponent,
-    PriceDetailComponent,
-    PendingApprovalVehiclesComponent,
-    PendingApprovalVehicleDetailComponent,
-    InactiveVehicleDetailComponent,
-    InactiveVehiclesComponent],
-  imports: [CommonModule, SharedModule, MasterDataRoutingModule],
+    PriceDetailComponent
+  ],
+  imports: [CommonModule, SharedModule, MasterDataRoutingModule]
 })
 export class MasterDataModule {}

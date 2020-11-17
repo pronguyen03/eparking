@@ -81,9 +81,15 @@
             </td>
           </ng-container>
 
-          <ng-container *ngSwitchCase="'date'">
+          <ng-container *ngSwitchCase="'dateTime'">
             <td mat-cell *matCellDef="let element">
               <mat-label>{{ element[column.key] | date: 'HH:mm yyyy-MM-dd' }}</mat-label>
+            </td>
+          </ng-container>
+
+          <ng-container *ngSwitchCase="'date'">
+            <td mat-cell *matCellDef="let element">
+              <mat-label>{{ element[column.key] | date: 'yyyy-MM-dd' }}</mat-label>
             </td>
           </ng-container>
 

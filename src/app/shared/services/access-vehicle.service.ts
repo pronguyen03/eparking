@@ -7,7 +7,7 @@ import { IAccessVehicle } from '../interfaces/access-vehicle';
 import { ApiResponse } from '../interfaces/api-response';
 
 @Injectable({
-  providedIn: 'root',
+  providedIn: 'root'
 })
 export class AccessVehicleService {
   routeUrl = 'RequestEntryDetaileds';
@@ -21,8 +21,8 @@ export class AccessVehicleService {
     return this.http
       .post<ApiResponse>(`${this.url}/GetbyId`, {
         Item: {
-          RepuestEntryId,
-        },
+          RepuestEntryId
+        }
       })
       .pipe(map((res) => res.Data));
   }
@@ -30,20 +30,24 @@ export class AccessVehicleService {
   deleteAccessVehicle(accessVehiclesId: number): Observable<ApiResponse> {
     return this.http.post<ApiResponse>(`${this.url}/Delete`, {
       Item: {
-        Id: accessVehiclesId,
-      },
+        Id: accessVehiclesId
+      }
     });
   }
 
   addAccessVehicle(inputData: Partial<IAccessVehicle>): Observable<ApiResponse> {
     return this.http.post<ApiResponse>(`${this.url}/Add`, {
-      Item: inputData
+      Item: {
+        RepuestEntryId: inputData.RequestEntryId,
+        Plate: inputData.Plate,
+        TypeId: inputData.TypeId
+      }
     });
   }
 
   updateAccessVehicle(inputData: Partial<IAccessVehicle>): Observable<ApiResponse> {
     return this.http.post<ApiResponse>(`${this.url}/Update`, {
-      Item: inputData,
+      Item: inputData
     });
   }
 }

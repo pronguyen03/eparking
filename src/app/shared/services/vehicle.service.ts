@@ -7,9 +7,10 @@ import { IVehicle } from '../interfaces/vehicle';
 import { ApiResponse } from '../interfaces/api-response';
 import { UserService } from './user.service';
 import { AuthenticationService } from './authentication.service';
+import { VehicleStatus } from '../enums/vehicle-status.enum';
 
 @Injectable({
-  providedIn: 'root',
+  providedIn: 'root'
 })
 export class VehicleService {
   routeUrl = 'Vihicles';
@@ -23,65 +24,66 @@ export class VehicleService {
     return this.http
       .post<ApiResponse>(`${this.url}/GetbyCustomer`, {
         Item: {
-          CustomerId: customerId,
-        },
+          CustomerId: customerId
+        }
       })
       .pipe(map((res) => res.Data));
   }
 
-  getVehiclesByParking(parkingId: number): Observable<IVehicle[]> {
+  getVehiclesByParking(parkingId: number, status: VehicleStatus = -1): Observable<IVehicle[]> {
     return this.http
-    .post<ApiResponse>(`${this.url}/GetbyParking`, {
-      Item: {
-        eParkingId: parkingId,
-      },
-    })
-    .pipe(map((res) => res.Data));
+      .post<ApiResponse>(`${this.url}/GetbyParking`, {
+        Item: {
+          eParkingId: parkingId,
+          Status: status
+        }
+      })
+      .pipe(map((res) => res.Data));
   }
 
   getVehicleById(vehicleId: number): Observable<IVehicle> {
     return this.http
       .post<ApiResponse>(`${this.url}/GetbyId`, {
         Item: {
-          Id: vehicleId,
-        },
+          Id: vehicleId
+        }
       })
       .pipe(map((res) => res.Data));
   }
 
   addVehicle(inputData: Partial<IVehicle>): Observable<ApiResponse> {
     return this.http.post<ApiResponse>(`${this.url}/Add`, {
-      Item: inputData,
+      Item: inputData
     });
   }
 
   updateVehicle(inputData: Partial<IVehicle>): Observable<ApiResponse> {
     return this.http.post<ApiResponse>(`${this.url}/Update`, {
-      Item: inputData,
+      Item: inputData
     });
   }
 
   deleteVehicle(vehicleId: number): Observable<ApiResponse> {
     return this.http.post<ApiResponse>(`${this.url}/Delete`, {
       Item: {
-        Id: vehicleId,
-      },
+        Id: vehicleId
+      }
     });
   }
 
   setApproving(id: number): Observable<ApiResponse> {
     return this.http.post<ApiResponse>(`${this.url}/SetApproving`, {
       Item: {
-        Id: id,
-      },
+        Id: id
+      }
     });
   }
 
   setApproved(id: number): Observable<ApiResponse> {
-    return this.http.post<ApiResponse>(`${this.url}/SetApproving`, {
+    return this.http.post<ApiResponse>(`${this.url}/SetApproved`, {
       Item: {
-        Id: id,
-      },
+        Id: id
+      }
     });
   }
 
@@ -89,16 +91,20 @@ export class VehicleService {
     return this.http.post<ApiResponse>(`${this.url}/CancelApprove`, {
       Item: {
         Id: id,
-        Notes: note,
-      },
+        Notes: note
+      }
     });
   }
 
   uploadImage(formData: FormData): any {
     const currentUser = this.authenticationService.currentUserValue;
-    return this.http.post<ApiResponse>(`${this.url}/UploadFiles?token=${ encodeURIComponent(currentUser.TokenKey)}`, formData, {
-      reportProgress: true,
-      observe: 'events'
-    });
+    return this.http.post<ApiResponse>(
+      `${this.url}/UploadFiles?token=${encodeURIComponent(currentUser.TokenKey)}`,
+      formData,
+      {
+        reportProgress: true,
+        observe: 'events'
+      }
+    );
   }
 }

@@ -22,7 +22,7 @@ export class PendingApprovalVehiclesComponent implements OnInit {
     { key: 'ContactName', display: 'Contact Name' },
     { key: 'DateOfPayment', display: 'Payment Date', type: 'date' },
     { key: 'Actived', display: 'Actived', type: 'boolean' },
-    { key: 'StatusName', display: 'Status'},
+    { key: 'StatusName', display: 'Status' }
     // { key: 'IsApproved', display: 'Is Approved', type: 'boolean' },
     // { key: 'WhoApproved', display: 'Approver' },
     // { key: 'DateApproved', display: 'Approval Date' },
@@ -30,33 +30,34 @@ export class PendingApprovalVehiclesComponent implements OnInit {
   constructor(
     private router: Router,
     private authService: AuthenticationService,
-    private vehicleService: VehicleService,
-  ) { }
-
+    private vehicleService: VehicleService
+  ) {}
 
   ngOnInit(): void {
-    if (this.authService.currentUserValue.RoleId === Role.PARKING_ADMIN || this.authService.currentUserValue.RoleId === Role.SYSTEM_ADMIN) {
-      this.getVehiclesByParking(environment.parkingId);
+    if (
+      this.authService.currentUserValue.RoleId === Role.PARKING_ADMIN ||
+      this.authService.currentUserValue.RoleId === Role.SYSTEM_ADMIN
+    ) {
+      this.getVehiclesByParking(environment.parkingId, VehicleStatus.PENDING);
     }
   }
 
-  getVehiclesByParking(parkingId: number): void {
-    this.vehicleService.getVehiclesByParking(parkingId).subscribe((vehicles) => {
-      vehicles = vehicles.filter(vehicle => vehicle.Status === VehicleStatus.PENDING).map(vehicle => {
-          vehicle.StatusName = 'Pending Approval';
-          vehicle.canDelete = false;
-          return vehicle;
+  getVehiclesByParking(parkingId: number, status: VehicleStatus): void {
+    this.vehicleService.getVehiclesByParking(parkingId, status).subscribe((vehicles) => {
+      vehicles = vehicles.map((vehicle) => {
+        vehicle.StatusName = 'Pending Approval';
+        vehicle.canDelete = false;
+        return vehicle;
       });
       this.vehicles = vehicles;
     });
   }
 
   viewDetail(vehicle: IVehicle): void {
-    this.router.navigate(['master-data/pending-approval-vehicles/detail', CrudType.VIEW, vehicle.Id]);
+    this.router.navigate(['manager/pending-approval-vehicles/detail', CrudType.VIEW, vehicle.Id]);
   }
 
   editVehicle(vehicle: IVehicle): void {
-    this.router.navigate(['master-data/pending-approval-vehicles/detail', CrudType.EDIT, vehicle.Id]);
+    this.router.navigate(['manager/pending-approval-vehicles/detail', CrudType.EDIT, vehicle.Id]);
   }
-
 }

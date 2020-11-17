@@ -260,7 +260,7 @@
             <mat-label fxFlex="30%" class="title-field">Note Done</mat-label>
             <mat-form-field fxFlex="70%" appearance="standard" class="form-input">
               <mat-label>Note Done</mat-label>
-              <textarea matInput [readonly]="crudType === CrudType.VIEW" rows="3"></textarea>
+              <textarea matInput [readonly]="crudType === CrudType.VIEW" rows="3" formControlName="NoteDone"></textarea>
             </mat-form-field>
           </div>
         </div>
@@ -327,11 +327,10 @@
         </div>
 
         <app-data-table
-          [hasSelect]="true"
-          [hasFunctionalBtn]="false"
+          [hasFunctionalBtn]="crudType === CrudType.EDIT"
           [dataList]="listAccessVehicles"
-          (selectedValuesEmitter)="listSelectedVehicles = $event"
           [columns]="columns"
+          (deleteEmitter)="deleteAccessVehicle($event)"
         ></app-data-table>
       </div>
     </div>
@@ -343,7 +342,9 @@
         {{ 'Save' | translate }}
       </button>
       <button mat-raised-button (click)="back()">{{ 'Back' | translate }}</button>
-      <button mat-raised-button color="accent" (click)="confirmInput()">{{ 'Confirm_Input' | translate }}</button>
+      <button *ngIf="crudType === CrudType.EDIT" mat-raised-button color="accent" (click)="confirmInput()">
+        {{ 'Confirm_Input' | translate }}
+      </button>
     </div>
   </div>
 </div>

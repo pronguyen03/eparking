@@ -3,7 +3,7 @@ import { MatDialog } from '@angular/material/dialog';
 import { Router } from '@angular/router';
 import {
   ConfirmDialogComponent,
-  ConfirmDialogModel,
+  ConfirmDialogModel
 } from '@app/shared/components/confirm-dialog/confirm-dialog.component';
 import { CrudType } from '@app/shared/enums/crud-type.enum';
 import { Role } from '@app/shared/enums/role.enum';
@@ -18,7 +18,7 @@ import { ToastrService } from 'ngx-toastr';
 @Component({
   selector: 'app-vehicles',
   templateUrl: './vehicles.component.html',
-  styleUrls: ['./vehicles.component.scss'],
+  styleUrls: ['./vehicles.component.scss']
 })
 export class VehiclesComponent implements OnInit {
   vehicles: IVehicle[] = [];
@@ -28,10 +28,10 @@ export class VehiclesComponent implements OnInit {
     { key: 'ContactName', display: 'Contact Name' },
     { key: 'DateOfPayment', display: 'Payment Date', type: 'date' },
     { key: 'Actived', display: 'Actived', type: 'boolean' },
-    { key: 'StatusName', display: 'Status'},
+    { key: 'StatusName', display: 'Status' },
     // { key: 'IsApproved', display: 'Is Approved', type: 'boolean' },
     { key: 'WhoApproved', display: 'Approver' },
-    { key: 'DateApproved', display: 'Approval Date' },
+    { key: 'DateApproved', display: 'Approval Date' }
   ];
 
   constructor(
@@ -43,16 +43,19 @@ export class VehiclesComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
-    if (this.authService.currentUserValue.RoleId === Role.PARKING_ADMIN || this.authService.currentUserValue.RoleId === Role.SYSTEM_ADMIN) {
-      this.getVehiclesByParking(environment.parkingId);
+    if (
+      this.authService.currentUserValue.RoleId === Role.PARKING_ADMIN ||
+      this.authService.currentUserValue.RoleId === Role.SYSTEM_ADMIN
+    ) {
+      this.getVehiclesByParking(environment.parkingId, VehicleStatus.APPROVED);
     } else {
       this.getVehiclesByCustomer(this.authService.currentUserValue.CustomerId);
     }
   }
 
-  getVehiclesByParking(parkingId: number): void {
-    this.vehicleService.getVehiclesByParking(parkingId).subscribe((vehicles) => {
-      vehicles = vehicles.map(vehicle => {
+  getVehiclesByParking(parkingId: number, status: VehicleStatus): void {
+    this.vehicleService.getVehiclesByParking(parkingId, status).subscribe((vehicles) => {
+      vehicles = vehicles.map((vehicle) => {
         switch (vehicle.Status) {
           case VehicleStatus.NEW:
             vehicle.StatusName = 'New';
@@ -77,7 +80,7 @@ export class VehiclesComponent implements OnInit {
 
   getVehiclesByCustomer(customerId: number): void {
     this.vehicleService.getVehiclesByCustomer(customerId).subscribe((vehicles) => {
-      vehicles = vehicles.map(vehicle => {
+      vehicles = vehicles.map((vehicle) => {
         switch (vehicle.Status) {
           case VehicleStatus.NEW:
             vehicle.StatusName = 'New';
@@ -117,7 +120,7 @@ export class VehiclesComponent implements OnInit {
 
     const dialogRef = this.dialog.open(ConfirmDialogComponent, {
       minWidth: '400px',
-      data: dialogData,
+      data: dialogData
     });
 
     dialogRef.afterClosed().subscribe((dialogResult) => {

@@ -3,7 +3,10 @@ import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
 import { ActivatedRoute, Router } from '@angular/router';
-import { ConfirmDialogComponent, ConfirmDialogModel } from '@app/shared/components/confirm-dialog/confirm-dialog.component';
+import {
+  ConfirmDialogComponent,
+  ConfirmDialogModel
+} from '@app/shared/components/confirm-dialog/confirm-dialog.component';
 import { CrudType } from '@app/shared/enums/crud-type.enum';
 import { Role } from '@app/shared/enums/role.enum';
 import { VehicleStatus } from '@app/shared/enums/vehicle-status.enum';
@@ -32,8 +35,8 @@ export class PendingApprovalVehicleDetailComponent implements OnInit {
   id: number;
   imageURLResource = environment.host + '/Resources/VihicleImages/';
 
-  @ViewChild('fileInput', {static: false}) fileInput: ElementRef;
-  files: { data: any, inProgress: boolean, progress: number }[]  = [];
+  @ViewChild('fileInput', { static: false }) fileInput: ElementRef;
+  files: { data: any; inProgress: boolean; progress: number }[] = [];
 
   constructor(
     private router: Router,
@@ -43,8 +46,8 @@ export class PendingApprovalVehicleDetailComponent implements OnInit {
     private vehicleCategoryService: VehicleCategoryService,
     private authService: AuthenticationService,
     private toastr: ToastrService,
-    public dialog: MatDialog,
-  ) { }
+    public dialog: MatDialog
+  ) {}
 
   ngOnInit(): void {
     this.initForm();
@@ -71,12 +74,12 @@ export class PendingApprovalVehicleDetailComponent implements OnInit {
       IsApproved: [false],
       WhoApproved: [''],
       Notes: [''],
-      ImagePath: [''],
+      ImagePath: ['']
     });
   }
 
   back(): void {
-    this.router.navigateByUrl('master-data/pending-approval-vehicles');
+    this.router.navigateByUrl('manager/pending-approval-vehicles');
   }
 
   getVehiclesCategories(parkingId: number): void {
@@ -101,30 +104,34 @@ export class PendingApprovalVehicleDetailComponent implements OnInit {
   }
 
   omitSpecialChar(event): boolean {
-    const k = event.charCode;  //         k = event.keyCode;  (Both can be used)
-    return((k > 64 && k < 91) || (k > 96 && k < 123) || k === 8 || k === 32 || (k >= 48 && k <= 57));
+    const k = event.charCode; //         k = event.keyCode;  (Both can be used)
+    return (k > 64 && k < 91) || (k > 96 && k < 123) || k === 8 || k === 32 || (k >= 48 && k <= 57);
   }
 
   callUploadService(file): void {
     const formData = new FormData();
     formData.append('files', file.data);
     file.inProgress = true;
-    this.vehicleService.uploadImage(formData).pipe(
-      map((res: any) => {
-        switch (res.type) {
-          case HttpEventType.UploadProgress:
-            file.progress = Math.round(res.loaded * 100 / res.total);
-            break;
-          case HttpEventType.Response:
-            return res;
-        }
-      })).subscribe((res: HttpResponse<ApiResponse>) => {
-          if (typeof (res) === 'object') {
-            const body = res.body;
-            if (body.Code === '100') {
-              this.toastr.success('Uploaded Image successfully.', 'Vehicle');
-              this.vehicleForm.patchValue({
-                ImagePath: body.Data
+    this.vehicleService
+      .uploadImage(formData)
+      .pipe(
+        map((res: any) => {
+          switch (res.type) {
+            case HttpEventType.UploadProgress:
+              file.progress = Math.round((res.loaded * 100) / res.total);
+              break;
+            case HttpEventType.Response:
+              return res;
+          }
+        })
+      )
+      .subscribe((res: HttpResponse<ApiResponse>) => {
+        if (typeof res === 'object') {
+          const body = res.body;
+          if (body.Code === '100') {
+            this.toastr.success('Uploaded Image successfully.', 'Vehicle');
+            this.vehicleForm.patchValue({
+              ImagePath: body.Data
             });
           }
         }
@@ -133,7 +140,7 @@ export class PendingApprovalVehicleDetailComponent implements OnInit {
 
   private upload(): void {
     this.fileInput.nativeElement.value = '';
-    this.files.forEach(file => {
+    this.files.forEach((file) => {
       this.callUploadService(file);
     });
   }
@@ -143,7 +150,7 @@ export class PendingApprovalVehicleDetailComponent implements OnInit {
     fileInput.onchange = () => {
       this.files = [];
       for (const file of fileInput.files) {
-        this.files.push({ data: file, inProgress: false, progress: 0});
+        this.files.push({ data: file, inProgress: false, progress: 0 });
       }
       this.upload();
     };
@@ -174,7 +181,7 @@ export class PendingApprovalVehicleDetailComponent implements OnInit {
         CurrentStatus,
         DateOfPayment,
         ImagePath,
-        Notes,
+        Notes
       };
 
       this.vehicleService.addVehicle(inputData).subscribe((res) => {
@@ -197,7 +204,7 @@ export class PendingApprovalVehicleDetailComponent implements OnInit {
       CurrentStatus,
       DateOfPayment,
       ImagePath,
-      Notes,
+      Notes
     };
 
     this.vehicleService.updateVehicle(inputData).subscribe((res) => {
@@ -240,7 +247,7 @@ export class PendingApprovalVehicleDetailComponent implements OnInit {
 
     const dialogRef = this.dialog.open(ConfirmDialogComponent, {
       minWidth: '400px',
-      data: dialogData,
+      data: dialogData
     });
 
     dialogRef.afterClosed().subscribe((dialogResult) => {

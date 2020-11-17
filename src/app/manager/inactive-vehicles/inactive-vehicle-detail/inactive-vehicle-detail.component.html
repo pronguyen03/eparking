@@ -1,0 +1,111 @@
+<div class="green-theme">
+  <mat-toolbar>
+    <span>{{ 'Inactive_Vehicle_Detail' | translate }}</span>
+  </mat-toolbar>
+
+  <div class="row">
+    <form [formGroup]="offerForm">
+      <div
+        fxLayout="row"
+        fxLayout.xs="column"
+        fxLayoutWrap
+        fxLayoutGap="5%"
+        fxLayoutAlign="center center"
+        fxLayoutAlign.xs="space-around stretch"
+      >
+        <div fxFlex="50%" fxLayout="row" fxLayoutWrap fxLayoutGap="10px" fxLayoutAlign="center center">
+          <mat-label fxFlex="30%" class="title-field">Customer<span class="required">*</span></mat-label>
+          <mat-form-field fxFlex="70%" appearance="standard">
+            <mat-label>Customer</mat-label>
+            <mat-select formControlName="CustomerId" [disabled]="crudType !== CrudType.CREATE">
+              <mat-option [value]="null">Please Select</mat-option>
+              <mat-option *ngFor="let customer of customers$ | async" [value]="customer.CustomerId">
+                {{ customer.CustomerName }}
+              </mat-option>
+            </mat-select>
+            <mat-error
+              *ngIf="
+                offerForm.controls.CustomerId.hasError('required') &&
+                (offerForm.controls.CustomerId.touched || offerForm.controls.CustomerId.dirty)
+              "
+              >This field is required</mat-error
+            >
+          </mat-form-field>
+        </div>
+        <div fxFlex="50%" fxLayout="row" fxLayoutWrap fxLayoutGap="10px" fxLayoutAlign="center center">
+          <mat-label fxFlex="30%" class="title-field">Vehicle<span class="required">*</span></mat-label>
+          <mat-form-field fxFlex="70%" appearance="standard">
+            <mat-label>Vehicle</mat-label>
+            <mat-select formControlName="VehicleId" [disabled]="crudType === CrudType.VIEW">
+              <mat-option [value]="null">Please Select</mat-option>
+              <mat-option *ngFor="let vehicle of vehicles$ | async" [value]="vehicle.Id">
+                {{ vehicle.Plate }}
+              </mat-option>
+            </mat-select>
+            <mat-error
+              *ngIf="
+                offerForm.controls.VehicleId.hasError('required') &&
+                (offerForm.controls.VehicleId.touched || offerForm.controls.VehicleId.dirty)
+              "
+              >This field is required</mat-error
+            >
+          </mat-form-field>
+        </div>
+      </div>
+
+      <div
+        fxLayout="row"
+        fxLayout.xs="column"
+        fxLayoutWrap
+        fxLayoutGap="5%"
+        fxLayoutAlign="center center"
+        fxLayoutAlign.xs="space-around stretch"
+      >
+        <div fxFlex="50%" fxLayout="row" fxLayoutWrap fxLayoutGap="10px" fxLayoutAlign="start center">
+          <mat-label fxFlex="30%" class="title-field">Start Offer Date<span class="required">*</span></mat-label>
+          <mat-form-field fxFlex="70%" appearance="standard">
+            <mat-label>Start Offer Date</mat-label>
+            <input matInput [matDatepicker]="pickerStartOfferDate" formControlName="StartOfferDate" readonly />
+            <mat-datepicker-toggle matSuffix [for]="pickerStartOfferDate"></mat-datepicker-toggle>
+            <mat-datepicker #pickerStartOfferDate [disabled]="crudType === CrudType.VIEW"></mat-datepicker>
+            <mat-error
+              *ngIf="
+                offerForm.controls.StartOfferDate.hasError('required') &&
+                (offerForm.controls.StartOfferDate.touched || offerForm.controls.StartOfferDate.dirty)
+              "
+              >This field is required</mat-error
+            >
+          </mat-form-field>
+        </div>
+        <div fxFlex="50%" fxLayout="row" fxLayoutWrap fxLayoutGap="10px" fxLayoutAlign="start center">
+          <mat-label fxFlex="30%" class="title-field">Offer Content<span class="required">*</span></mat-label>
+          <mat-form-field fxFlex="70%" appearance="standard" class="form-input">
+            <mat-label>Offer Content</mat-label>
+            <textarea
+              matInput
+              [readonly]="crudType === CrudType.VIEW"
+              rows="3"
+              formControlName="OfferContent"
+            ></textarea>
+            <mat-error
+              *ngIf="
+                offerForm.controls.OfferContent.hasError('required') &&
+                (offerForm.controls.OfferContent.touched || offerForm.controls.OfferContent.dirty)
+              "
+              >This field is required</mat-error
+            >
+          </mat-form-field>
+        </div>
+      </div>
+    </form>
+  </div>
+
+  <div class="row btn-footer">
+    <div fxLayout="row" fxLayoutGap="10px" fxLayoutAlign="start center">
+      <button *ngIf="crudType !== CrudType.VIEW" mat-raised-button color="primary" (click)="save()">
+        {{ 'Save' | translate }}
+      </button>
+      <button mat-raised-button (click)="back()">{{ 'Back' | translate }}</button>
+    </div>
+  </div>
+</div>

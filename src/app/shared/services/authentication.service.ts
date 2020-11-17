@@ -8,7 +8,7 @@ import { ApiResponse } from '../interfaces/api-response';
 import { IUser } from '../interfaces/user';
 import { Router } from '@angular/router';
 @Injectable({
-  providedIn: 'root',
+  providedIn: 'root'
 })
 export class AuthenticationService {
   private currentUserSubject: BehaviorSubject<IUser>;
@@ -26,38 +26,43 @@ export class AuthenticationService {
 
   login(username: string, password: string, saveProfile: boolean): Observable<any> {
     const ItemLogs = {
-      IP: '' ,
-      Browser: '' ,
+      IP: '',
+      Browser: '',
       OS: ''
     };
     ItemLogs.Browser = this.getBrowserName();
     ItemLogs.OS = this.getOS();
     const requestData = {
-      Username: username ,
+      Username: username,
       PassWord: this.encodePassword(password),
       ItemLogs
     };
-    return this.userService.login(requestData).pipe(
-      map((res: ApiResponse) => {
-        if (res.Code !== '102') {
-          const data = res.Data;
-          const user: IUser = data.Item;
-          user.TokenKey = data.TokenKey;
+    return this.userService
+      .login(requestData)
+      .pipe(
+        map((res: ApiResponse) => {
+          if (res.Code !== '102') {
+            const data = res.Data;
+            const user: IUser = data.Item;
+            user.TokenKey = data.TokenKey;
+            return user;
+          }
+        })
+      )
+      .pipe(
+        map((user) => {
+          if (saveProfile) {
+            localStorage.setItem('loginInfo', JSON.stringify({ username, password }));
+          } else {
+            localStorage.removeItem('loginInfo');
+          }
+          if (user) {
+            localStorage.setItem('currentUser', JSON.stringify(user));
+            this.currentUserSubject.next(user);
+          }
           return user;
-        }
-      })
-    ).pipe(
-      map((user) => {
-        if (saveProfile) {
-          localStorage.setItem('loginInfo', JSON.stringify({username, password}));
-        } else {
-          localStorage.removeItem('loginInfo');
-        }
-        localStorage.setItem('currentUser', JSON.stringify(user));
-        this.currentUserSubject.next(user);
-        return user;
-      }
-    ));
+        })
+      );
   }
 
   logout(): void {
@@ -91,7 +96,7 @@ export class AuthenticationService {
       // Chrome always contains Safari
     }
 
-    if (ua.indexOf('MSIE') !== -1 && (ua.indexOf('Opera') === -1 && ua.indexOf('Trident') === -1)) {
+    if (ua.indexOf('MSIE') !== -1 && ua.indexOf('Opera') === -1 && ua.indexOf('Trident') === -1) {
       b = 'MSIE';
       browser = 'Internet Explorer';
       // user agent with MSIE and Opera or MSIE and Trident may exist.
@@ -105,16 +110,23 @@ export class AuthenticationService {
 
   getOS(): string {
     let OSName = 'Unknown OS';
-    if (navigator.appVersion.indexOf('Win') !== -1) { OSName = 'Windows'; }
-    if (navigator.appVersion.indexOf('Mac') !== -1) { OSName = 'MacOS'; }
-    if (navigator.appVersion.indexOf('X11') !== -1) { OSName = 'UNIX'; }
-    if (navigator.appVersion.indexOf('Linux') !== -1) { OSName = 'Linux'; }
+    if (navigator.appVersion.indexOf('Win') !== -1) {
+      OSName = 'Windows';
+    }
+    if (navigator.appVersion.indexOf('Mac') !== -1) {
+      OSName = 'MacOS';
+    }
+    if (navigator.appVersion.indexOf('X11') !== -1) {
+      OSName = 'UNIX';
+    }
+    if (navigator.appVersion.indexOf('Linux') !== -1) {
+      OSName = 'Linux';
+    }
     return OSName;
   }
 
   getIpClient() {
-    return this.http.get('http://api.ipify.org/?format=jsonp&callback=JSONP_CALLBACK') // ...using post request '
-  ; // ...and calling .json() on the response to return data
+    return this.http.get('http://api.ipify.org/?format=jsonp&callback=JSONP_CALLBACK'); // ...using post request ' // ...and calling .json() on the response to return data
     //.catch((error:any) => Observable.throw(error.json().error || 'Server error')); //...errors if any
-}
+  }
 }
