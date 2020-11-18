@@ -1,24 +1,24 @@
 import { Component, OnInit } from '@angular/core';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
 import { Router } from '@angular/router';
 import {
-  ConfirmDialogComponent,
-  ConfirmDialogModel
+  ConfirmDialogModel,
+  ConfirmDialogComponent
 } from '@app/shared/components/confirm-dialog/confirm-dialog.component';
 import { CrudType } from '@app/shared/enums/crud-type.enum';
-import { AuthenticationService } from '@app/shared/services/authentication.service';
-import { RequestEntryService } from '@app/shared/services/request-entry.service';
-import { VehicleCategoryService } from '@app/shared/services/vehicle-category.service';
-import { environment } from '@environments/environment';
-import { ToastrService } from 'ngx-toastr';
-import { Observable, of } from 'rxjs';
-import { differenceInMinutes } from 'date-fns';
-import { TimeService } from '@app/shared/services/time.service';
+import { Role } from '@app/shared/enums/role.enum';
 import { IRequestEntry } from '@app/shared/interfaces/request-entry';
 import { IVehicleCategory } from '@app/shared/interfaces/vehicle-category';
-import { map, switchMap } from 'rxjs/operators';
-import { Role } from '@app/shared/enums/role.enum';
+import { AuthenticationService } from '@app/shared/services/authentication.service';
+import { RequestEntryService } from '@app/shared/services/request-entry.service';
+import { TimeService } from '@app/shared/services/time.service';
+import { VehicleCategoryService } from '@app/shared/services/vehicle-category.service';
+import { environment } from '@environments/environment';
+import { differenceInMinutes } from 'date-fns';
+import { ToastrService } from 'ngx-toastr';
+import { Observable, of } from 'rxjs';
+import { switchMap } from 'rxjs/operators';
 
 @Component({
   selector: 'app-request-entry',
@@ -61,25 +61,13 @@ export class RequestEntryComponent implements OnInit {
         if (Object.keys(filterValue).length === 0 && filterValue.constructor === Object) {
           return of(null);
         }
-
-        return this.getRequestsByCustomer(
-          filterValue.CustomerId,
+        return this.getRequestsByParking(
+          environment.parkingId,
           filterValue.FromDate,
           filterValue.ToDate,
           filterValue.Type
         );
       })
-      // map((requests) => {
-      //   if (!requests) {
-      //     return [];
-      //   }
-      //   return requests.map((request) => {
-      //     if (request.IsDone) {
-      //       request.canDelete = false;
-      //     }
-      //     return request;
-      //   });
-      // })
     );
   }
 

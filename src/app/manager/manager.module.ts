@@ -7,13 +7,21 @@ import { PendingApprovalVehiclesComponent } from './pending-approval-vehicles/pe
 import { SharedModule } from '@app/shared/shared.module';
 import { InactiveVehicleDetailComponent } from './inactive-vehicles/inactive-vehicle-detail/inactive-vehicle-detail.component';
 import { InactiveVehiclesComponent } from './inactive-vehicles/inactive-vehicles.component';
+import { VehiclesComponent } from './vehicles/vehicles.component';
+import { VehicleDetailComponent } from './vehicles/vehicle-detail/vehicle-detail.component';
+import { RequestEntryComponent } from './request-entry/request-entry.component';
+import { UpdateRequestEntryComponent } from './request-entry/update-request-entry/update-request-entry.component';
 
 @NgModule({
   declarations: [
     PendingApprovalVehiclesComponent,
     PendingApprovalVehicleDetailComponent,
     InactiveVehicleDetailComponent,
-    InactiveVehiclesComponent
+    InactiveVehiclesComponent,
+    VehiclesComponent,
+    VehicleDetailComponent,
+    RequestEntryComponent,
+    UpdateRequestEntryComponent
   ],
   imports: [CommonModule, ManagerRoutingModule, SharedModule]
 })

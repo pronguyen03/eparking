@@ -1,5 +1,12 @@
 table {
   width: 100%;
+  th {
+    max-width: 100px;
+  }
+  td {
+    max-width: 100px;
+    word-wrap: break-word;
+  }
 }
 
 .column-filter {
@@ -13,6 +20,8 @@ table {
     padding-bottom: 1rem;
   }
   .filter-header {
+    margin-top: -6px;
+    margin-bottom: -6px;
     .mat-form-field {
       display: flex;
       flex-direction: row;

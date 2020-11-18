@@ -1,5 +1,5 @@
 <mat-toolbar>
-  <span>{{ 'Pending_Approval_Vehicle' | translate }}</span>
+  <span>{{ 'Vehicle' | translate }}</span>
 </mat-toolbar>
 <div class="row">
   <div class="search-form" [formGroup]="searchForm">
@@ -25,5 +25,6 @@
     [columns]="columns"
     (viewEmitter)="viewDetail($event)"
     (editEmitter)="editVehicle($event)"
+    (deleteEmitter)="deleteVehicle($event)"
   ></app-data-table>
 </div>

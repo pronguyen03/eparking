@@ -5,6 +5,10 @@ import { InactiveVehicleDetailComponent } from './inactive-vehicles/inactive-veh
 import { InactiveVehiclesComponent } from './inactive-vehicles/inactive-vehicles.component';
 import { PendingApprovalVehicleDetailComponent } from './pending-approval-vehicles/pending-approval-vehicle-detail/pending-approval-vehicle-detail.component';
 import { PendingApprovalVehiclesComponent } from './pending-approval-vehicles/pending-approval-vehicles.component';
+import { RequestEntryComponent } from './request-entry/request-entry.component';
+import { UpdateRequestEntryComponent } from './request-entry/update-request-entry/update-request-entry.component';
+import { VehicleDetailComponent } from './vehicles/vehicle-detail/vehicle-detail.component';
+import { VehiclesComponent } from './vehicles/vehicles.component';
 
 const routes: Routes = [
   { path: 'pending-approval-vehicles', component: PendingApprovalVehiclesComponent, canActivate: [AuthGuard] },
@@ -25,7 +29,15 @@ const routes: Routes = [
     path: 'inactive-vehicles/detail/:crudType/:id',
     component: InactiveVehicleDetailComponent,
     canActivate: [AuthGuard]
-  }
+  },
+
+  { path: 'vehicles', component: VehiclesComponent, canActivate: [AuthGuard] },
+  { path: 'vehicles/detail/:crudType', component: VehicleDetailComponent, canActivate: [AuthGuard] },
+  { path: 'vehicles/detail/:crudType/:id', component: VehicleDetailComponent, canActivate: [AuthGuard] },
+
+  { path: 'request-entry', component: RequestEntryComponent, canActivate: [AuthGuard] },
+  { path: 'request-entry/detail/:crudType', component: UpdateRequestEntryComponent, canActivate: [AuthGuard] },
+  { path: 'request-entry/detail/:crudType/:id', component: UpdateRequestEntryComponent, canActivate: [AuthGuard] }
 ];
 
 @NgModule({

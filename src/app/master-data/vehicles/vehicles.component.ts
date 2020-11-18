@@ -24,11 +24,10 @@ export class VehiclesComponent implements OnInit {
   vehicles: IVehicle[] = [];
   columns: ITableCol[] = [
     { key: 'Plate', display: 'Plate', filterable: true, filterType: 'input' },
-    { key: 'Name', display: 'Name' },
-    { key: 'ContactName', display: 'Contact Name' },
+    { key: 'Name', display: 'Name', filterable: true, filterType: 'input' },
     { key: 'DateOfPayment', display: 'Payment Date', type: 'date' },
     { key: 'Actived', display: 'Actived', type: 'boolean' },
-    { key: 'StatusName', display: 'Status' },
+    { key: 'StatusName', display: 'Status', filterable: true, filterType: 'input' },
     // { key: 'IsApproved', display: 'Is Approved', type: 'boolean' },
     { key: 'WhoApproved', display: 'Approver' },
     { key: 'DateApproved', display: 'Approval Date' }
@@ -43,39 +42,7 @@ export class VehiclesComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
-    if (
-      this.authService.currentUserValue.RoleId === Role.PARKING_ADMIN ||
-      this.authService.currentUserValue.RoleId === Role.SYSTEM_ADMIN
-    ) {
-      this.getVehiclesByParking(environment.parkingId, VehicleStatus.APPROVED);
-    } else {
-      this.getVehiclesByCustomer(this.authService.currentUserValue.CustomerId);
-    }
-  }
-
-  getVehiclesByParking(parkingId: number, status: VehicleStatus): void {
-    this.vehicleService.getVehiclesByParking(parkingId, status).subscribe((vehicles) => {
-      vehicles = vehicles.map((vehicle) => {
-        switch (vehicle.Status) {
-          case VehicleStatus.NEW:
-            vehicle.StatusName = 'New';
-            break;
-          case VehicleStatus.PENDING:
-            vehicle.StatusName = 'Pending Approval';
-            vehicle.canDelete = false;
-            break;
-          case VehicleStatus.APPROVED:
-            vehicle.StatusName = 'Approved';
-            vehicle.canDelete = false;
-            break;
-          default:
-            vehicle.StatusName = 'New';
-            break;
-        }
-        return vehicle;
-      });
-      this.vehicles = vehicles;
-    });
+    this.getVehiclesByCustomer(this.authService.currentUserValue.CustomerId);
   }
 
   getVehiclesByCustomer(customerId: number): void {

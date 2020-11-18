@@ -286,6 +286,7 @@ export class UpdateRequestEntryComponent implements OnInit {
         this.requestEntryService.setDone(this.id, NoteDone).subscribe((res) => {
           if (res.Code === '100') {
             this.toastr.success('Confirmed successfully.');
+            this.back();
           }
         });
       }

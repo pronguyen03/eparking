@@ -26,11 +26,12 @@
       <ng-container matColumnDef="colNo" *ngIf="column.key === 'colNo'">
         <th mat-header-cell *matHeaderCellDef>
           <div class="column-filter" fxLayoutGap="12px">
-            <div class="cell-header">
+            <div class="cell-header" *ngIf="!column.filterable || hideFilter">
               <span>{{ column.display }}</span>
             </div>
-            <div class="filter-header" *ngIf="column.filterable">
+            <div class="filter-header" *ngIf="column.filterable && !hideFilter">
               <mat-form-field
+                floatLabel="never"
                 appearance="outline"
                 fxFlex="80%"
                 [ngStyle]="{
@@ -51,21 +52,17 @@
       <ng-container [matColumnDef]="column.key" *ngIf="!['select', 'functional', 'colNo'].includes(column.key)">
         <th mat-header-cell *matHeaderCellDef>
           <div class="column-filter" fxLayoutGap="12px">
-            <div class="cell-header">
+            <div class="cell-header" *ngIf="!column.filterable || hideFilter">
               <span>{{ column.display }}</span>
             </div>
-            <div class="filter-header" *ngIf="column.filterable">
-              <mat-form-field
-                appearance="outline"
-                fxFlex="80%"
-                [ngStyle]="{
-                  height: hideFilter ? '0' : '60px',
-                  opacity: hideFilter ? '0' : '1',
-                  visibility: hideFilter ? 'hidden' : 'visible',
-                  transition: '0.5s'
-                }"
-              >
-                <input matInput *ngIf="!column.filterType || column.filterType === 'input'" />
+            <div class="filter-header" *ngIf="column.filterable && !hideFilter">
+              <mat-form-field floatLabel="never" appearance="outline">
+                <mat-label>{{ column.display }}</mat-label>
+                <input
+                  matInput
+                  *ngIf="!column.filterType || column.filterType === 'input'"
+                  (keyup)="onFilter(column, $event)"
+                />
               </mat-form-field>
             </div>
           </div>

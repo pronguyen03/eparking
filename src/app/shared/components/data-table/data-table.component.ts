@@ -8,12 +8,13 @@ import { ITableCol } from '@app/shared/interfaces/table-col';
 @Component({
   selector: 'app-data-table',
   templateUrl: './data-table.component.html',
-  styleUrls: ['./data-table.component.scss'],
+  styleUrls: ['./data-table.component.scss']
 })
 export class DataTableComponent implements OnInit, AfterViewInit, OnChanges {
   @Input() hasSelect: boolean;
   @Input() hasFunctionalBtn = true;
   @Input() dataList: any[] = [];
+  @Input() filteredDataList: any[] = [];
   @Input() columns: ITableCol[] = [];
 
   @Output() viewEmitter = new EventEmitter<any>();
@@ -24,6 +25,7 @@ export class DataTableComponent implements OnInit, AfterViewInit, OnChanges {
   dataSource: MatTableDataSource<any> = new MatTableDataSource<any>(this.dataList);
   selection = new SelectionModel<any>(true, []);
   hideFilter = true;
+  filterValue: { [key: string]: any } = {};
   /** Pagination */
   @ViewChild(MatPaginator) paginator: MatPaginator;
 
@@ -39,9 +41,9 @@ export class DataTableComponent implements OnInit, AfterViewInit, OnChanges {
   }
 
   ngOnChanges(): void {
-    this.dataSource = new MatTableDataSource<any>(this.dataList);
-    this.selection.clear();
-    this.dataSource.paginator = this.paginator;
+    this.filterValue = {};
+    this.filteredDataList = [...this.dataList];
+    this.updateSource();
   }
 
   /** Whether the number of selected elements matches the total number of rows. */
@@ -80,6 +82,11 @@ export class DataTableComponent implements OnInit, AfterViewInit, OnChanges {
 
   toggleFilter(): void {
     this.hideFilter = !this.hideFilter;
+    if (this.hideFilter) {
+      this.filterValue = {};
+      this.filteredDataList = [...this.dataList];
+      this.updateSource();
+    }
   }
 
   onSelectItem(event: MatCheckboxChange, value: any): void {
@@ -87,5 +94,30 @@ export class DataTableComponent implements OnInit, AfterViewInit, OnChanges {
       this.selection.toggle(value);
     }
     this.selectedValuesEmitter.emit(this.selection.selected);
+  }
+
+  onFilter(column: ITableCol, event: any): void {
+    this.filterValue[column.key] = ('' + event.target.value).trim();
+    if (!this.filterValue[column.key]) {
+      delete this.filterValue[column.key];
+    }
+    this.filteredDataList = [...this.dataList];
+    for (const filterKey in this.filterValue) {
+      if (Object.prototype.hasOwnProperty.call(this.filterValue, filterKey)) {
+        const element = this.filterValue[filterKey];
+        if (element) {
+          this.filteredDataList = this.filteredDataList.filter((data) =>
+            data[filterKey].toLowerCase().includes(element.toLowerCase())
+          );
+        }
+      }
+    }
+    this.updateSource();
+  }
+
+  updateSource(): void {
+    this.dataSource = new MatTableDataSource<any>(this.filteredDataList);
+    this.selection.clear();
+    this.dataSource.paginator = this.paginator;
   }
 }

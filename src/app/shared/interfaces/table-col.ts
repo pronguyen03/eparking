@@ -4,4 +4,5 @@ export interface ITableCol {
   type?: undefined | 'date' | 'dateTime' | 'dateString' | 'boolean' | 'dateTimeString';
   filterable?: boolean;
   filterType?: 'input' | 'select';
+  selectionList?: any[];
 }
