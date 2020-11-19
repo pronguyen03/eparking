@@ -105,13 +105,14 @@
       <button *ngIf="crudType !== CrudType.VIEW" mat-raised-button color="primary" (click)="save()">
         {{ 'Save' | translate }}
       </button>
-      <button
+      <!-- <button
+        *ngIf="crudType !== CrudType.CREATE"
         mat-raised-button
         color="primary"
-        (click)="confirmDialog('approve', 'Approval Confirm', 'Are you sure you want to approve this offer?')"
+        (click)="confirmDialog('handover', 'Handover', 'Are you sure you want to handover to approve this offer?')"
       >
-        {{ 'Approve' | translate }}
-      </button>
+        {{ 'Approval_Handover' | translate }}
+      </button> -->
       <button mat-raised-button (click)="back()">{{ 'Back' | translate }}</button>
     </div>
   </div>

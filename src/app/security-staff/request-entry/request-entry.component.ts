@@ -12,7 +12,7 @@ import { TimeService } from '@app/shared/services/time.service';
 import { VehicleCategoryService } from '@app/shared/services/vehicle-category.service';
 import { environment } from '@environments/environment';
 import { ToastrService } from 'ngx-toastr';
-import { Observable, of } from 'rxjs';
+import { Observable, of, timer } from 'rxjs';
 import { map, switchMap } from 'rxjs/operators';
 
 @Component({
@@ -39,8 +39,6 @@ export class RequestEntryComponent implements OnInit {
     private authService: AuthenticationService,
     private requestEntryService: RequestEntryService,
     private router: Router,
-    private dialog: MatDialog,
-    private toastr: ToastrService,
     private fb: FormBuilder,
     private vehicleCategoryService: VehicleCategoryService,
     private timeService: TimeService
@@ -49,8 +47,10 @@ export class RequestEntryComponent implements OnInit {
   ngOnInit(): void {
     this.initForm();
     this.getVehiclesCategories(environment.parkingId);
+    this.getFilteredList();
 
-    this.listRequests$ = this.requestEntryService.getFilterValue().pipe(
+    this.listRequests$ = timer(0, 30000).pipe(
+      switchMap(() => this.requestEntryService.getFilterValue()),
       switchMap((filterValue) => {
         if (Object.keys(filterValue).length === 0 && filterValue.constructor === Object) {
           return of(null);
@@ -77,8 +77,8 @@ export class RequestEntryComponent implements OnInit {
 
   initForm(): void {
     this.searchForm = this.fb.group({
-      FromDate: ['', Validators.required],
-      ToDate: ['', Validators.required],
+      FromDate: [new Date(), Validators.required],
+      ToDate: [new Date(), Validators.required],
       Type: [0, Validators.required]
     });
   }
@@ -122,5 +122,15 @@ export class RequestEntryComponent implements OnInit {
   resetSearchForm(): void {
     this.searchForm.reset();
     this.errorForm = false;
+  }
+
+  setDefaultFilter(): void {
+    const filterValue = {
+      CustomerId: this.authService.currentUserValue.CustomerId,
+      FromDate: this.timeService.toDateTimeString(new Date()),
+      ToDate: this.timeService.toDateTimeString(new Date()),
+      Type: this.searchForm.value.Type
+    };
+    this.requestEntryService.filterSubject.next(filterValue);
   }
 }

@@ -49,7 +49,7 @@
         </div>
 
         <div fxFlex="50%" fxLayout="row" fxLayoutWrap fxLayoutGap="10px" fxLayoutAlign="start center">
-          <mat-label fxFlex="30%" class="title-field">Plate</mat-label>
+          <mat-label fxFlex="30%" class="title-field">Plate<span class="required">*</span></mat-label>
           <mat-form-field fxFlex="70%" appearance="standard" class="form-input">
             <mat-label>Plate</mat-label>
             <!-- <mat-icon matSuffix>person</mat-icon> -->
@@ -60,6 +60,13 @@
               (keypress)="omitSpecialChar($event)"
               [readonly]="crudType === CrudType.VIEW"
             />
+            <mat-error
+              *ngIf="
+                vehicleForm.controls.Plate.hasError('required') &&
+                (vehicleForm.controls.Plate.touched || vehicleForm.controls.Plate.dirty)
+              "
+              >This field is required</mat-error
+            >
             <mat-error
               *ngIf="
                 vehicleForm.controls.Plate.hasError('maxlength') &&
@@ -107,8 +114,7 @@
           <mat-label fxFlex="30%" class="title-field">Note</mat-label>
           <mat-form-field fxFlex="70%" appearance="standard">
             <mat-label>Note</mat-label>
-            <input matInput formControlName="Notes" readonly />
-            <!-- <textarea matInput></textarea> -->
+            <input matInput formControlName="Notes" />
           </mat-form-field>
         </div>
       </div>

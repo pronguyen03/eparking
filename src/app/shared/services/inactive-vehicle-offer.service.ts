@@ -49,4 +49,30 @@ export class InactiveVehicleOfferService {
       Item: inputData
     });
   }
+
+  getInactiveVehicleOffersByCustomer(customerId: number): Observable<IInactiveVehicleOffer[]> {
+    return this.http
+      .post<ApiResponse>(`${this.url}/GetbyCustomer`, {
+        Item: {
+          CustomerId: customerId
+        }
+      })
+      .pipe(map((res) => res.Data));
+  }
+
+  setApproving(id: number): Observable<ApiResponse> {
+    return this.http.post<ApiResponse>(`${this.url}/SetApproving`, {
+      Item: {
+        Id: id
+      }
+    });
+  }
+
+  setApproved(id: number): Observable<ApiResponse> {
+    return this.http.post<ApiResponse>(`${this.url}/SetApproved`, {
+      Item: {
+        Id: id
+      }
+    });
+  }
 }

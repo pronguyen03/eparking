@@ -55,6 +55,7 @@ export class RequestEntryComponent implements OnInit {
   ngOnInit(): void {
     this.initForm();
     this.getVehiclesCategories(environment.parkingId);
+    this.getFilteredList();
 
     this.listRequests$ = this.requestEntryService.getFilterValue().pipe(
       switchMap((filterValue) => {
@@ -68,18 +69,19 @@ export class RequestEntryComponent implements OnInit {
           filterValue.ToDate,
           filterValue.Type
         );
+      }),
+      map((requests: IRequestEntry[]) => {
+        if (!requests) {
+          return [];
+        }
+        return requests.map((request) => {
+          if (request.IsDone) {
+            request.canDelete = false;
+            request.canEdit = false;
+          }
+          return request;
+        });
       })
-      // map((requests) => {
-      //   if (!requests) {
-      //     return [];
-      //   }
-      //   return requests.map((request) => {
-      //     if (request.IsDone) {
-      //       request.canDelete = false;
-      //     }
-      //     return request;
-      //   });
-      // })
     );
   }
 
@@ -89,8 +91,8 @@ export class RequestEntryComponent implements OnInit {
 
   initForm(): void {
     this.searchForm = this.fb.group({
-      FromDate: ['', Validators.required],
-      ToDate: ['', Validators.required],
+      FromDate: [new Date(), Validators.required],
+      ToDate: [new Date(), Validators.required],
       Type: [0, Validators.required]
     });
   }
@@ -172,5 +174,15 @@ export class RequestEntryComponent implements OnInit {
   resetSearchForm(): void {
     this.searchForm.reset();
     this.errorForm = false;
+  }
+
+  setDefaultFilter(): void {
+    const filterValue = {
+      CustomerId: this.authService.currentUserValue.CustomerId,
+      FromDate: this.timeService.toDateTimeString(new Date()),
+      ToDate: this.timeService.toDateTimeString(new Date()),
+      Type: this.searchForm.value.Type
+    };
+    this.requestEntryService.filterSubject.next(filterValue);
   }
 }

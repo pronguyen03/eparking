@@ -14,8 +14,8 @@ import { AuthenticationService } from '@app/shared/services/authentication.servi
 import { VehicleService } from '@app/shared/services/vehicle.service';
 import { environment } from '@environments/environment';
 import { ToastrService } from 'ngx-toastr';
-import { combineLatest, Subscription } from 'rxjs';
-import { map } from 'rxjs/operators';
+import { combineLatest, Subscription, timer } from 'rxjs';
+import { map, switchMap } from 'rxjs/operators';
 
 @Component({
   selector: 'app-vehicles',
@@ -61,11 +61,11 @@ export class VehiclesComponent implements OnInit, OnDestroy {
   }
 
   getVehiclesByParking(parkingId: number, status: VehicleStatus): void {
-    this.vehicleSubscription = combineLatest([
-      this.vehicleService.getVehiclesByParking(parkingId, status),
-      this.searchForm.valueChanges
-    ])
+    this.vehicleSubscription = timer(0, 30000)
       .pipe(
+        switchMap(() =>
+          combineLatest([this.vehicleService.getVehiclesByParking(parkingId, status), this.searchForm.valueChanges])
+        ),
         map((data) => {
           let vehicles = data[0];
           const customerName = data[1].CustomerName;
@@ -90,6 +90,7 @@ export class VehiclesComponent implements OnInit, OnDestroy {
             case VehicleStatus.APPROVED:
               vehicle.StatusName = 'Approved';
               vehicle.canDelete = false;
+              vehicle.canEdit = false;
               break;
             default:
               vehicle.StatusName = 'New';

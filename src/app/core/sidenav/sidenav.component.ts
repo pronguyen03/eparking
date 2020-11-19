@@ -3,6 +3,7 @@ import { MenuItem } from '@app/shared/classes/menu-item';
 import { AuthenticationService } from '@app/shared/services/authentication.service';
 import { MenuService } from '@app/shared/services/menu.service';
 import { Observable } from 'rxjs';
+import { filter } from 'rxjs/operators';
 import { animateText, onSideNavChange } from 'src/app/animations/animations';
 import { SidenavService } from 'src/app/shared/services/sidenav.service';
 
@@ -10,7 +11,7 @@ import { SidenavService } from 'src/app/shared/services/sidenav.service';
   selector: 'app-sidenav',
   templateUrl: './sidenav.component.html',
   styleUrls: ['./sidenav.component.scss'],
-  animations: [onSideNavChange, animateText],
+  animations: [onSideNavChange, animateText]
 })
 export class SidenavComponent implements OnInit {
   public sideNavState = false;
@@ -52,7 +53,13 @@ export class SidenavComponent implements OnInit {
   getListMenu(): void {
     this.authService.currentUser.subscribe((user) => {
       if (user && user.TokenKey) {
-        this.listMenu$ = this.menuService.getMenusByRoleId(user.RoleId, 0);
+        this.listMenu$ = this.menuService.getMenusByRoleId(user.RoleId, 0).pipe(
+          filter((value) => {
+            if (value && value.length) {
+              return true;
+            }
+          })
+        );
       }
     });
   }

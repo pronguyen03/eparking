@@ -9,8 +9,8 @@ import { IVehicle } from '@app/shared/interfaces/vehicle';
 import { AuthenticationService } from '@app/shared/services/authentication.service';
 import { VehicleService } from '@app/shared/services/vehicle.service';
 import { environment } from '@environments/environment';
-import { combineLatest, Subscription } from 'rxjs';
-import { map } from 'rxjs/operators';
+import { combineLatest, Subscription, timer } from 'rxjs';
+import { map, startWith, switchMap } from 'rxjs/operators';
 
 @Component({
   selector: 'app-pending-approval-vehicles',
@@ -44,19 +44,22 @@ export class PendingApprovalVehiclesComponent implements OnInit {
 
   initForm(): void {
     this.searchForm = this.fb.group({
-      CustomerName: [null]
+      CustomerName: ['']
     });
   }
 
   getVehiclesByParking(parkingId: number, status: VehicleStatus): void {
-    this.vehicleSubscription = combineLatest([
-      this.vehicleService.getVehiclesByParking(parkingId, status),
-      this.searchForm.valueChanges
-    ])
+    this.vehicleSubscription = timer(0, 30000)
       .pipe(
+        switchMap(() =>
+          combineLatest([
+            this.vehicleService.getVehiclesByParking(parkingId, status),
+            this.searchForm.valueChanges.pipe(startWith([]))
+          ])
+        ),
         map((data) => {
           let vehicles = data[0];
-          const customerName = data[1].CustomerName;
+          const customerName = this.searchForm.value.CustomerName;
           if (customerName) {
             vehicles = vehicles.filter((vehicle) =>
               vehicle.CustomerName.toLowerCase().includes(customerName.toLowerCase())
@@ -73,7 +76,6 @@ export class PendingApprovalVehiclesComponent implements OnInit {
         });
         this.vehicles = vehicles;
       });
-    this.searchForm.reset();
   }
 
   viewDetail(vehicle: IVehicle): void {

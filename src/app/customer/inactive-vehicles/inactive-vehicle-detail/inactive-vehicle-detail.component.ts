@@ -1,5 +1,6 @@
+import { Identifiers } from '@angular/compiler';
 import { Component, OnInit } from '@angular/core';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
 import { Router, ActivatedRoute } from '@angular/router';
 import {
@@ -16,8 +17,8 @@ import { TimeService } from '@app/shared/services/time.service';
 import { VehicleService } from '@app/shared/services/vehicle.service';
 import { environment } from '@environments/environment';
 import { ToastrService } from 'ngx-toastr';
-import { combineLatest, Observable } from 'rxjs';
-import { map, switchMap } from 'rxjs/operators';
+import { Observable } from 'rxjs';
+import { switchMap, map } from 'rxjs/operators';
 
 @Component({
   selector: 'app-inactive-vehicle-detail',
@@ -90,7 +91,7 @@ export class InactiveVehicleDetailComponent implements OnInit {
   }
 
   back(): void {
-    this.router.navigateByUrl('manager/inactive-vehicles');
+    this.router.navigateByUrl('customer/inactive-vehicles');
   }
 
   save(): void {
@@ -122,7 +123,7 @@ export class InactiveVehicleDetailComponent implements OnInit {
     this.inactiveVehicleOfferService.addOffer(inputData).subscribe((res) => {
       if (res.Code === '100') {
         this.toastr.success('Created successfully.', 'Inactive Vehicle Offer');
-        this.back();
+        this.refresh(res.Data.Id);
       }
     });
   }
@@ -138,7 +139,7 @@ export class InactiveVehicleDetailComponent implements OnInit {
     this.inactiveVehicleOfferService.updateOffer(inputData).subscribe((res) => {
       if (res.Code === '100') {
         this.toastr.success('Updated successfully.', 'Inactive Vehicle Offer');
-        this.back();
+        this.refresh(res.Data.Id);
       }
     });
   }
@@ -154,8 +155,8 @@ export class InactiveVehicleDetailComponent implements OnInit {
     dialogRef.afterClosed().subscribe((dialogResult) => {
       if (dialogResult) {
         switch (functionName) {
-          case 'approve':
-            this.approve();
+          case 'handover':
+            this.handover();
             break;
           default:
             break;
@@ -164,12 +165,16 @@ export class InactiveVehicleDetailComponent implements OnInit {
     });
   }
 
-  approve(): void {
-    this.inactiveVehicleOfferService.setApproved(this.id).subscribe((res) => {
+  handover(): void {
+    this.inactiveVehicleOfferService.setApproving(this.id).subscribe((res) => {
       if (res.Code === '100') {
-        this.toastr.success('Approved the vehicle.', 'Inactive Vehicle Offer');
+        this.toastr.success('Handovered successfully.', 'Inactive Vehicle Offer');
         this.back();
       }
     });
+  }
+
+  refresh(id: string): void {
+    this.router.navigate(['customer/inactive-vehicles/detail', CrudType.EDIT, id]);
   }
 }

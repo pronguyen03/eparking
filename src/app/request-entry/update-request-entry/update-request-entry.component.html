@@ -329,7 +329,7 @@
             <button mat-button (click)="addAccessVehicle()" mat-flat-button color="primary">Add</button>
             <button
               mat-button
-              (click)="deleteAccessVehicle()"
+              (click)="deleteAccessVehicles()"
               mat-flat-button
               color="warn"
               *ngIf="listSelectedVehicles.length > 0"
@@ -340,11 +340,12 @@
         </div>
 
         <app-data-table
-          [hasSelect]="true"
-          [hasFunctionalBtn]="false"
+          [hasSelect]="crudType === CrudType.CREATE"
+          [hasFunctionalBtn]="crudType === CrudType.EDIT"
           [dataList]="listAccessVehicles"
           (selectedValuesEmitter)="listSelectedVehicles = $event"
           [columns]="columns"
+          (deleteEmitter)="deleteAccessVehicle($event)"
         ></app-data-table>
       </div>
     </div>

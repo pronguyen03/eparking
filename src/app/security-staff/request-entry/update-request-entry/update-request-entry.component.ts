@@ -199,7 +199,7 @@ export class UpdateRequestEntryComponent implements OnInit {
   addAccessVehicle(): void {
     if (this.accessVehicleForm.valid) {
       const { Plate, Type }: { Plate: string; Type: IVehicleCategory } = this.accessVehicleForm.value;
-      const inputData: IAccessVehicle = {
+      const inputData: Partial<IAccessVehicle> = {
         RequestEntryId: this.id,
         Plate,
         TypeId: Type.Id

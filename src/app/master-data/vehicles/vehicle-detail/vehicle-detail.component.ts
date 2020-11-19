@@ -67,7 +67,7 @@ export class VehicleDetailComponent implements OnInit {
       CustomerId: [''],
       CustomerName: [''],
       TypeId: ['', Validators.required],
-      Plate: ['', [Validators.maxLength(9), Validators.pattern('^[a-zA-Z0-9]*$')]],
+      Plate: ['', [Validators.required, Validators.maxLength(9), Validators.pattern('^[a-zA-Z0-9]*$')]],
       DateOfPayment: ['', Validators.required],
       CurrentStatus: [''],
       Status: [VehicleStatus.NEW],
@@ -137,7 +137,7 @@ export class VehicleDetailComponent implements OnInit {
       this.vehicleService.addVehicle(inputData).subscribe((res) => {
         if (res.Code === '100') {
           this.toastr.success('Created successfully.', 'Vehicle');
-          this.back();
+          this.refresh(res.Data.Id);
         }
       });
     }
@@ -158,7 +158,7 @@ export class VehicleDetailComponent implements OnInit {
     this.vehicleService.updateVehicle(inputData).subscribe((res) => {
       if (res.Code === '100') {
         this.toastr.success('Updated successfully.', 'Vehicle');
-        this.back();
+        this.refresh(res.Data.Id);
       }
     });
   }
@@ -269,5 +269,9 @@ export class VehicleDetailComponent implements OnInit {
   omitSpecialChar(event): boolean {
     const k = event.charCode; //         k = event.keyCode;  (Both can be used)
     return (k > 64 && k < 91) || (k > 96 && k < 123) || k === 8 || k === 32 || (k >= 48 && k <= 57);
+  }
+
+  refresh(id: string): void {
+    this.router.navigate(['master-data/vehicles/detail', CrudType.EDIT, id]);
   }
 }

@@ -3,8 +3,8 @@ import { Router } from '@angular/router';
 import { CrudType } from '@app/shared/enums/crud-type.enum';
 import { IInactiveVehicleOffer } from '@app/shared/interfaces/inactive-vehicle-offer';
 import { ITableCol } from '@app/shared/interfaces/table-col';
+import { AuthenticationService } from '@app/shared/services/authentication.service';
 import { InactiveVehicleOfferService } from '@app/shared/services/inactive-vehicle-offer.service';
-import { environment } from '@environments/environment';
 import { Subscription, timer } from 'rxjs';
 import { switchMap } from 'rxjs/operators';
 
@@ -23,38 +23,38 @@ export class InactiveVehiclesComponent implements OnInit, OnDestroy {
     { key: 'DateApproved', display: 'Date Approved' },
     { key: 'Notes', display: 'Notes' }
   ];
+
   subscription: Subscription;
-  constructor(private router: Router, private inactiveVehicleOfferService: InactiveVehicleOfferService) {}
-
-  ngOnInit(): void {
-    this.getInactiveVehicleOffersByParking(environment.parkingId);
-  }
-
+  constructor(
+    private router: Router,
+    private inactiveVehicleOfferService: InactiveVehicleOfferService,
+    private authService: AuthenticationService
+  ) {}
   ngOnDestroy(): void {
     this.subscription?.unsubscribe();
   }
 
-  getInactiveVehicleOffersByParking(parkingId: number): void {
-    this.subscription = timer(0, 30000)
-      .pipe(switchMap(() => this.inactiveVehicleOfferService.getInactiveVehicleOffersByParking(parkingId)))
+  ngOnInit(): void {
+    this.getInactiveVehicleOffersByCustomer(this.authService.currentUserValue.CustomerId);
+  }
+
+  getInactiveVehicleOffersByCustomer(customerId: number): void {
+    this.subscription = this.inactiveVehicleOfferService
+      .getInactiveVehicleOffersByCustomer(customerId)
       .subscribe((offers) => {
-        this.offers = offers.map((offer) => {
-          offer.canDelete = false;
-          offer.canEdit = false;
-          return offer;
-        });
+        this.offers = offers;
       });
   }
 
   viewOffer(offer: IInactiveVehicleOffer): void {
-    this.router.navigate(['manager/inactive-vehicles/detail', CrudType.VIEW, offer.Id]);
+    this.router.navigate(['customer/inactive-vehicles/detail', CrudType.VIEW, offer.Id]);
   }
 
   editOffer(offer: IInactiveVehicleOffer): void {
-    this.router.navigate(['manager/inactive-vehicles/detail', CrudType.EDIT, offer.Id]);
+    this.router.navigate(['customer/inactive-vehicles/detail', CrudType.EDIT, offer.Id]);
   }
 
   addNew(): void {
-    this.router.navigate(['manager/inactive-vehicles/detail', CrudType.CREATE]);
+    this.router.navigate(['customer/inactive-vehicles/detail', CrudType.CREATE]);
   }
 }

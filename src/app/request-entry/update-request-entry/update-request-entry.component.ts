@@ -11,6 +11,7 @@ import { Role } from '@app/shared/enums/role.enum';
 import { IAccessVehicle } from '@app/shared/interfaces/access-vehicle';
 import { IVehicle } from '@app/shared/interfaces/vehicle';
 import { IVehicleCategory } from '@app/shared/interfaces/vehicle-category';
+import { AccessVehicleService } from '@app/shared/services/access-vehicle.service';
 import { AuthenticationService } from '@app/shared/services/authentication.service';
 import { RequestEntryService } from '@app/shared/services/request-entry.service';
 import { TimeService } from '@app/shared/services/time.service';
@@ -38,7 +39,7 @@ export class UpdateRequestEntryComponent implements OnInit {
   columns = [
     { key: 'colNo', display: 'No.' },
     { key: 'Plate', display: 'Plate' },
-    { key: 'TypeName', display: 'Type' }
+    { key: 'Name', display: 'Type' }
   ];
   constructor(
     private fb: FormBuilder,
@@ -49,7 +50,8 @@ export class UpdateRequestEntryComponent implements OnInit {
     private toastr: ToastrService,
     private route: ActivatedRoute,
     private vehicleCategoryService: VehicleCategoryService,
-    private dialog: MatDialog
+    private dialog: MatDialog,
+    private accessVehicleService: AccessVehicleService
   ) {}
 
   ngOnInit(): void {
@@ -97,7 +99,12 @@ export class UpdateRequestEntryComponent implements OnInit {
   getRequestEntryById(requestId: number): void {
     this.requestEntryService.getRequestEntryById(requestId).subscribe((res) => {
       const requestEntry = res.Item;
-      const requestEntryDetails = res.ItemDetaileds;
+      const requestEntryDetails = res.ItemDetaileds.map((detail) => {
+        detail.canDelete = this.crudType === CrudType.EDIT;
+        detail.canEdit = false;
+        detail.canView = false;
+        return detail;
+      });
       this.requestEntryForm.patchValue({
         RequestDetailed: requestEntry.RequestDetailed,
         VisitorName: requestEntry.VisitorName,
@@ -239,12 +246,34 @@ export class UpdateRequestEntryComponent implements OnInit {
         TypeId: Type.Id,
         Name: Type.Name
       } as IAccessVehicle);
+      this.accessVehicleForm.reset();
 
       this.listAccessVehicles = [...this.listAccessVehicles];
     }
   }
 
-  deleteAccessVehicle(): void {
+  deleteAccessVehicle(vehicle: IAccessVehicle): void {
+    const dialogData = new ConfirmDialogModel('Delete Confirm', 'Are you sure you want to delete this access vehicle?');
+
+    const dialogRef = this.dialog.open(ConfirmDialogComponent, {
+      minWidth: '400px',
+      data: dialogData
+    });
+
+    dialogRef.afterClosed().subscribe((dialogResult) => {
+      if (dialogResult) {
+        this.accessVehicleService.deleteAccessVehicle(vehicle.Id).subscribe((res) => {
+          if (res.Code === '100') {
+            this.toastr.success('Deleted successfully.', 'Vehicle');
+            this.listAccessVehicles = this.listAccessVehicles.filter((value) => value.Id !== vehicle.Id);
+            this.listAccessVehicles = [...this.listAccessVehicles];
+          }
+        });
+      }
+    });
+  }
+
+  deleteAccessVehicles(): void {
     const dialogData = new ConfirmDialogModel('Delete Confirm', 'Are you sure you want to delete these vehicles?');
 
     const dialogRef = this.dialog.open(ConfirmDialogComponent, {
