@@ -40,8 +40,10 @@
 
   <div class="row btn-footer">
     <div fxLayout="row" fxLayoutGap="10px" fxLayoutAlign="start center">
-      <button *ngIf="crudType !== CrudType.VIEW" mat-raised-button color="primary" (click)="save()">Save</button>
-      <button mat-raised-button (click)="back()">Back</button>
+      <button *ngIf="crudType !== CrudType.VIEW" mat-raised-button color="primary" (click)="save()">
+        {{ 'Save' | translate }}
+      </button>
+      <button mat-raised-button (click)="back()">{{ 'Back' | translate }}</button>
       <!-- <button mat-raised-button color="accent">Accent</button> -->
     </div>
   </div>

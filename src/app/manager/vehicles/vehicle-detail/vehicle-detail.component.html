@@ -4,10 +4,10 @@
   </mat-toolbar>
 
   <mat-horizontal-stepper labelPosition="bottom" [linear]="false" #stepper>
-    <mat-step [completed]="true" label="Fill out vehicle detail." [editable]="false"> </mat-step>
+    <mat-step [completed]="true" label="{{ 'Fill_out_vehicle_detail' | translate }}" [editable]="false"> </mat-step>
     <mat-step
       [completed]="vehicleForm?.controls.Status.value !== VehicleStatus.NEW"
-      label="Waiting for approval"
+      label="{{ 'Waiting_for_approval' | translate }}"
       [editable]="false"
     >
     </mat-step>
@@ -31,9 +31,9 @@
         <div fxFlex="50%" fxLayout="row" fxLayoutWrap fxLayoutGap="10px" fxLayoutAlign="start center">
           <mat-label fxFlex="30%" class="title-field">Type Of Vehicle<span class="required">*</span></mat-label>
           <mat-form-field fxFlex="70%" appearance="standard">
-            <mat-label>Type Of Vehicle</mat-label>
+            <mat-label class="title-field">{{ 'Type_Of_Vehicle' | translate }}</mat-label>
             <mat-select formControlName="TypeId">
-              <mat-option [value]="">Please Select</mat-option>
+              <mat-option [value]="">{{ 'Please_Select' | translate }}</mat-option>
               <mat-option *ngFor="let category of vehicleCategories$ | async" [value]="category.Id">
                 {{ category.Name }}
               </mat-option>
@@ -43,15 +43,15 @@
                 vehicleForm.controls.TypeId.hasError('required') &&
                 (vehicleForm.controls.TypeId.touched || vehicleForm.controls.TypeId.dirty)
               "
-              >This field is required</mat-error
+              >{{ 'Validator_Required' | translate }}</mat-error
             >
           </mat-form-field>
         </div>
 
         <div fxFlex="50%" fxLayout="row" fxLayoutWrap fxLayoutGap="10px" fxLayoutAlign="start center">
-          <mat-label fxFlex="30%" class="title-field">Plate</mat-label>
+          <mat-label fxFlex="30%" class="title-field">{{ 'Plate' | translate }}</mat-label>
           <mat-form-field fxFlex="70%" appearance="standard" class="form-input">
-            <mat-label>Plate</mat-label>
+            <mat-label class="title-field">{{ 'Plate' | translate }}</mat-label>
             <!-- <mat-icon matSuffix>person</mat-icon> -->
             <input
               matInput
@@ -98,15 +98,15 @@
                 vehicleForm.controls.DateOfPayment.hasError('required') &&
                 (vehicleForm.controls.DateOfPayment.touched || vehicleForm.controls.DateOfPayment.dirty)
               "
-              >This field is required</mat-error
+              >{{ 'Validator_Required' | translate }}</mat-error
             >
           </mat-form-field>
         </div>
 
         <div fxFlex="50%" fxLayout="row" fxLayoutWrap fxLayoutGap="10px" fxLayoutAlign="center center">
-          <mat-label fxFlex="30%" class="title-field">Note</mat-label>
+          <mat-label fxFlex="30%" class="title-field">{{ 'Note' | translate }}</mat-label>
           <mat-form-field fxFlex="70%" appearance="standard">
-            <mat-label>Note</mat-label>
+            <mat-label>{{ 'Note' | translate }}</mat-label>
             <input matInput formControlName="Notes" readonly />
             <!-- <textarea matInput></textarea> -->
           </mat-form-field>
@@ -153,7 +153,7 @@
         fxLayoutAlign.xs="space-around stretch"
       >
         <div fxFlex="50%" fxLayout="row" fxLayoutWrap fxLayoutGap="10px" fxLayoutAlign="center center">
-          <mat-label fxFlex="30%" class="title-field">Approver</mat-label>
+          <mat-label fxFlex="30%" class="title-field">{{ 'Approver' | translate }}</mat-label>
           <mat-form-field fxFlex="70%" appearance="standard">
             <mat-label>Approver</mat-label>
             <input matInput />
@@ -178,7 +178,7 @@
         fxLayoutAlign.xs="space-around stretch"
       >
         <div fxFlex="50%" fxLayout="row" fxLayoutWrap fxLayoutGap="10px" fxLayoutAlign="center center">
-          <mat-label fxFlex="30%" class="title-field">Image</mat-label>
+          <mat-label fxFlex="30%" class="title-field">{{ 'Image' | translate }}</mat-label>
           <div fxFlex="70%">
             <mat-card>
               <mat-card-content>

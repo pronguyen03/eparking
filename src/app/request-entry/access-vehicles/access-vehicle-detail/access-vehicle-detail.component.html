@@ -6,11 +6,11 @@
   <form [formGroup]="accessVehicleForm">
     <div fxLayout="row" fxLayout.xs="column" fxLayoutWrap fxLayoutGap="5%" fxLayoutAlign="center center">
       <div fxFlex="50%" fxLayout="row" fxLayoutWrap fxLayoutGap="10px" fxLayoutAlign="start center">
-        <mat-label fxFlex="30%" class="title-field">Type Of Vehicle</mat-label>
+        <mat-label fxFlex="30%" class="title-field">{{ 'Type_Of_Vehicle' | translate }}</mat-label>
         <mat-form-field fxFlex="70%" appearance="standard">
-          <mat-label>Type Of Vehicle</mat-label>
+          <mat-label class="title-field">{{ 'Type_Of_Vehicle' | translate }}</mat-label>
           <mat-select formControlName="TypeId">
-            <mat-option [value]="">Please Select</mat-option>
+            <mat-option [value]="">{{ 'Please_Select' | translate }}</mat-option>
             <mat-option *ngFor="let category of vehicleCategories$ | async" [value]="category.Id">
               {{ category.Name }}
             </mat-option>
@@ -20,9 +20,9 @@
       </div>
 
       <div fxFlex="50%" fxLayout="row" fxLayoutWrap fxLayoutGap="10px" fxLayoutAlign="start center">
-        <mat-label fxFlex="30%" class="title-field">Plate</mat-label>
+        <mat-label fxFlex="30%" class="title-field">{{ 'Plate' | translate }}</mat-label>
         <mat-form-field fxFlex="70%" appearance="standard" class="form-input">
-          <mat-label>Plate</mat-label>
+          <mat-label class="title-field">{{ 'Plate' | translate }}</mat-label>
           <!-- <mat-icon matSuffix>person</mat-icon> -->
           <input matInput formControlName="Plate" class="upper-case" (keypress)="omitSpecialChar($event)" />
           <mat-error
@@ -52,11 +52,11 @@
       fxLayoutAlign.xs="start start"
     >
       <div fxFlex="50%" fxLayout="row" fxLayoutWrap fxLayoutGap="10px" fxLayoutAlign="start center">
-        <mat-label fxFlex="30%" class="title-field">Repuest Entry Id</mat-label>
+        <mat-label fxFlex="30%" class="title-field">{{ 'Repuest_Entry_Id' | translate }}</mat-label>
         <mat-form-field fxFlex="70%" appearance="standard">
-          <mat-label>Repuest Entry Id</mat-label>
+          <mat-label>{{ 'Repuest_Entry_Id' | translate }}</mat-label>
           <mat-select formControlName="TypeId">
-            <mat-option [value]="">Please Select</mat-option>
+            <mat-option [value]="">{{ 'Please_Select' | translate }}</mat-option>
             <mat-option *ngFor="let request of requestEntries$ | async" [value]="request.Id">
               {{ request.Id }}
             </mat-option>
@@ -69,10 +69,12 @@
   </form>
 </div>
 
-<div class="row btn-footer">
+<div class="row btn-footer green-theme">
   <div fxLayout="row" fxLayoutGap="10px" fxLayoutAlign="start center">
-    <button *ngIf="crudType !== CrudType.VIEW" mat-raised-button color="primary" (click)="save()">Save</button>
-    <button mat-raised-button (click)="back()">Back</button>
+    <button *ngIf="crudType !== CrudType.VIEW" mat-raised-button color="primary" (click)="save()">
+      {{ 'Save' | translate }}
+    </button>
+    <button mat-raised-button (click)="back()">{{ 'Back' | translate }}</button>
     <!-- <button mat-raised-button color="accent">Accent</button> -->
   </div>
 </div>

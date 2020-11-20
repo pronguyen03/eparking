@@ -5,36 +5,18 @@
 
   <div class="row">
     <form [formGroup]="requestEntryForm">
-      <!-- UNNESSARY YET. -->
-      <!-- <div
-        *ngIf="crudType !== CrudType.CREATE"
-        fxLayout="row"
-        fxLayout.xs="column"
-        fxLayoutWrap
-        fxLayoutGap="5%"
-        fxLayoutAlign="center center"
-      >
-        <div fxFlex="50%" fxLayout="row" fxLayoutWrap fxLayoutGap="10px" fxLayoutAlign="center center">
-          <mat-label fxFlex="30%" class="title-field">Customer Name</mat-label>
-          <mat-form-field fxFlex="70%" appearance="standard">
-            <mat-label>Customer Name</mat-label>
-            <input matInput formControlName="CustomerName" />
-          </mat-form-field>
-        </div>
-        <div fxFlex="50%"></div>
-      </div> -->
       <div fxLayout="row" fxLayout.xs="column" fxLayoutWrap fxLayoutGap="5%" fxLayoutAlign="center center">
         <div fxFlex="50%" fxLayout="row" fxLayoutWrap fxLayoutGap="10px" fxLayoutAlign="start center">
-          <mat-label fxFlex="30%" class="title-field">Request Detail</mat-label>
+          <mat-label fxFlex="30%" class="title-field">{{ 'Request_Detail' | translate }}</mat-label>
           <mat-form-field fxFlex="70%" appearance="standard">
-            <mat-label>Request Detail</mat-label>
+            <mat-label>{{ 'Request_Detail' | translate }}</mat-label>
             <input matInput formControlName="RequestDetailed" readonly />
             <mat-error
               *ngIf="
                 requestEntryForm.controls.RequestDetailed.hasError('required') &&
                 (requestEntryForm.controls.RequestDetailed.touched || requestEntryForm.controls.RequestDetailed.dirty)
               "
-              >This field is required</mat-error
+              >{{ 'Validator_Required' | translate }}</mat-error
             >
           </mat-form-field>
         </div>
@@ -44,24 +26,24 @@
 
       <div fxLayout="row" fxLayout.xs="column" fxLayoutWrap fxLayoutGap="5%" fxLayoutAlign="center center">
         <div fxFlex="50%" fxLayout="row" fxLayoutWrap fxLayoutGap="10px" fxLayoutAlign="start center">
-          <mat-label fxFlex="30%" class="title-field">Visitor Name</mat-label>
+          <mat-label fxFlex="30%" class="title-field">{{ 'Visitor_Name' | translate }}</mat-label>
           <mat-form-field fxFlex="70%" appearance="standard" class="form-input">
-            <mat-label>Visitor Name</mat-label>
+            <mat-label>{{ 'Visitor_Name' | translate }}</mat-label>
             <input matInput formControlName="VisitorName" readonly />
             <mat-error
               *ngIf="
                 requestEntryForm.controls.VisitorName.hasError('required') &&
                 (requestEntryForm.controls.VisitorName.touched || requestEntryForm.controls.VisitorName.dirty)
               "
-              >This field is required</mat-error
+              >{{ 'Validator_Required' | translate }}</mat-error
             >
           </mat-form-field>
         </div>
 
         <div fxFlex="50%" fxLayout="row" fxLayoutWrap fxLayoutGap="10px" fxLayoutAlign="start center">
-          <mat-label fxFlex="30%" class="title-field">Visitor Tel No.</mat-label>
+          <mat-label fxFlex="30%" class="title-field">{{ 'Visitor_Tel_No' | translate }}</mat-label>
           <mat-form-field fxFlex="70%" appearance="standard" class="form-input">
-            <mat-label>Visitor Tel No.</mat-label>
+            <mat-label>{{ 'Visitor_Tel_No' | translate }}</mat-label>
             <input matInput formControlName="VisitorTel" readonly />
           </mat-form-field>
         </div>
@@ -69,17 +51,17 @@
 
       <div fxLayout="row" fxLayout.xs="column" fxLayoutWrap fxLayoutGap="5%" fxLayoutAlign="center center">
         <div fxFlex="50%" fxLayout="row" fxLayoutWrap fxLayoutGap="10px" fxLayoutAlign="start center">
-          <mat-label fxFlex="30%" class="title-field">Number Of Visitors</mat-label>
+          <mat-label fxFlex="30%" class="title-field">{{ 'Number_Of_Visitors' | translate }}</mat-label>
           <mat-form-field fxFlex="70%" appearance="standard" class="form-input">
-            <mat-label>Number Of Visitors</mat-label>
+            <mat-label>{{ 'Number_Of_Visitors' | translate }}</mat-label>
             <input matInput formControlName="NumberVisitor" type="number" max="30" min="1" readonly />
           </mat-form-field>
         </div>
 
         <div fxFlex="50%" fxLayout="row" fxLayoutWrap fxLayoutGap="10px" fxLayoutAlign="start center">
-          <mat-label fxFlex="30%" class="title-field">Visitor Passport</mat-label>
+          <mat-label fxFlex="30%" class="title-field">{{ 'Visitor_Passport' | translate }}</mat-label>
           <mat-form-field fxFlex="70%" appearance="standard" class="form-input">
-            <mat-label>Visitor Passport</mat-label>
+            <mat-label>{{ 'Visitor_Passport' | translate }}</mat-label>
             <input matInput formControlName="VisitorPassport" readonly />
           </mat-form-field>
         </div>
@@ -87,7 +69,9 @@
 
       <div fxLayout="row" fxLayout.xs="column" fxLayoutWrap fxLayoutGap="5%" fxLayoutAlign="center center">
         <div fxFlex="50%" fxLayout="row" fxLayoutWrap fxLayoutGap="10px" fxLayoutAlign="start center">
-          <mat-label fxFlex="30%" class="title-field">Start Time<span class="required">*</span></mat-label>
+          <mat-label fxFlex="30%" class="title-field"
+            >{{ 'Start_Time' | translate }}<span class="required">*</span></mat-label
+          >
           <mat-form-field fxFlex="70%" appearance="standard" class="form-input">
             <input
               matInput
@@ -115,18 +99,20 @@
                 requestEntryForm.controls.StartTime.hasError('required') &&
                 (requestEntryForm.controls.StartTime.touched || requestEntryForm.controls.StartTime.dirty)
               "
-              >This field is required</mat-error
+              >{{ 'Validator_Required' | translate }}</mat-error
             >
           </mat-form-field>
         </div>
 
         <div fxFlex="50%" fxLayout="row" fxLayoutWrap fxLayoutGap="10px" fxLayoutAlign="start center">
-          <mat-label fxFlex="30%" class="title-field">End Time<span class="required">*</span></mat-label>
+          <mat-label fxFlex="30%" class="title-field"
+            >{{ 'End_Time' | translate }}<span class="required">*</span></mat-label
+          >
           <mat-form-field fxFlex="70%" appearance="standard" class="form-input">
             <input
               matInput
               [ngxMatDatetimePicker]="endTimePicker"
-              placeholder="Select a time"
+              [placeholder]="'Select_Time' | translate"
               formControlName="EndTime"
               readonly
             />
@@ -149,7 +135,7 @@
                 requestEntryForm.controls.EndTime.hasError('required') &&
                 (requestEntryForm.controls.EndTime.touched || requestEntryForm.controls.EndTime.dirty)
               "
-              >This field is required</mat-error
+              >{{ 'Validator_Required' | translate }}</mat-error
             >
           </mat-form-field>
         </div>
@@ -164,7 +150,7 @@
         fxLayoutAlign="center center"
       >
         <div fxFlex="50%" fxLayout="row" fxLayoutWrap fxLayoutGap="10px" fxLayoutAlign="start center">
-          <mat-label fxFlex="30%" class="title-field">Type Payment</mat-label>
+          <mat-label fxFlex="30%" class="title-field">{{ 'Type_Payment' | translate }}</mat-label>
           <mat-radio-group
             fxFlex="70%"
             aria-label="Select an option"
@@ -176,7 +162,7 @@
           </mat-radio-group>
           <ng-template #typePaymentView>
             <mat-form-field fxFlex="70%" appearance="standard" class="form-input">
-              <mat-label>Type Payment</mat-label>
+              <mat-label>{{ 'Type_Payment' | translate }}</mat-label>
               <input matInput formControlName="TypePayment" readonly />
             </mat-form-field>
           </ng-template>
@@ -190,7 +176,7 @@
           fxLayoutGap="10px"
           fxLayoutAlign="start center"
         >
-          <mat-label fxFlex="30%" class="title-field">Is Vehicle</mat-label>
+          <mat-label fxFlex="30%" class="title-field">{{ 'Is_Vehicle' | translate }}</mat-label>
           <mat-radio-group
             fxFlex="70%"
             aria-label="Select an option"
@@ -219,11 +205,11 @@
         fxLayoutAlign.xs="start start"
       >
         <div fxFlex="50%" fxLayout="row" fxLayoutWrap fxLayoutGap="10px" fxLayoutAlign="start center">
-          <mat-label fxFlex="30%" class="title-field">Type Of Vehicle</mat-label>
+          <mat-label fxFlex="30%" class="title-field">{{ 'Type_Of_Vehicle' | translate }}</mat-label>
           <mat-form-field fxFlex="70%" appearance="standard">
-            <mat-label>Type Of Vehicle</mat-label>
+            <mat-label class="title-field">{{ 'Type_Of_Vehicle' | translate}}</mat-label>
             <mat-select formControlName="TypeId">
-              <mat-option [value]="">Please Select</mat-option>
+              <mat-option [value]="">{{ 'Please_Select' | translate }}</mat-option>
               <mat-option *ngFor="let category of vehicleCategories$ | async" [value]="category.Id">
                 {{ category.Name }}
               </mat-option>
@@ -235,10 +221,11 @@
       <ng-template [appHasRole]="[Role.SECURITY, Role.SYSTEM_ADMIN, Role.PARKING_ADMIN]">
         <div fxLayout="row" fxLayout.xs="column" fxLayoutWrap fxLayoutGap="5%" fxLayoutAlign="center center">
           <div fxFlex="50%" fxLayout="row" fxLayoutWrap fxLayoutGap="10px" fxLayoutAlign="start center">
-            <mat-label fxFlex="30%" class="title-field">Input Real Time</mat-label>
+            <mat-label fxFlex="30%" class="title-field">{{ 'Input_Real_Time' | translate }}</mat-label>
             <mat-form-field fxFlex="70%" appearance="standard" class="form-input">
-              <input matInput [ngxMatDatetimePicker]="realTimePicker" formControlName="InputRealTime" readonly />
-              <mat-datepicker-toggle matSuffix [for]="realTimePicker"></mat-datepicker-toggle>
+              <input matInput formControlName="InputRealTime" readonly />
+              <!-- <input matInput [ngxMatDatetimePicker]="realTimePicker" formControlName="InputRealTime" readonly /> -->
+              <!-- <mat-datepicker-toggle matSuffix [for]="realTimePicker"></mat-datepicker-toggle>
               <ngx-mat-datetime-picker
                 #realTimePicker
                 [disabled]="true"
@@ -252,12 +239,12 @@
                 [disableMinute]="false"
                 [hideTime]="false"
               >
-              </ngx-mat-datetime-picker>
+              </ngx-mat-datetime-picker> -->
             </mat-form-field>
           </div>
 
           <div fxFlex="50%" fxLayout="row" fxLayoutWrap fxLayoutGap="10px" fxLayoutAlign="start center">
-            <mat-label fxFlex="30%" class="title-field">Note Done</mat-label>
+            <mat-label fxFlex="30%" class="title-field">{{ 'Note_Done' | translate }} </mat-label>
             <mat-form-field fxFlex="70%" appearance="standard" class="form-input">
               <mat-label>Note Done</mat-label>
               <textarea matInput [readonly]="crudType === CrudType.VIEW" rows="3" formControlName="NoteDone"></textarea>
@@ -276,7 +263,7 @@
       [formGroup]="accessVehicleForm"
     >
       <div class="form-control" fxLayout="row" fxLayoutWrap fxLayoutGap="10px" fxLayoutAlign="start center">
-        <mat-label class="title-field">Access Vehicles</mat-label>
+        <mat-label class="title-field">{{ 'Access_Vehicles' | translate }}</mat-label>
       </div>
       <div>
         <div
@@ -288,9 +275,9 @@
           *ngIf="crudType !== CrudType.VIEW"
         >
           <div fxFlex="40%" fxLayout="row" fxLayoutWrap fxLayoutGap="10px" fxLayoutAlign="start center">
-            <mat-label fxFlex="30%" class="title-field">Plate</mat-label>
+            <mat-label fxFlex="30%" class="title-field">{{ 'Plate' | translate }}</mat-label>
             <mat-form-field fxFlex="70%" appearance="standard" class="form-input">
-              <mat-label>Plate</mat-label>
+              <mat-label class="title-field">{{ 'Plate' | translate }}</mat-label>
               <input
                 matInput
                 formControlName="Plate"
@@ -301,11 +288,11 @@
             </mat-form-field>
           </div>
           <div fxFlex="40%" fxLayout="row" fxLayoutWrap fxLayoutGap="10px" fxLayoutAlign="start center">
-            <mat-label fxFlex="30%" class="title-field">Type Of Vehicle</mat-label>
+            <mat-label fxFlex="30%" class="title-field">{{ 'Type_Of_Vehicle' | translate }}</mat-label>
             <mat-form-field fxFlex="70%" appearance="standard">
-              <mat-label>Type Of Vehicle</mat-label>
+              <mat-label class="title-field">{{ 'Type_Of_Vehicle' | translate }}</mat-label>
               <mat-select formControlName="Type">
-                <mat-option [value]="">Please Select</mat-option>
+                <mat-option [value]="">{{ 'Please_Select' | translate }}</mat-option>
                 <mat-option *ngFor="let category of vehicleCategories$ | async" [value]="category">
                   {{ category.Name }}
                 </mat-option>
@@ -313,7 +300,9 @@
             </mat-form-field>
           </div>
           <div fxFlex="20%" fxLayout="row" fxLayoutWrap fxLayoutGap="10px" fxLayoutAlign="start center">
-            <button mat-button (click)="addAccessVehicle()" mat-flat-button color="primary">Add</button>
+            <button mat-button (click)="addAccessVehicle()" mat-flat-button color="primary">
+              {{ 'Add' | translate }}
+            </button>
             <button
               mat-button
               (click)="deleteAccessVehicle()"
@@ -321,7 +310,7 @@
               color="warn"
               *ngIf="listSelectedVehicles.length > 0"
             >
-              Delete
+              {{ 'Delete' | translate }}
             </button>
           </div>
         </div>
@@ -342,7 +331,12 @@
         {{ 'Save' | translate }}
       </button>
       <button mat-raised-button (click)="back()">{{ 'Back' | translate }}</button>
-      <button *ngIf="crudType === CrudType.EDIT" mat-raised-button color="accent" (click)="confirmInput()">
+      <button
+        *ngIf="crudType === CrudType.EDIT && !requestEntryForm.controls.IsDone"
+        mat-raised-button
+        color="accent"
+        (click)="confirmInput()"
+      >
         {{ 'Confirm_Input' | translate }}
       </button>
     </div>

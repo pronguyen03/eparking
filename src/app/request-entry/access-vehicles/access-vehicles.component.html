@@ -19,13 +19,13 @@
     </div>
 
     <div class="btn-container" fxLayoutGap="10px">
-      <button mat-raised-button color="primary" (click)="getFilteredList()">Search</button>
+      <button mat-raised-button color="primary" (click)="getFilteredList()">{{ 'Search' | translate }}</button>
       <button mat-raised-button (click)="resetSearchForm()">Clear</button>
     </div>
   </div>
 
   <app-data-table
-  *ngIf="accessVehicles.length > 0"
+    *ngIf="accessVehicles.length > 0"
     [hasSelect]="false"
     [dataList]="accessVehicles"
     [columns]="columns"

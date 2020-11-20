@@ -16,9 +16,9 @@
         <div fxFlex="50%" fxLayout="row" fxLayoutWrap fxLayoutGap="10px" fxLayoutAlign="center center">
           <mat-label fxFlex="30%" class="title-field">Customer</mat-label>
           <mat-form-field fxFlex="70%" appearance="standard">
-            <mat-label>Customer</mat-label>
+            <mat-label>{{ 'Customer' | translate }}</mat-label>
             <mat-select formControlName="CustomerId" [disabled]="crudType === CrudType.VIEW">
-              <mat-option [value]="null">Please Select</mat-option>
+              <mat-option [value]="null">{{ 'Please_Select' | translate }}</mat-option>
               <mat-option *ngFor="let customer of customers$ | async" [value]="customer.CustomerId">
                 {{ customer.CustomerName }}
               </mat-option>
@@ -35,7 +35,7 @@
                 userForm.controls.FullName.hasError('required') &&
                 (userForm.controls.FullName.touched || userForm.controls.FullName.dirty)
               "
-              >This field is required</mat-error
+              >{{ 'Validator_Required' | translate }}</mat-error
             >
           </mat-form-field>
         </div>
@@ -59,7 +59,7 @@
                 userForm.controls.Username.hasError('required') &&
                 (userForm.controls.Username.touched || userForm.controls.Username.dirty)
               "
-              >This field is required</mat-error
+              >{{ 'Validator_Required' | translate }}</mat-error
             >
             <mat-error
               *ngIf="
@@ -85,7 +85,7 @@
                   userForm.controls.PassWord.hasError('required') &&
                   (userForm.controls.PassWord.touched || userForm.controls.PassWord.dirty)
                 "
-                >This field is required</mat-error
+                >{{ 'Validator_Required' | translate }}</mat-error
               >
             </mat-form-field>
           </div>
@@ -232,7 +232,7 @@
           <mat-form-field fxFlex="70%" appearance="standard">
             <mat-label>Please Select</mat-label>
             <mat-select formControlName="RoleId" [disabled]="crudType === CrudType.VIEW">
-              <mat-option [value]="null">Please Select</mat-option>
+              <mat-option [value]="null">{{ 'Please_Select' | translate }}</mat-option>
               <mat-option *ngFor="let role of roles$ | async" [value]="role.Id">
                 {{ role.RoleName }}
               </mat-option>
@@ -264,7 +264,9 @@
 
   <div class="row btn-footer">
     <div fxLayout="row" fxLayoutGap="10px" fxLayoutAlign="start center">
-      <button *ngIf="crudType !== CrudType.VIEW" mat-raised-button color="primary" (click)="save()">Save</button>
+      <button *ngIf="crudType !== CrudType.VIEW" mat-raised-button color="primary" (click)="save()">
+        {{ 'Save' | translate }}
+      </button>
       <ng-template [appHasRole]="[Role.PARKING_ADMIN, Role.SYSTEM_ADMIN]">
         <!-- <button *ngIf="crudType === CrudType.EDIT" mat-raised-button color="primary" (click)="changePassword()">
           Change Password
@@ -279,7 +281,7 @@
           Reset Password
         </button>
       </ng-template>
-      <button mat-raised-button (click)="back()">Back</button>
+      <button mat-raised-button (click)="back()">{{ 'Back' | translate }}</button>
       <!-- <button mat-raised-button color="accent">Accent</button> -->
     </div>
   </div>

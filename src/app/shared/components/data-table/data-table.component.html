@@ -27,7 +27,7 @@
         <th mat-header-cell *matHeaderCellDef>
           <div class="column-filter" fxLayoutGap="12px">
             <div class="cell-header" *ngIf="!column.filterable || hideFilter">
-              <span>{{ column.display }}</span>
+              <span>{{ column.display | translate }}</span>
             </div>
             <div class="filter-header" *ngIf="column.filterable && !hideFilter">
               <mat-form-field
@@ -53,11 +53,11 @@
         <th mat-header-cell *matHeaderCellDef>
           <div class="column-filter" fxLayoutGap="12px">
             <div class="cell-header" *ngIf="!column.filterable || hideFilter">
-              <span>{{ column.display }}</span>
+              <span>{{ column.display | translate }}</span>
             </div>
             <div class="filter-header" *ngIf="column.filterable && !hideFilter">
               <mat-form-field floatLabel="never" appearance="outline">
-                <mat-label>{{ column.display }}</mat-label>
+                <mat-label>{{ column.display | translate }}</mat-label>
                 <input
                   matInput
                   *ngIf="!column.filterType || column.filterType === 'input'"

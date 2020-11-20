@@ -35,5 +35,47 @@
   "Approve": "Duyệt",
   "Back": "Quay Lại",
   "Cancel_Approval": "Hủy Duyệt",
-  "Confirm_Input": "Xác nhận đã vào"
+  "Confirm_Input": "Xác nhận đã vào",
+  "Please_Select": "Vui Lòng Chọn",
+
+  "Type_Of_Vehicle": "Loại Xe",
+  "Plate": "Biển Số",
+  "Payment_Date": "Ngày Thanh Toán",
+  "Note": "Ghi Chú",
+  "Image": "Hình Ảnh",
+  "Validator_Required": "Trường này bắt buộc nhập",
+  "Approver": "Người Duyệt",
+  "Fill_out_vehicle_detail": "Điền thông tin xe tháng",
+  "Waiting_for_approval": "Chờ duyệt",
+  "Done": "Hoàn thành",
+
+  "Employee_Name": "Tên Nhân Viên",
+  "Tel_No": "Số điện thoại",
+  "Passport": "Hộ Chiếu",
+
+  "Start_Offer_Date": "Ngày Bắt Đầu Đề Nghị",
+  "Offer_Content": "Nội Dung Đề Nghị",
+
+  "Request_Date": "Ngày Yêu Cầu",
+  "Search": "Tìm Kiếm",
+
+  "Request_Detail": "Chi Tiết Yêu Cầu",
+  "Visitor_Name": "Tên Người Ra Vào",
+  "Visitor_Tel_No": "Số Điện Thoại Người Ra Vào",
+  "Number_Of_Visitors": "Số Lượng Người Ra Vào",
+  "Visitor_Passport": "Hộ Chiếu Người Ra Vào",
+  "Start_Time": "Giờ Bắt Đầu",
+  "End_Time": "Giờ Kết Thúc",
+  "Type_Payment": "Kiểu Thanh Toán",
+  "Is_Vehicle": "Là Xe",
+  "Input_Real_Time": "Thời Gian Vào Thực Tế",
+  "Note_Done": "Ghi Chú Hoàn Thành",
+  "Access_Vehicles": "Xe Ra Vào",
+  "Add": "Thêm",
+  "Delete": "Xóa",
+  "No": "STT",
+  "Type": "Loại",
+  "Select_Time": "Chọn Giờ",
+
+  "Repuest_Entry_Id": "Số Yêu Cầu"
 }

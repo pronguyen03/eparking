@@ -37,7 +37,7 @@ export class UpdateRequestEntryComponent implements OnInit {
   listAccessVehicles: IAccessVehicle[] = [];
   listSelectedVehicles: IAccessVehicle[] = [];
   columns = [
-    { key: 'colNo', display: 'No.' },
+    { key: 'colNo', display: 'No' },
     { key: 'Plate', display: 'Plate' },
     { key: 'Name', display: 'Type' }
   ];

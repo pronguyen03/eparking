@@ -83,7 +83,8 @@ export class UpdateRequestEntryComponent implements OnInit {
       TypeId: [0],
       TypePayment: [false],
       InputRealTime: [''],
-      NoteDone: ['']
+      NoteDone: [''],
+      IsDone: [false]
     });
 
     this.accessVehicleForm = this.fb.group({
@@ -112,8 +113,9 @@ export class UpdateRequestEntryComponent implements OnInit {
         TypeId: requestEntry.TypeId,
         TypePayment:
           this.crudType === CrudType.VIEW ? (requestEntry.TypePayment ? 'YES' : 'NO') : requestEntry.TypePayment,
-        InputRealTime: this.timeService.convertToDateTime(requestEntry.InputRealTime),
-        NoteDone: requestEntry.NoteDone
+        InputRealTime: requestEntry.InputRealTime,
+        NoteDone: requestEntry.NoteDone,
+        IsDone: requestEntry.IsDone
       });
       this.listAccessVehicles = requestEntryDetails;
     });
