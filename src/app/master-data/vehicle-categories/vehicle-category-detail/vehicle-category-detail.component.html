@@ -7,17 +7,17 @@
     <form [formGroup]="categoryForm">
       <div fxLayout="row" fxLayout.xs="column" fxLayoutWrap fxLayoutGap="5%" fxLayoutAlign="center center">
         <div fxFlex="50%" fxLayout="row" fxLayoutWrap fxLayoutGap="10px" fxLayoutAlign="start center">
-          <mat-label fxFlex="30%" class="title-field">Name</mat-label>
+          <mat-label fxFlex="30%" class="title-field">{{ 'Name' | translate }}</mat-label>
           <mat-form-field fxFlex="70%" appearance="standard">
-            <mat-label>Name</mat-label>
+            <mat-label>{{ 'Name' | translate }}</mat-label>
             <input matInput formControlName="Name" [readonly]="crudType === CrudType.VIEW" />
           </mat-form-field>
         </div>
 
         <div fxFlex="50%" fxLayout="row" fxLayoutWrap fxLayoutGap="10px" fxLayoutAlign="start center">
-          <mat-label fxFlex="30%" class="title-field">Description</mat-label>
+          <mat-label fxFlex="30%" class="title-field">{{ 'Description' | translate }}</mat-label>
           <mat-form-field fxFlex="70%" appearance="standard" class="form-input">
-            <mat-label>Description</mat-label>
+            <mat-label>{{ 'Description' | translate }}</mat-label>
             <!-- <mat-icon matSuffix>person</mat-icon> -->
             <input matInput formControlName="Description" [readonly]="crudType === CrudType.VIEW" />
           </mat-form-field>
@@ -26,9 +26,9 @@
 
       <div fxLayout="row" fxLayout.xs="column" fxLayoutWrap fxLayoutGap="5%" fxLayoutAlign="center center">
         <div fxFlex="50%" fxLayout="row" fxLayoutWrap fxLayoutGap="10px" fxLayoutAlign="start center">
-          <mat-label fxFlex="30%" class="title-field">Price</mat-label>
+          <mat-label fxFlex="30%" class="title-field">{{ 'Price' | translate }}</mat-label>
           <mat-form-field fxFlex="70%" appearance="standard" class="form-input">
-            <mat-label>Price</mat-label>
+            <mat-label>{{ 'Price' | translate }}</mat-label>
             <!-- <mat-icon matSuffix>person</mat-icon> -->
             <input matInput formControlName="Price" [readonly]="crudType === CrudType.VIEW" />
           </mat-form-field>

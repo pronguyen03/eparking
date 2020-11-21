@@ -98,5 +98,9 @@
   "Name": "Tên",
   "Employee_Passport": "Hộ Chiếu Nhân Viên",
   "Is_Done": "Đã Hoàn Thành",
-  "Vehicle_Name": "Tên Phương Tiện"
+  "Vehicle_Name": "Tên Phương Tiện",
+  "Description": "Mô Tả",
+  "From_Date": "Từ Ngày",
+  "To_Date": "Đến Ngày",
+  "Contract_No": "Số Hợp Đồng"
 }

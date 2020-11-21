@@ -21,10 +21,10 @@ export class PricesComponent implements OnInit {
   prices: IPrice[] = [];
   columns: ITableCol[] = [
     { key: 'CustomerName', display: 'Customer_Name' },
-    { key: 'ContractsNumber', display: 'Contract No.' },
+    { key: 'ContractsNumber', display: 'Contract_No' },
     { key: 'IsActived', display: 'Active', type: 'boolean' },
-    { key: 'ValidFromDate', display: 'From Date', type: 'dateString' },
-    { key: 'ValidToDate', display: 'To Date', type: 'dateString' }
+    { key: 'ValidFromDate', display: 'From_Date', type: 'dateString' },
+    { key: 'ValidToDate', display: 'To_Date', type: 'dateString' }
   ];
 
   constructor(

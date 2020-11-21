@@ -1,7 +1,10 @@
 import { Component, OnInit } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { Router } from '@angular/router';
-import { ConfirmDialogComponent, ConfirmDialogModel } from '@app/shared/components/confirm-dialog/confirm-dialog.component';
+import {
+  ConfirmDialogComponent,
+  ConfirmDialogModel
+} from '@app/shared/components/confirm-dialog/confirm-dialog.component';
 import { CrudType } from '@app/shared/enums/crud-type.enum';
 import { ITableCol } from '@app/shared/interfaces/table-col';
 import { IUser } from '@app/shared/interfaces/user';
@@ -18,10 +21,10 @@ export class UsersComponent implements OnInit {
   users: IUser[] = [];
   columns: ITableCol[] = [
     { key: 'Username', display: 'Username' },
-    { key: 'FullName', display: 'FullName' },
+    { key: 'FullName', display: 'Full_Name' },
     { key: 'Address', display: 'Address' },
     { key: 'Actived', display: 'Actived', type: 'boolean' },
-    { key: 'RoleName', display: 'Role'}
+    { key: 'RoleName', display: 'Role' }
   ];
 
   constructor(
@@ -30,14 +33,14 @@ export class UsersComponent implements OnInit {
     private authService: AuthenticationService,
     private dialog: MatDialog,
     private toastr: ToastrService
-  ) { }
+  ) {}
 
   ngOnInit(): void {
     this.getAllUsers();
   }
 
   getAllUsers(): void {
-    this.userService.getAll().subscribe(users => {
+    this.userService.getAll().subscribe((users) => {
       this.users = users;
     });
   }
@@ -59,7 +62,7 @@ export class UsersComponent implements OnInit {
 
     const dialogRef = this.dialog.open(ConfirmDialogComponent, {
       minWidth: '400px',
-      data: dialogData,
+      data: dialogData
     });
 
     dialogRef.afterClosed().subscribe((dialogResult) => {
@@ -73,5 +76,4 @@ export class UsersComponent implements OnInit {
       }
     });
   }
-
 }

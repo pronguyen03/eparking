@@ -35,9 +35,9 @@
           </mat-form-field>
         </div>
         <div fxFlex="50%" fxLayout="row" fxLayoutWrap fxLayoutGap="10px" fxLayoutAlign="start center">
-          <mat-label fxFlex="30%" class="title-field">Contract Number</mat-label>
+          <mat-label fxFlex="30%" class="title-field">{{ 'Contract_No' | translate }}</mat-label>
           <mat-form-field fxFlex="70%" appearance="standard">
-            <mat-label>Contract Number</mat-label>
+            <mat-label>{{ 'Contract_No' | translate }}</mat-label>
             <input matInput formControlName="ContractsNumber" [readonly]="crudType === CrudType.VIEW" />
           </mat-form-field>
         </div>
@@ -52,9 +52,11 @@
         fxLayoutAlign.xs="space-around stretch"
       >
         <div fxFlex="50%" fxLayout="row" fxLayoutWrap fxLayoutGap="10px" fxLayoutAlign="start center">
-          <mat-label fxFlex="30%" class="title-field">From Date<span class="required">*</span></mat-label>
+          <mat-label fxFlex="30%" class="title-field"
+            >{{ 'From_Date' | translate }}<span class="required">*</span></mat-label
+          >
           <mat-form-field fxFlex="70%" appearance="standard">
-            <mat-label>From Date</mat-label>
+            <mat-label>{{ 'From_Date' | translate }}</mat-label>
             <input matInput [matDatepicker]="pickerFromDate" formControlName="ValidFromDate" readonly />
             <mat-datepicker-toggle matSuffix [for]="pickerFromDate"></mat-datepicker-toggle>
             <mat-datepicker #pickerFromDate [disabled]="crudType === CrudType.VIEW"></mat-datepicker>
@@ -68,9 +70,11 @@
           </mat-form-field>
         </div>
         <div fxFlex="50%" fxLayout="row" fxLayoutWrap fxLayoutGap="10px" fxLayoutAlign="start center">
-          <mat-label fxFlex="30%" class="title-field">To Date<span class="required">*</span></mat-label>
+          <mat-label fxFlex="30%" class="title-field"
+            >{{ 'To_Date' | translate }}<span class="required">*</span></mat-label
+          >
           <mat-form-field fxFlex="70%" appearance="standard">
-            <mat-label>To Date</mat-label>
+            <mat-label>{{ 'To_Date' | translate }}</mat-label>
             <input matInput [matDatepicker]="pickerToDate" formControlName="ValidToDate" readonly />
             <mat-datepicker-toggle matSuffix [for]="pickerToDate"></mat-datepicker-toggle>
             <mat-datepicker #pickerToDate [disabled]="crudType === CrudType.VIEW"></mat-datepicker>
