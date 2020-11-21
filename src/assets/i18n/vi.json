@@ -55,6 +55,7 @@
 
   "Start_Offer_Date": "Ngày Bắt Đầu Đề Nghị",
   "Offer_Content": "Nội Dung Đề Nghị",
+  "Offer_Date": "Ngày Đề Nghị",
 
   "Request_Date": "Ngày Yêu Cầu",
   "Search": "Tìm Kiếm",
@@ -76,6 +77,26 @@
   "No": "STT",
   "Type": "Loại",
   "Select_Time": "Chọn Giờ",
+  "Choose_a_date": "Chọn Ngày",
+  "Repuest_Entry_Id": "Số Yêu Cầu",
 
-  "Repuest_Entry_Id": "Số Yêu Cầu"
+  "Customer_Name": "Tên Khách Hàng",
+  "Address": "Địa Chỉ",
+  "Contact_Name": "Tên Người Liên Hệ",
+  "Mobile": "Số Di Động",
+  "Fax_No": "Số Fax",
+  "Tax_Code": "Mã Số Thuế",
+  "Account": "Tài Khoản",
+  "Bank": "Ngân Hàng",
+  "Full_Name": "Họ Tên",
+  "Username": "Tên Người Dùng",
+  "Sex": "Giới Tính",
+  "Dob": "Ngày Sinh",
+  "Account_No": "Số Tài Khoản",
+  "Status": "Trạng Thái",
+  "Approval_Date": "Ngày Duyệt",
+  "Name": "Tên",
+  "Employee_Passport": "Hộ Chiếu Nhân Viên",
+  "Is_Done": "Đã Hoàn Thành",
+  "Vehicle_Name": "Tên Phương Tiện"
 }

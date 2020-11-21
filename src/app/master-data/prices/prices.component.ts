@@ -1,7 +1,10 @@
 import { Component, OnInit } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { Router } from '@angular/router';
-import { ConfirmDialogComponent, ConfirmDialogModel } from '@app/shared/components/confirm-dialog/confirm-dialog.component';
+import {
+  ConfirmDialogComponent,
+  ConfirmDialogModel
+} from '@app/shared/components/confirm-dialog/confirm-dialog.component';
 import { CrudType } from '@app/shared/enums/crud-type.enum';
 import { IPrice } from '@app/shared/interfaces/price';
 import { ITableCol } from '@app/shared/interfaces/table-col';
@@ -17,26 +20,26 @@ import { ToastrService } from 'ngx-toastr';
 export class PricesComponent implements OnInit {
   prices: IPrice[] = [];
   columns: ITableCol[] = [
-    { key: 'CustomerName', display: 'Customer Name' },
+    { key: 'CustomerName', display: 'Customer_Name' },
     { key: 'ContractsNumber', display: 'Contract No.' },
     { key: 'IsActived', display: 'Active', type: 'boolean' },
     { key: 'ValidFromDate', display: 'From Date', type: 'dateString' },
-    { key: 'ValidToDate', display: 'To Date', type: 'dateString' },
+    { key: 'ValidToDate', display: 'To Date', type: 'dateString' }
   ];
-
 
   constructor(
     private priceService: PriceService,
     private router: Router,
     private dialog: MatDialog,
-    private toastr: ToastrService) { }
+    private toastr: ToastrService
+  ) {}
 
   ngOnInit(): void {
     this.getPricesByParking(environment.parkingId);
   }
 
   getPricesByParking(parkingId: number): void {
-    this.priceService.getPricesByParking(parkingId).subscribe(prices => {
+    this.priceService.getPricesByParking(parkingId).subscribe((prices) => {
       this.prices = prices;
     });
   }
@@ -58,7 +61,7 @@ export class PricesComponent implements OnInit {
 
     const dialogRef = this.dialog.open(ConfirmDialogComponent, {
       minWidth: '400px',
-      data: dialogData,
+      data: dialogData
     });
 
     dialogRef.afterClosed().subscribe((dialogResult) => {
@@ -72,5 +75,4 @@ export class PricesComponent implements OnInit {
       }
     });
   }
-
 }

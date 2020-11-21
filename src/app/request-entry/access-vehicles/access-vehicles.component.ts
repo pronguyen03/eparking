@@ -25,9 +25,9 @@ export class AccessVehiclesComponent implements OnInit {
   searchForm: FormGroup;
   columns = [
     { key: 'Id', display: 'ID' },
-    { key: 'RepuestEntryId', display: 'Repuest Entry Id' },
+    { key: 'RepuestEntryId', display: 'Repuest_Entry_Id' },
     { key: 'Plate', display: 'Plate' },
-    { key: 'TypeId', display: 'TypeId' }
+    { key: 'Name', display: 'Type' }
   ];
   constructor(
     private fb: FormBuilder,

@@ -4,7 +4,7 @@ import { Router } from '@angular/router';
 import { Employee } from '@app/shared/classes/employee';
 import {
   ConfirmDialogComponent,
-  ConfirmDialogModel,
+  ConfirmDialogModel
 } from '@app/shared/components/confirm-dialog/confirm-dialog.component';
 import { CrudType } from '@app/shared/enums/crud-type.enum';
 import { AuthenticationService } from '@app/shared/services/authentication.service';
@@ -14,16 +14,16 @@ import { ToastrService } from 'ngx-toastr';
 @Component({
   selector: 'app-employees',
   templateUrl: './employees.component.html',
-  styleUrls: ['./employees.component.scss'],
+  styleUrls: ['./employees.component.scss']
 })
 export class EmployeesComponent implements OnInit {
   employees: Employee[] = [];
 
   columns = [
-    { key: 'EmployeeName', display: 'Employee Name' },
-    { key: 'Tel', display: 'Tel No.' },
-    { key: 'EmployeePassport', display: 'Employee Passport' },
-    { key: 'CustomerName', display: 'Customer Name' },
+    { key: 'EmployeeName', display: 'Employee_Name' },
+    { key: 'Tel', display: 'Tel_No' },
+    { key: 'EmployeePassport', display: 'Employee_Passport' },
+    { key: 'CustomerName', display: 'Customer_Name' }
   ];
 
   constructor(
@@ -61,7 +61,7 @@ export class EmployeesComponent implements OnInit {
 
     const dialogRef = this.dialog.open(ConfirmDialogComponent, {
       minWidth: '400px',
-      data: dialogData,
+      data: dialogData
     });
 
     dialogRef.afterClosed().subscribe((dialogResult) => {

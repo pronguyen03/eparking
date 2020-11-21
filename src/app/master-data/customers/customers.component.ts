@@ -1,7 +1,10 @@
 import { Component, OnInit } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { Router } from '@angular/router';
-import { ConfirmDialogComponent, ConfirmDialogModel } from '@app/shared/components/confirm-dialog/confirm-dialog.component';
+import {
+  ConfirmDialogComponent,
+  ConfirmDialogModel
+} from '@app/shared/components/confirm-dialog/confirm-dialog.component';
 import { ICustomer } from '@app/shared/interfaces/customer';
 import { ITableCol } from '@app/shared/interfaces/table-col';
 import { CustomerService } from '@app/shared/services/customer.service';
@@ -18,7 +21,7 @@ export class CustomersComponent implements OnInit {
   customers: ICustomer[] = [];
   columns: ITableCol[] = [
     { key: 'CustomerId', display: 'ID' },
-    { key: 'CustomerName', display: 'Customer Name' },
+    { key: 'CustomerName', display: 'Customer_Name' },
     { key: 'Address', display: 'Address' },
     { key: 'Disable', display: 'Disabled', type: 'boolean' }
   ];
@@ -28,14 +31,14 @@ export class CustomersComponent implements OnInit {
     private customerService: CustomerService,
     private dialog: MatDialog,
     private toastr: ToastrService
-  ) { }
+  ) {}
 
   ngOnInit(): void {
     this.getCustomerByParking(environment.parkingId);
   }
 
   getCustomerByParking(parkingId: number): void {
-    this.customerService.getCustomerByParking(parkingId).subscribe(customers => {
+    this.customerService.getCustomerByParking(parkingId).subscribe((customers) => {
       this.customers = customers;
     });
   }
@@ -57,7 +60,7 @@ export class CustomersComponent implements OnInit {
 
     const dialogRef = this.dialog.open(ConfirmDialogComponent, {
       minWidth: '400px',
-      data: dialogData,
+      data: dialogData
     });
 
     dialogRef.afterClosed().subscribe((dialogResult) => {

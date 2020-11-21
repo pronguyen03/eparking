@@ -21,9 +21,9 @@ export class PendingApprovalVehiclesComponent implements OnInit {
   vehicles: IVehicle[] = [];
   columns: ITableCol[] = [
     { key: 'Plate', display: 'Plate' },
-    { key: 'CustomerName', display: 'Customer Name', filterable: true, filterType: 'input' },
+    { key: 'CustomerName', display: 'Customer_Name', filterable: true, filterType: 'input' },
     { key: 'Name', display: 'Name' },
-    { key: 'DateOfPayment', display: 'Payment Date', type: 'date' },
+    { key: 'DateOfPayment', display: 'Payment_Date', type: 'date' },
     { key: 'Actived', display: 'Actived', type: 'boolean' },
     { key: 'StatusName', display: 'Status' }
   ];

@@ -25,12 +25,12 @@ export class VehiclesComponent implements OnInit {
   columns: ITableCol[] = [
     { key: 'Plate', display: 'Plate', filterable: true, filterType: 'input' },
     { key: 'Name', display: 'Name', filterable: true, filterType: 'input' },
-    { key: 'DateOfPayment', display: 'Payment Date', type: 'date' },
+    { key: 'DateOfPayment', display: 'Payment_Date', type: 'date' },
     { key: 'Actived', display: 'Actived', type: 'boolean' },
     { key: 'StatusName', display: 'Status', filterable: true, filterType: 'input' },
     // { key: 'IsApproved', display: 'Is Approved', type: 'boolean' },
     { key: 'WhoApproved', display: 'Approver' },
-    { key: 'DateApproved', display: 'Approval Date' }
+    { key: 'DateApproved', display: 'Approval_Date' }
   ];
 
   constructor(

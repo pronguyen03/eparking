@@ -1,11 +1,11 @@
 <mat-toolbar>
-  <span>Xe ra vào</span>
+  <span>{{ 'Access_Vehicles' | translate }}</span>
 </mat-toolbar>
 <div class="row green-theme">
   <div class="search-form" [formGroup]="searchForm">
     <div fxLayout="row" fxLayout.xs="column" fxLayoutWrap fxLayoutGap="5%" fxLayoutAlign="center center">
       <div fxFlex="50%" fxLayout="row" fxLayoutWrap fxLayoutGap="10px" fxLayoutAlign="start center">
-        <mat-label fxFlex="30%" class="title-field">Request Entry ID</mat-label>
+        <mat-label fxFlex="30%" class="title-field">{{ 'Repuest_Entry_Id' | translate }}</mat-label>
         <mat-form-field fxFlex="70%" appearance="standard">
           <mat-label>Enter Request Entry ID</mat-label>
           <input matInput formControlName="RepuestEntryId" />

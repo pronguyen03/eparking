@@ -13,7 +13,7 @@
     </mat-step>
     <mat-step
       [completed]="vehicleForm?.controls.Status.value === VehicleStatus.APPROVED"
-      label="Done"
+      [label]="'Done' | translate"
       [editable]="false"
     >
     </mat-step>
@@ -87,9 +87,11 @@
         fxLayoutAlign.xs="space-around stretch"
       >
         <div fxFlex="50%" fxLayout="row" fxLayoutWrap fxLayoutGap="10px" fxLayoutAlign="center center">
-          <mat-label fxFlex="30%" class="title-field">Payment Date<span class="required">*</span></mat-label>
+          <mat-label fxFlex="30%" class="title-field"
+            >{{ 'Payment_Date' | translate }}<span class="required">*</span></mat-label
+          >
           <mat-form-field fxFlex="70%" appearance="standard">
-            <mat-label>Choose a date</mat-label>
+            <mat-label>{{ 'Choose_a_date' | translate }}</mat-label>
             <input matInput [matDatepicker]="picker" formControlName="DateOfPayment" readonly />
             <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
             <mat-datepicker #picker disabled="false"></mat-datepicker>
@@ -155,14 +157,14 @@
         <div fxFlex="50%" fxLayout="row" fxLayoutWrap fxLayoutGap="10px" fxLayoutAlign="center center">
           <mat-label fxFlex="30%" class="title-field">{{ 'Approver' | translate }}</mat-label>
           <mat-form-field fxFlex="70%" appearance="standard">
-            <mat-label>Approver</mat-label>
+            <mat-label>{{ 'Approver' | translate }}</mat-label>
             <input matInput />
           </mat-form-field>
         </div>
         <div fxFlex="50%" fxLayout="row" fxLayoutWrap fxLayoutGap="10px" fxLayoutAlign="center center">
-          <mat-label fxFlex="30%" class="title-field">Approval Date</mat-label>
+          <mat-label fxFlex="30%" class="title-field">{{ 'Approval_Date' | translate }}</mat-label>
           <mat-form-field fxFlex="70%" appearance="standard">
-            <mat-label>Approval Date</mat-label>
+            <mat-label>{{ 'Approval_Date' | translate }}</mat-label>
             <!-- <mat-icon matSuffix>home</mat-icon> -->
             <input matInput />
           </mat-form-field>

@@ -5,9 +5,9 @@
   <div class="search-form" [formGroup]="searchForm">
     <div fxLayout="row" fxLayout.xs="column" fxLayoutWrap fxLayoutGap="5%" fxLayoutAlign="center center">
       <div fxFlex="50%" fxLayout="row" fxLayoutWrap fxLayoutGap="10px" fxLayoutAlign="start center">
-        <mat-label fxFlex="30%" class="title-field">Customer Name</mat-label>
+        <mat-label fxFlex="30%" class="title-field">{{ 'Customer_Name' | translate }}</mat-label>
         <mat-form-field fxFlex="70%" appearance="standard" color="primary">
-          <mat-label>Customer Name</mat-label>
+          <mat-label>{{ 'Customer_Name' | translate }}</mat-label>
           <input matInput formControlName="CustomerName" />
         </mat-form-field>
       </div>

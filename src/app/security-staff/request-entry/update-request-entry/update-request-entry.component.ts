@@ -113,7 +113,7 @@ export class UpdateRequestEntryComponent implements OnInit {
         TypeId: requestEntry.TypeId,
         TypePayment:
           this.crudType === CrudType.VIEW ? (requestEntry.TypePayment ? 'YES' : 'NO') : requestEntry.TypePayment,
-        InputRealTime: requestEntry.InputRealTime,
+        InputRealTime: this.timeService.convertToDateTime(requestEntry.EndTime),
         NoteDone: requestEntry.NoteDone,
         IsDone: requestEntry.IsDone
       });

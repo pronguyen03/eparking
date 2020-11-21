@@ -16,11 +16,11 @@ import { switchMap } from 'rxjs/operators';
 export class InactiveVehiclesComponent implements OnInit, OnDestroy {
   offers: IInactiveVehicleOffer[] = [];
   columns: ITableCol[] = [
-    { key: 'ContentOffer', display: 'Content Offer' },
-    { key: 'DateOffer', display: 'Date Offer', type: 'date' },
-    { key: 'DateStartOffer', display: 'Date Start Offer', type: 'dateString' },
+    { key: 'ContentOffer', display: 'Offer_Content' },
+    { key: 'DateOffer', display: 'Offer_Date', type: 'date' },
+    { key: 'DateStartOffer', display: 'Start_Offer_Date', type: 'dateString' },
     { key: 'IsApproved', display: 'Is Approved', type: 'boolean' },
-    { key: 'DateApproved', display: 'Date Approved' },
+    { key: 'DateApproved', display: 'Approval_Date' },
     { key: 'Notes', display: 'Notes' }
   ];
 

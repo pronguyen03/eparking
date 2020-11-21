@@ -15,7 +15,7 @@ import { VehicleService } from '@app/shared/services/vehicle.service';
 import { environment } from '@environments/environment';
 import { ToastrService } from 'ngx-toastr';
 import { combineLatest, Subscription, timer } from 'rxjs';
-import { map, switchMap } from 'rxjs/operators';
+import { map, startWith, switchMap } from 'rxjs/operators';
 
 @Component({
   selector: 'app-vehicles',
@@ -26,13 +26,13 @@ export class VehiclesComponent implements OnInit, OnDestroy {
   vehicles: IVehicle[] = [];
   columns: ITableCol[] = [
     { key: 'Plate', display: 'Plate' },
-    { key: 'CustomerName', display: 'Customer Name', filterable: true, filterType: 'input' },
-    { key: 'Name', display: 'Vehicle Name' },
-    { key: 'DateOfPayment', display: 'Payment Date', type: 'date' },
+    { key: 'CustomerName', display: 'Customer_Name', filterable: true, filterType: 'input' },
+    { key: 'Name', display: 'Vehicle_Name' },
+    { key: 'DateOfPayment', display: 'Payment_Date', type: 'date' },
     { key: 'Actived', display: 'Actived', type: 'boolean' },
     { key: 'StatusName', display: 'Status' },
     { key: 'WhoApproved', display: 'Approver' },
-    { key: 'DateApproved', display: 'Approval Date' }
+    { key: 'DateApproved', display: 'Approval_Date' }
   ];
 
   searchForm: FormGroup;
@@ -64,7 +64,10 @@ export class VehiclesComponent implements OnInit, OnDestroy {
     this.vehicleSubscription = timer(0, 30000)
       .pipe(
         switchMap(() =>
-          combineLatest([this.vehicleService.getVehiclesByParking(parkingId, status), this.searchForm.valueChanges])
+          combineLatest([
+            this.vehicleService.getVehiclesByParking(parkingId, status),
+            this.searchForm.valueChanges.pipe(startWith([]))
+          ])
         ),
         map((data) => {
           let vehicles = data[0];

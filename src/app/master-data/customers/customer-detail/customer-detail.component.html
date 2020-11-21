@@ -14,16 +14,16 @@
         fxLayoutAlign.xs="space-around stretch"
       >
         <div fxFlex="50%" fxLayout="row" fxLayoutWrap fxLayoutGap="10px" fxLayoutAlign="start center">
-          <mat-label fxFlex="30%" class="title-field">Customer Name</mat-label>
+          <mat-label fxFlex="30%" class="title-field">{{ 'Customer_Name' | translate }}</mat-label>
           <mat-form-field fxFlex="70%" appearance="standard">
-            <mat-label>Customer Name</mat-label>
+            <mat-label>{{ 'Customer_Name' | translate }}</mat-label>
             <input matInput formControlName="CustomerName" [readonly]="crudType === CrudType.VIEW" />
             <!-- <mat-icon matSuffix>home</mat-icon> -->
           </mat-form-field>
         </div>
 
         <div fxFlex="50%" fxLayout="row" fxLayoutWrap fxLayoutGap="10px" fxLayoutAlign="start center">
-          <mat-label fxFlex="30%" class="title-field">Address</mat-label>
+          <mat-label fxFlex="30%" class="title-field">{{ 'Address' | translate }}</mat-label>
           <mat-form-field fxFlex="70%" appearance="standard">
             <mat-label>Address</mat-label>
             <input matInput formControlName="Address" [readonly]="crudType === CrudType.VIEW" />
@@ -41,7 +41,7 @@
         fxLayoutAlign.xs="space-around stretch"
       >
         <div fxFlex="50%" fxLayout="row" fxLayoutWrap fxLayoutGap="10px" fxLayoutAlign="start center">
-          <mat-label fxFlex="30%" class="title-field">Contact Name</mat-label>
+          <mat-label fxFlex="30%" class="title-field">{{ 'Contact_Name' | translate }}</mat-label>
           <mat-form-field fxFlex="70%" appearance="standard">
             <mat-label>Contact Name</mat-label>
             <input matInput formControlName="ContactName" [readonly]="crudType === CrudType.VIEW" />
@@ -49,7 +49,7 @@
           </mat-form-field>
         </div>
         <div fxFlex="50%" fxLayout="row" fxLayoutWrap fxLayoutGap="10px" fxLayoutAlign="start center">
-          <mat-label fxFlex="30%" class="title-field">Mobile</mat-label>
+          <mat-label fxFlex="30%" class="title-field">{{ 'Mobile' | translate }}</mat-label>
           <mat-form-field fxFlex="70%" appearance="standard">
             <mat-label>Mobile</mat-label>
             <input matInput formControlName="Mobile" [readonly]="crudType === CrudType.VIEW" />
@@ -75,7 +75,7 @@
           </mat-form-field>
         </div>
         <div fxFlex="50%" fxLayout="row" fxLayoutWrap fxLayoutGap="10px" fxLayoutAlign="start center">
-          <mat-label fxFlex="30%" class="title-field">Fax No.</mat-label>
+          <mat-label fxFlex="30%" class="title-field">{{ 'Fax_No' | translate }}</mat-label>
           <mat-form-field fxFlex="70%" appearance="standard">
             <mat-label>Fax No.</mat-label>
             <input matInput formControlName="Fax" [readonly]="crudType === CrudType.VIEW" />
@@ -101,7 +101,7 @@
           </mat-form-field>
         </div>
         <div fxFlex="50%" fxLayout="row" fxLayoutWrap fxLayoutGap="10px" fxLayoutAlign="start center">
-          <mat-label fxFlex="30%" class="title-field">Tax Code</mat-label>
+          <mat-label fxFlex="30%" class="title-field">{{ 'Tax_Code' | translate }}</mat-label>
           <mat-form-field fxFlex="70%" appearance="standard">
             <mat-label>Tax Code</mat-label>
             <input matInput formControlName="TaxCode" [readonly]="crudType === CrudType.VIEW" />
@@ -119,7 +119,7 @@
         fxLayoutAlign.xs="space-around stretch"
       >
         <div fxFlex="50%" fxLayout="row" fxLayoutWrap fxLayoutGap="10px" fxLayoutAlign="start center">
-          <mat-label fxFlex="30%" class="title-field">Account</mat-label>
+          <mat-label fxFlex="30%" class="title-field">{{ 'Account' | translate }}</mat-label>
           <mat-form-field fxFlex="70%" appearance="standard">
             <mat-label>Account</mat-label>
             <input matInput formControlName="Account" [readonly]="crudType === CrudType.VIEW" />
@@ -127,7 +127,7 @@
           </mat-form-field>
         </div>
         <div fxFlex="50%" fxLayout="row" fxLayoutWrap fxLayoutGap="10px" fxLayoutAlign="start center">
-          <mat-label fxFlex="30%" class="title-field">Bank</mat-label>
+          <mat-label fxFlex="30%" class="title-field">{{ 'Bank' | translate }}</mat-label>
           <mat-form-field fxFlex="70%" appearance="standard">
             <mat-label>Bank</mat-label>
             <input matInput formControlName="Bank" [readonly]="crudType === CrudType.VIEW" />

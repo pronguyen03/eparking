@@ -29,13 +29,13 @@ export class RequestEntryComponent implements OnInit {
   listRequests$: Observable<IRequestEntry[]>;
   errorForm = false;
   columns = [
-    { key: 'RequestDetailed', display: 'Request Detail' },
-    { key: 'VisitorName', display: 'Visitor Name' },
-    { key: 'NumberVisitor', display: 'No. Of Visitors' },
-    { key: 'StartTime', display: 'Start Time', type: 'dateTimeString' },
-    { key: 'EndTime', display: 'End Time', type: 'dateTimeString' },
-    { key: 'CustomerName', display: 'Customer Name' },
-    { key: 'IsDone', display: 'Is Done', type: 'boolean' }
+    { key: 'RequestDetailed', display: 'Request_Detail' },
+    { key: 'VisitorName', display: 'Visitor_Name' },
+    { key: 'NumberVisitor', display: 'Number_Of_Visitors' },
+    { key: 'StartTime', display: 'Start_Time', type: 'dateTimeString' },
+    { key: 'EndTime', display: 'End_Time', type: 'dateTimeString' },
+    { key: 'CustomerName', display: 'Customer_Name' },
+    { key: 'IsDone', display: 'Is_Done', type: 'boolean' }
   ];
 
   vehicleCategories$: Observable<IVehicleCategory[]>;
