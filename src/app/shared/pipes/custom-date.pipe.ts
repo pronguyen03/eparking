@@ -1,7 +1,7 @@
 import { Pipe, PipeTransform } from '@angular/core';
 
 @Pipe({
-  name: 'customDate',
+  name: 'customDate'
 })
 export class CustomDatePipe implements PipeTransform {
   transform(value: string, ...args: unknown[]): Date {
@@ -10,6 +10,6 @@ export class CustomDatePipe implements PipeTransform {
     const day = +value.substring(6, 8);
     const hour = +value.substring(8, 10);
     const minute = +value.substring(10, 12);
-    return new Date(year, month, day, hour, minute);
+    return new Date(year, month - 1, day, hour, minute);
   }
 }

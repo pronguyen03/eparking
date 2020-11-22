@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { format } from 'date-fns';
 @Injectable({
-  providedIn: 'root',
+  providedIn: 'root'
 })
 export class TimeService {
   constructor() {}
@@ -15,7 +15,7 @@ export class TimeService {
     const day = +source.substring(6, 8);
     const hour = +source.substring(8, 10);
     const minute = +source.substring(10, 12);
-    return new Date(year, month, day, hour, minute);
+    return new Date(year, month - 1, day, hour, minute);
   }
 
   toDateTimeString(date: Date): string {

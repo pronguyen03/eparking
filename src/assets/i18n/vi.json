@@ -102,5 +102,12 @@
   "Description": "Mô Tả",
   "From_Date": "Từ Ngày",
   "To_Date": "Đến Ngày",
-  "Contract_No": "Số Hợp Đồng"
+  "Contract_No": "Số Hợp Đồng",
+  "New": "Mới",
+  "Pending_Approval": "Đang Chờ Duyệt",
+  "Approved": "Đã Duyệt",
+  "Is_Approved": "Đã Được Duyệt",
+  "YES": "Có",
+  "NO": "Không",
+  "Price_List": "Bảng Giá"
 }

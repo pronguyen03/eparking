@@ -119,16 +119,9 @@
       </div>
     </form>
 
-    <!-- <div
-      fxLayout="column"
-      fxLayoutWrap
-      fxLayoutGap="10px"
-      fxLayoutAlign="center stretch"
-      [style.display]="requestEntryForm.controls?.IsVehicle.value ? 'flex' : 'none'"
-      [formGroup]="accessVehicleForm"
-    >
+    <div fxLayout="column" fxLayoutWrap fxLayoutGap="10px" fxLayoutAlign="center stretch" [formGroup]="priceDetailForm">
       <div class="form-control" fxLayout="row" fxLayoutWrap fxLayoutGap="10px" fxLayoutAlign="start center">
-        <mat-label class="title-field">{{ 'Access_Vehicles' | translate}}</mat-label>
+        <mat-label class="title-field">{{ 'Price_List' | translate }}</mat-label>
       </div>
       <div>
         <div
@@ -137,19 +130,12 @@
           fxLayoutWrap
           fxLayoutGap="5%"
           fxLayoutAlign="center center"
-          *ngIf="crudType !== CrudType.VIEW"
+          *ngIf="crudType === CrudType.EDIT"
         >
-          <div fxFlex="40%" fxLayout="row" fxLayoutWrap fxLayoutGap="10px" fxLayoutAlign="start center">
-            <mat-label fxFlex="30%" class="title-field">{{ 'Plate' | translate }}</mat-label>
-            <mat-form-field fxFlex="70%" appearance="standard" class="form-input">
-              <mat-label class="title-field">{{ 'Plate' | translate}}</mat-label>
-              <input matInput formControlName="Plate" [readonly]="crudType === CrudType.VIEW" class="upper-case" />
-            </mat-form-field>
-          </div>
           <div fxFlex="40%" fxLayout="row" fxLayoutWrap fxLayoutGap="10px" fxLayoutAlign="start center">
             <mat-label fxFlex="30%" class="title-field">{{ 'Type_Of_Vehicle' | translate }}</mat-label>
             <mat-form-field fxFlex="70%" appearance="standard">
-              <mat-label class="title-field">{{ 'Type_Of_Vehicle' | translate}}</mat-label>
+              <mat-label class="title-field">{{ 'Type_Of_Vehicle' | translate }}</mat-label>
               <mat-select formControlName="Type">
                 <mat-option [value]="">{{ 'Please_Select' | translate }}</mat-option>
                 <mat-option *ngFor="let category of vehicleCategories$ | async" [value]="category">
@@ -158,14 +144,30 @@
               </mat-select>
             </mat-form-field>
           </div>
+          <div fxFlex="40%" fxLayout="row" fxLayoutWrap fxLayoutGap="10px" fxLayoutAlign="start center">
+            <mat-label fxFlex="30%" class="title-field">{{ 'Price' | translate }}</mat-label>
+            <mat-form-field fxFlex="70%" appearance="standard" class="form-input">
+              <mat-label class="title-field">{{ 'Price' | translate }}</mat-label>
+              <input
+                type="number"
+                matInput
+                formControlName="Price"
+                [readonly]="crudType === CrudType.VIEW"
+                class="upper-case"
+              />
+            </mat-form-field>
+          </div>
+
           <div fxFlex="20%" fxLayout="row" fxLayoutWrap fxLayoutGap="10px" fxLayoutAlign="start center">
-            <button mat-button (click)="addAccessVehicle()" mat-flat-button color="primary">{{ 'Add' | translate }}</button>
+            <button mat-button (click)="addPrice()" mat-flat-button color="primary">
+              {{ 'Add' | translate }}
+            </button>
             <button
               mat-button
-              (click)="deleteAccessVehicle()"
+              (click)="deletePrice()"
               mat-flat-button
               color="warn"
-              *ngIf="listSelectedVehicles.length > 0"
+              *ngIf="listSelectedPrices.length > 0"
             >
               {{ 'Delete' | translate }}
             </button>
@@ -173,23 +175,22 @@
         </div>
 
         <app-data-table
-          [hasSelect]="true"
-          [hasFunctionalBtn]="false"
-          [dataList]="listAccessVehicles"
-          (selectedValuesEmitter)="listSelectedVehicles = $event"
+          [hasSelect]="false"
+          [hasFunctionalBtn]="crudType === CrudType.EDIT"
+          [dataList]="listPrices"
           [columns]="columns"
         ></app-data-table>
-      </div> -->
-    <!-- </div> -->
-  </div>
+      </div>
+    </div>
 
-  <div class="row btn-footer">
-    <div fxLayout="row" fxLayoutGap="10px" fxLayoutAlign="start center">
-      <button *ngIf="crudType !== CrudType.VIEW" mat-raised-button color="primary" (click)="save()">
-        {{ 'Save' | translate }}
-      </button>
-      <button mat-raised-button (click)="back()">{{ 'Back' | translate }}</button>
-      <!-- <button mat-raised-button color="accent">Accent</button> -->
+    <div class="row btn-footer">
+      <div fxLayout="row" fxLayoutGap="10px" fxLayoutAlign="start center">
+        <button *ngIf="crudType !== CrudType.VIEW" mat-raised-button color="primary" (click)="save()">
+          {{ 'Save' | translate }}
+        </button>
+        <button mat-raised-button (click)="back()">{{ 'Back' | translate }}</button>
+        <!-- <button mat-raised-button color="accent">Accent</button> -->
+      </div>
     </div>
   </div>
 </div>

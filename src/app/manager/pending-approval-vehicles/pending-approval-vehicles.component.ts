@@ -9,6 +9,7 @@ import { IVehicle } from '@app/shared/interfaces/vehicle';
 import { AuthenticationService } from '@app/shared/services/authentication.service';
 import { VehicleService } from '@app/shared/services/vehicle.service';
 import { environment } from '@environments/environment';
+import { TranslateService } from '@ngx-translate/core';
 import { combineLatest, Subscription, timer } from 'rxjs';
 import { map, startWith, switchMap } from 'rxjs/operators';
 
@@ -25,7 +26,7 @@ export class PendingApprovalVehiclesComponent implements OnInit {
     { key: 'Name', display: 'Name' },
     { key: 'DateOfPayment', display: 'Payment_Date', type: 'date' },
     { key: 'Actived', display: 'Actived', type: 'boolean' },
-    { key: 'StatusName', display: 'Status' }
+    { key: 'StatusName', display: 'Status', isTranslated: true }
   ];
 
   searchForm: FormGroup;
@@ -34,7 +35,8 @@ export class PendingApprovalVehiclesComponent implements OnInit {
     private router: Router,
     private authService: AuthenticationService,
     private vehicleService: VehicleService,
-    private fb: FormBuilder
+    private fb: FormBuilder,
+    private translate: TranslateService
   ) {}
 
   ngOnInit(): void {
@@ -70,7 +72,7 @@ export class PendingApprovalVehiclesComponent implements OnInit {
       )
       .subscribe((vehicles) => {
         vehicles = vehicles.map((vehicle) => {
-          vehicle.StatusName = 'Pending Approval';
+          vehicle.StatusName = 'Pending_Approval';
           vehicle.canDelete = false;
           return vehicle;
         });

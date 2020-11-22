@@ -19,7 +19,7 @@ export class InactiveVehiclesComponent implements OnInit, OnDestroy {
     { key: 'ContentOffer', display: 'Offer_Content' },
     { key: 'DateOffer', display: 'Offer_Date', type: 'date' },
     { key: 'DateStartOffer', display: 'Start_Offer_Date', type: 'dateString' },
-    { key: 'IsApproved', display: 'Is Approved', type: 'boolean' },
+    { key: 'IsApproved', display: 'Is_Approved', type: 'boolean' },
     { key: 'DateApproved', display: 'Approval_Date' },
     { key: 'Notes', display: 'Notes' }
   ];

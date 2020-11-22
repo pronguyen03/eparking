@@ -5,4 +5,5 @@ export interface ITableCol {
   filterable?: boolean;
   filterType?: 'input' | 'select';
   selectionList?: any[];
+  isTranslated?: boolean;
 }

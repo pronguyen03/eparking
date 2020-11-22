@@ -13,6 +13,7 @@ import { IVehicle } from '@app/shared/interfaces/vehicle';
 import { AuthenticationService } from '@app/shared/services/authentication.service';
 import { VehicleService } from '@app/shared/services/vehicle.service';
 import { environment } from '@environments/environment';
+import { TranslateService } from '@ngx-translate/core';
 import { ToastrService } from 'ngx-toastr';
 
 @Component({
@@ -27,8 +28,8 @@ export class VehiclesComponent implements OnInit {
     { key: 'Name', display: 'Name', filterable: true, filterType: 'input' },
     { key: 'DateOfPayment', display: 'Payment_Date', type: 'date' },
     { key: 'Actived', display: 'Actived', type: 'boolean' },
-    { key: 'StatusName', display: 'Status', filterable: true, filterType: 'input' },
-    // { key: 'IsApproved', display: 'Is Approved', type: 'boolean' },
+    { key: 'StatusName', display: 'Status', filterable: true, filterType: 'input', isTranslated: true },
+    // { key: 'IsApproved', display: 'Is_Approved', type: 'boolean' },
     { key: 'WhoApproved', display: 'Approver' },
     { key: 'DateApproved', display: 'Approval_Date' }
   ];
@@ -38,7 +39,8 @@ export class VehiclesComponent implements OnInit {
     private vehicleService: VehicleService,
     private authService: AuthenticationService,
     private dialog: MatDialog,
-    private toastr: ToastrService
+    private toastr: ToastrService,
+    private translate: TranslateService
   ) {}
 
   ngOnInit(): void {
@@ -53,7 +55,7 @@ export class VehiclesComponent implements OnInit {
             vehicle.StatusName = 'New';
             break;
           case VehicleStatus.PENDING:
-            vehicle.StatusName = 'Pending Approval';
+            vehicle.StatusName = 'Pending_Approval';
             vehicle.canDelete = false;
             break;
           case VehicleStatus.APPROVED:

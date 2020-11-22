@@ -13,6 +13,7 @@ import { IVehicle } from '@app/shared/interfaces/vehicle';
 import { AuthenticationService } from '@app/shared/services/authentication.service';
 import { VehicleService } from '@app/shared/services/vehicle.service';
 import { environment } from '@environments/environment';
+import { TranslateService } from '@ngx-translate/core';
 import { ToastrService } from 'ngx-toastr';
 import { combineLatest, Subscription, timer } from 'rxjs';
 import { map, startWith, switchMap } from 'rxjs/operators';
@@ -30,7 +31,7 @@ export class VehiclesComponent implements OnInit, OnDestroy {
     { key: 'Name', display: 'Vehicle_Name' },
     { key: 'DateOfPayment', display: 'Payment_Date', type: 'date' },
     { key: 'Actived', display: 'Actived', type: 'boolean' },
-    { key: 'StatusName', display: 'Status' },
+    { key: 'StatusName', display: 'Status', isTranslated: true },
     { key: 'WhoApproved', display: 'Approver' },
     { key: 'DateApproved', display: 'Approval_Date' }
   ];
@@ -42,7 +43,8 @@ export class VehiclesComponent implements OnInit, OnDestroy {
     private vehicleService: VehicleService,
     private dialog: MatDialog,
     private toastr: ToastrService,
-    private fb: FormBuilder
+    private fb: FormBuilder,
+    private translate: TranslateService
   ) {}
 
   ngOnInit(): void {
@@ -87,7 +89,7 @@ export class VehiclesComponent implements OnInit, OnDestroy {
               vehicle.StatusName = 'New';
               break;
             case VehicleStatus.PENDING:
-              vehicle.StatusName = 'Pending Approval';
+              vehicle.StatusName = 'Pending_Approval';
               vehicle.canDelete = false;
               break;
             case VehicleStatus.APPROVED:
