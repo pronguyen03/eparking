@@ -50,6 +50,14 @@ export class InactiveVehicleOfferService {
     });
   }
 
+  deleteOffer(offerId: number): Observable<ApiResponse> {
+    return this.http.post<ApiResponse>(`${this.url}/Delete`, {
+      Item: {
+        Id: offerId
+      }
+    });
+  }
+
   getInactiveVehicleOffersByCustomer(customerId: number): Observable<IInactiveVehicleOffer[]> {
     return this.http
       .post<ApiResponse>(`${this.url}/GetbyCustomer`, {
@@ -68,10 +76,11 @@ export class InactiveVehicleOfferService {
     });
   }
 
-  setApproved(id: number): Observable<ApiResponse> {
-    return this.http.post<ApiResponse>(`${this.url}/SetApproved`, {
+  setApproved(id: number, approverId: number): Observable<ApiResponse> {
+    return this.http.post<ApiResponse>(`${this.url}/Approved`, {
       Item: {
-        Id: id
+        Id: id,
+        WhoApproved: approverId
       }
     });
   }

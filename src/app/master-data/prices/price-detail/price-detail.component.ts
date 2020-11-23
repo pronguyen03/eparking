@@ -43,6 +43,8 @@ export class PriceDetailComponent implements OnInit {
     { key: 'Name', display: 'Type' },
     { key: 'Price', display: 'Price' }
   ];
+
+  existType: boolean;
   constructor(
     private fb: FormBuilder,
     private toastr: ToastrService,
@@ -91,7 +93,8 @@ export class PriceDetailComponent implements OnInit {
     this.priceDetailForm = this.fb.group({
       VihicleCategoryId: [null],
       Type: [null, Validators.required],
-      Price: [0, Validators.required]
+      Price: [0, Validators.required],
+      Notes: ['']
     });
   }
 
@@ -143,7 +146,8 @@ export class PriceDetailComponent implements OnInit {
         ContractsNumber,
         ValidFromDate: ValidFromDate ? format(ValidFromDate, 'yyyyMMdd') : null,
         ValidToDate: ValidToDate ? format(ValidToDate, 'yyyyMMdd') : null,
-        IsActived
+        IsActived,
+        ItemDetailed: this.listPrices
       };
 
       this.priceService.addPrice(reqData).subscribe((res) => {
@@ -176,7 +180,13 @@ export class PriceDetailComponent implements OnInit {
 
   addPrice(): void {
     if (this.priceDetailForm.valid) {
+      this.existType = false;
       const { Price, Type }: { Price: number; Type: IVehicleCategory } = this.priceDetailForm.value;
+
+      if (this.checkExistType(Type)) {
+        this.existType = true;
+        return;
+      }
       const inputData: Partial<IPriceDetail> = {
         PriceId: this.id,
         VihicleCategoryId: Type.Id,
@@ -184,12 +194,21 @@ export class PriceDetailComponent implements OnInit {
         Notes: ''
       };
 
-      this.priceDetailService.addPriceDetail(inputData).subscribe((res) => {
-        if (res.Code === '100') {
-          this.priceDetailForm.reset();
+      switch (this.crudType) {
+        case CrudType.CREATE:
           this.listPrices.push(inputData);
-        }
-      });
+          break;
+        case CrudType.EDIT:
+          this.priceDetailService.addPriceDetail(inputData).subscribe((res) => {
+            if (res.Code === '100') {
+              this.priceDetailForm.reset();
+              this.listPrices.push(inputData);
+            }
+          });
+          break;
+        default:
+          break;
+      }
     } else {
       this.priceDetailForm.markAllAsTouched();
     }
@@ -214,5 +233,13 @@ export class PriceDetailComponent implements OnInit {
         });
       }
     });
+  }
+
+  checkExistType(Type: IVehicleCategory): boolean {
+    const existType = this.listPrices.find((price) => (price.VihicleCategoryId = Type.Id));
+    if (existType) {
+      return true;
+    }
+    return false;
   }
 }

@@ -75,7 +75,13 @@
           >
           <mat-form-field fxFlex="70%" appearance="standard">
             <mat-label>{{ 'To_Date' | translate }}</mat-label>
-            <input matInput [matDatepicker]="pickerToDate" formControlName="ValidToDate" readonly />
+            <input
+              matInput
+              [matDatepicker]="pickerToDate"
+              [min]="priceForm.controls.ValidFromDate.value"
+              formControlName="ValidToDate"
+              readonly
+            />
             <mat-datepicker-toggle matSuffix [for]="pickerToDate"></mat-datepicker-toggle>
             <mat-datepicker #pickerToDate [disabled]="crudType === CrudType.VIEW"></mat-datepicker>
             <mat-error
@@ -130,10 +136,12 @@
           fxLayoutWrap
           fxLayoutGap="5%"
           fxLayoutAlign="center center"
-          *ngIf="crudType === CrudType.EDIT"
+          *ngIf="crudType !== CrudType.VIEW"
         >
-          <div fxFlex="40%" fxLayout="row" fxLayoutWrap fxLayoutGap="10px" fxLayoutAlign="start center">
-            <mat-label fxFlex="30%" class="title-field">{{ 'Type_Of_Vehicle' | translate }}</mat-label>
+          <div fxFlex="20%" fxLayout="row" fxLayoutWrap fxLayoutGap="10px" fxLayoutAlign="start center">
+            <mat-label fxFlex="30%" class="title-field"
+              >{{ 'Type_Of_Vehicle' | translate }}<span class="required">*</span></mat-label
+            >
             <mat-form-field fxFlex="70%" appearance="standard">
               <mat-label class="title-field">{{ 'Type_Of_Vehicle' | translate }}</mat-label>
               <mat-select formControlName="Type">
@@ -142,10 +150,13 @@
                   {{ category.Name }}
                 </mat-option>
               </mat-select>
+              <mat-error *ngIf="existType">{{ 'Type_had_price_already' | translate }}</mat-error>
             </mat-form-field>
           </div>
-          <div fxFlex="40%" fxLayout="row" fxLayoutWrap fxLayoutGap="10px" fxLayoutAlign="start center">
-            <mat-label fxFlex="30%" class="title-field">{{ 'Price' | translate }}</mat-label>
+          <div fxFlex="20%" fxLayout="row" fxLayoutWrap fxLayoutGap="10px" fxLayoutAlign="start center">
+            <mat-label fxFlex="30%" class="title-field"
+              >{{ 'Price' | translate }}<span class="required">*</span></mat-label
+            >
             <mat-form-field fxFlex="70%" appearance="standard" class="form-input">
               <mat-label class="title-field">{{ 'Price' | translate }}</mat-label>
               <input
@@ -155,6 +166,14 @@
                 [readonly]="crudType === CrudType.VIEW"
                 class="upper-case"
               />
+            </mat-form-field>
+          </div>
+
+          <div fxFlex="20%" fxLayout="row" fxLayoutWrap fxLayoutGap="10px" fxLayoutAlign="start center">
+            <mat-label fxFlex="30%" class="title-field">{{ 'Notes' | translate }}</mat-label>
+            <mat-form-field fxFlex="70%" appearance="standard" class="form-input">
+              <mat-label class="title-field">{{ 'Notes' | translate }}</mat-label>
+              <input matInput formControlName="Notes" [readonly]="crudType === CrudType.VIEW" class="upper-case" />
             </mat-form-field>
           </div>
 

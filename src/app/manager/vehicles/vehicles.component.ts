@@ -32,7 +32,7 @@ export class VehiclesComponent implements OnInit, OnDestroy {
     { key: 'DateOfPayment', display: 'Payment_Date', type: 'date' },
     { key: 'Actived', display: 'Actived', type: 'boolean' },
     { key: 'StatusName', display: 'Status', isTranslated: true },
-    { key: 'WhoApproved', display: 'Approver' },
+    { key: 'ApprovedFullName', display: 'Approver' },
     { key: 'DateApproved', display: 'Approval_Date' }
   ];
 

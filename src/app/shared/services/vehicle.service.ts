@@ -79,10 +79,11 @@ export class VehicleService {
     });
   }
 
-  setApproved(id: number): Observable<ApiResponse> {
+  setApproved(id: number, approverId: number): Observable<ApiResponse> {
     return this.http.post<ApiResponse>(`${this.url}/SetApproved`, {
       Item: {
-        Id: id
+        Id: id,
+        WhoApproved: approverId
       }
     });
   }

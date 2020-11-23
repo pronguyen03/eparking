@@ -8,7 +8,7 @@
   </mat-dialog-content>
 
   <mat-dialog-actions fxLayout="row" fxLayoutAlign="end">
-    <button mat-raised-button color="primary" (click)="onConfirm()">Yes</button>
-    <button mat-button (click)="onDismiss()">No</button>
+    <button mat-raised-button color="primary" (click)="onConfirm()">{{ 'YES' | translate }}</button>
+    <button mat-button (click)="onDismiss()">{{ 'NO' | translate }}</button>
   </mat-dialog-actions>
 </div>

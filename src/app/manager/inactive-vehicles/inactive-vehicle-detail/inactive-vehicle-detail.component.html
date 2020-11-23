@@ -114,6 +114,7 @@
         {{ 'Save' | translate }}
       </button>
       <button
+        *ngIf="!offerForm.controls.IsApproved.value"
         mat-raised-button
         color="primary"
         (click)="confirmDialog('approve', 'Approval Confirm', 'Are you sure you want to approve this offer?')"

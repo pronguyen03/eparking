@@ -10,6 +10,7 @@ import { CrudType } from '@app/shared/enums/crud-type.enum';
 import { VehicleStatus } from '@app/shared/enums/vehicle-status.enum';
 import { ICustomer } from '@app/shared/interfaces/customer';
 import { IVehicle } from '@app/shared/interfaces/vehicle';
+import { AuthenticationService } from '@app/shared/services/authentication.service';
 import { CustomerService } from '@app/shared/services/customer.service';
 import { InactiveVehicleOfferService } from '@app/shared/services/inactive-vehicle-offer.service';
 import { TimeService } from '@app/shared/services/time.service';
@@ -40,7 +41,8 @@ export class InactiveVehicleDetailComponent implements OnInit {
     private inactiveVehicleOfferService: InactiveVehicleOfferService,
     private toastr: ToastrService,
     private timeService: TimeService,
-    public dialog: MatDialog
+    public dialog: MatDialog,
+    private authService: AuthenticationService
   ) {}
 
   ngOnInit(): void {
@@ -66,7 +68,8 @@ export class InactiveVehicleDetailComponent implements OnInit {
       CustomerId: [null, Validators.required],
       VehicleId: [null, Validators.required],
       StartOfferDate: [null, Validators.required],
-      OfferContent: [null, Validators.required]
+      OfferContent: [null, Validators.required],
+      IsApproved: [false]
     });
   }
 
@@ -84,7 +87,8 @@ export class InactiveVehicleDetailComponent implements OnInit {
         CustomerId: offer.CustomerId,
         VehicleId: offer.VihicleId,
         StartOfferDate: this.timeService.convertToDateTime(offer.DateStartOffer),
-        OfferContent: offer.ContentOffer
+        OfferContent: offer.ContentOffer,
+        IsApproved: offer.IsApproved
       });
     });
   }
@@ -165,7 +169,7 @@ export class InactiveVehicleDetailComponent implements OnInit {
   }
 
   approve(): void {
-    this.inactiveVehicleOfferService.setApproved(this.id).subscribe((res) => {
+    this.inactiveVehicleOfferService.setApproved(this.id, this.authService.currentUserValue.Id).subscribe((res) => {
       if (res.Code === '100') {
         this.toastr.success('Approved the vehicle.', 'Inactive Vehicle Offer');
         this.back();

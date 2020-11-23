@@ -225,7 +225,7 @@ export class PendingApprovalVehicleDetailComponent implements OnInit {
   }
 
   approve(): void {
-    this.vehicleService.setApproved(this.id).subscribe((res) => {
+    this.vehicleService.setApproved(this.id, this.authService.currentUserValue.Id).subscribe((res) => {
       if (res.Code === '100') {
         this.toastr.success('Approved the vehicle.', 'Vehicle');
         this.back();

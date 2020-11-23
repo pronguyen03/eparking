@@ -30,7 +30,7 @@ export class VehiclesComponent implements OnInit {
     { key: 'Actived', display: 'Actived', type: 'boolean' },
     { key: 'StatusName', display: 'Status', filterable: true, filterType: 'input', isTranslated: true },
     // { key: 'IsApproved', display: 'Is_Approved', type: 'boolean' },
-    { key: 'WhoApproved', display: 'Approver' },
+    { key: 'ApprovedFullName', display: 'Approver' },
     { key: 'DateApproved', display: 'Approval_Date' }
   ];
 

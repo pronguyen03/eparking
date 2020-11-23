@@ -109,5 +109,9 @@
   "Is_Approved": "Đã Được Duyệt",
   "YES": "Có",
   "NO": "Không",
-  "Price_List": "Bảng Giá"
+  "Price_List": "Bảng Giá",
+  "View": "Xem",
+  "Edit": "Chỉnh Sửa",
+  "Notes": "Ghi Chú",
+  "Type_had_price_already": "Loại xe này đã có giá."
 }

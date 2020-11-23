@@ -19,7 +19,7 @@ export class ErrorInterceptor implements HttpInterceptor {
             switch (body.Code) {
               case '101':
                 this.authenticationService.logout();
-                this.toastr.error(body.Message);
+                // this.toastr.error(body.Message);
                 break;
               default:
                 this.toastr.error(body.Message, `Error ${body.Code}`);

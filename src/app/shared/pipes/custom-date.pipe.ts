@@ -5,6 +5,9 @@ import { Pipe, PipeTransform } from '@angular/core';
 })
 export class CustomDatePipe implements PipeTransform {
   transform(value: string, ...args: unknown[]): Date {
+    if (!value) {
+      return null;
+    }
     const year = +value.substring(0, 4);
     const month = +value.substring(4, 6);
     const day = +value.substring(6, 8);
