@@ -4,6 +4,7 @@ import { MatCheckboxChange } from '@angular/material/checkbox';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatTableDataSource } from '@angular/material/table';
 import { ITableCol } from '@app/shared/interfaces/table-col';
+import { TimeService } from '@app/shared/services/time.service';
 
 @Component({
   selector: 'app-data-table',
@@ -25,10 +26,11 @@ export class DataTableComponent implements OnInit, AfterViewInit, OnChanges {
   dataSource: MatTableDataSource<any> = new MatTableDataSource<any>(this.dataList);
   selection = new SelectionModel<any>(true, []);
   hideFilter = true;
-  filterValue: { [key: string]: any } = {};
+  filterValue: { [key: string]: { value: any; type: 'text' | 'select' | 'number' | 'date' | 'datetime' } } = {};
   /** Pagination */
   @ViewChild(MatPaginator) paginator: MatPaginator;
 
+  constructor(private timeService: TimeService) {}
   ngOnInit(): void {
     if (this.hasSelect) {
       this.columns.unshift({ key: 'select', display: '' });
@@ -41,8 +43,9 @@ export class DataTableComponent implements OnInit, AfterViewInit, OnChanges {
   }
 
   ngOnChanges(): void {
-    this.filterValue = {};
-    this.filteredDataList = [...this.dataList];
+    // this.filterValue = {};
+    // this.filteredDataList = [...this.dataList];
+    this.filter();
     this.updateSource();
   }
 
@@ -97,22 +100,41 @@ export class DataTableComponent implements OnInit, AfterViewInit, OnChanges {
   }
 
   onFilter(column: ITableCol, event: any): void {
-    this.filterValue[column.key] = ('' + event.target.value).trim();
-    if (!this.filterValue[column.key]) {
+    this.filterValue[column.key] = {
+      value: event.target.value,
+      type: column.filterType || 'text'
+    };
+    if (!this.filterValue[column.key].value) {
       delete this.filterValue[column.key];
     }
+    this.filter();
+    this.updateSource();
+  }
+
+  filter(): void {
     this.filteredDataList = [...this.dataList];
     for (const filterKey in this.filterValue) {
       if (Object.prototype.hasOwnProperty.call(this.filterValue, filterKey)) {
         const element = this.filterValue[filterKey];
         if (element) {
-          this.filteredDataList = this.filteredDataList.filter((data) =>
-            data[filterKey].toLowerCase().includes(element.toLowerCase())
-          );
+          this.filteredDataList = this.filteredDataList.filter((data) => {
+            switch (element.type) {
+              case 'text':
+                return data[filterKey].toLowerCase().includes(element.value.trim().toLowerCase());
+              case 'number':
+                return data[filterKey] === +element.value || element.value === '';
+              case 'date':
+                return data[filterKey] === this.timeService.toDateString(element.value);
+              case 'datetime':
+                return (data[filterKey] as string).startsWith(this.timeService.toDateString(element.value));
+              case 'select':
+              default:
+                return false;
+            }
+          });
         }
       }
     }
-    this.updateSource();
   }
 
   updateSource(): void {

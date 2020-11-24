@@ -5,6 +5,7 @@ import { Router } from '@angular/router';
 import { CrudType } from '@app/shared/enums/crud-type.enum';
 import { Role } from '@app/shared/enums/role.enum';
 import { IRequestEntry } from '@app/shared/interfaces/request-entry';
+import { ITableCol } from '@app/shared/interfaces/table-col';
 import { IVehicleCategory } from '@app/shared/interfaces/vehicle-category';
 import { AuthenticationService } from '@app/shared/services/authentication.service';
 import { RequestEntryService } from '@app/shared/services/request-entry.service';
@@ -23,13 +24,15 @@ import { map, switchMap } from 'rxjs/operators';
 export class RequestEntryComponent implements OnInit {
   listRequests$: Observable<IRequestEntry[]>;
   errorForm = false;
-  columns = [
-    { key: 'RequestDetailed', display: 'Request_Detail' },
-    { key: 'VisitorName', display: 'Visitor_Name' },
-    { key: 'NumberVisitor', display: 'Number_Of_Visitors' },
-    { key: 'StartTime', display: 'Start_Time', type: 'dateTimeString' },
-    { key: 'EndTime', display: 'End_Time', type: 'dateTimeString' },
-    { key: 'CustomerName', display: 'Customer_Name' }
+  columns: ITableCol[] = [
+    { key: 'RequestDetailed', display: 'Request_Detail', filterable: true, width: '20%' },
+    { key: 'VisitorName', display: 'Visitor_Name', filterable: true },
+    { key: 'VisitorPassport', display: 'Visitor_Passport', filterable: true },
+    { key: 'NumberVisitor', display: 'Number_Of_Visitors', filterable: true, filterType: 'number' },
+    // { key: 'StartTime', display: 'Start_Time', type: 'dateTimeString', filterable: true, filterType: 'datetime' },
+    // { key: 'EndTime', display: 'End_Time', type: 'dateTimeString', filterable: true, filterType: 'datetime' },
+    { key: 'CustomerName', display: 'Customer_Name', filterable: true },
+    { key: 'VisitorTel', display: 'Visitor_Tel_No', filterable: true }
   ];
 
   vehicleCategories$: Observable<IVehicleCategory[]>;
@@ -65,6 +68,7 @@ export class RequestEntryComponent implements OnInit {
       map((requests: IRequestEntry[]) => {
         return requests?.map((request) => {
           request.canDelete = false;
+          request.backGroundColor = request.IsDone ? '#fff3cd' : 'inherit';
           return request;
         });
       })

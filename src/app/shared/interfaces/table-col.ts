@@ -3,7 +3,8 @@ export interface ITableCol {
   display: string;
   type?: undefined | 'date' | 'dateTime' | 'dateString' | 'boolean' | 'dateTimeString';
   filterable?: boolean;
-  filterType?: 'input' | 'select';
+  filterType?: 'text' | 'select' | 'number' | 'date' | 'datetime';
   selectionList?: any[];
   isTranslated?: boolean;
+  width?: string;
 }

@@ -27,7 +27,7 @@ export class VehiclesComponent implements OnInit, OnDestroy {
   vehicles: IVehicle[] = [];
   columns: ITableCol[] = [
     { key: 'Plate', display: 'Plate' },
-    { key: 'CustomerName', display: 'Customer_Name', filterable: true, filterType: 'input' },
+    { key: 'CustomerName', display: 'Customer_Name', filterable: true, filterType: 'text' },
     { key: 'Name', display: 'Vehicle_Name' },
     { key: 'DateOfPayment', display: 'Payment_Date', type: 'date' },
     { key: 'Actived', display: 'Actived', type: 'boolean' },

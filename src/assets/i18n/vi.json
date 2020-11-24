@@ -51,7 +51,7 @@
 
   "Employee_Name": "Tên Nhân Viên",
   "Tel_No": "Số điện thoại",
-  "Passport": "Hộ Chiếu",
+  "Passport": "Hộ Chiếu/CMND",
 
   "Start_Offer_Date": "Ngày Bắt Đầu Đề Nghị",
   "Offer_Content": "Nội Dung Đề Nghị",
@@ -64,7 +64,7 @@
   "Visitor_Name": "Tên Người Ra Vào",
   "Visitor_Tel_No": "Số Điện Thoại Người Ra Vào",
   "Number_Of_Visitors": "Số Lượng Người Ra Vào",
-  "Visitor_Passport": "Hộ Chiếu Người Ra Vào",
+  "Visitor_Passport": "Hộ Chiếu/CMND Người Ra Vào",
   "Start_Time": "Giờ Bắt Đầu",
   "End_Time": "Giờ Kết Thúc",
   "Type_Payment": "Kiểu Thanh Toán",

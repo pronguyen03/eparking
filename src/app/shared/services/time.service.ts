@@ -20,8 +20,15 @@ export class TimeService {
 
   toDateTimeString(date: Date): string {
     if (!date) {
-      return;
+      return '';
     }
     return format(date, 'yyyyMMddHHmm');
+  }
+
+  toDateString(date: Date): string {
+    if (!date) {
+      return '';
+    }
+    return format(date, 'yyyyMMdd');
   }
 }

@@ -24,11 +24,11 @@ import { ToastrService } from 'ngx-toastr';
 export class VehiclesComponent implements OnInit {
   vehicles: IVehicle[] = [];
   columns: ITableCol[] = [
-    { key: 'Plate', display: 'Plate', filterable: true, filterType: 'input' },
-    { key: 'Name', display: 'Name', filterable: true, filterType: 'input' },
+    { key: 'Plate', display: 'Plate', filterable: true, filterType: 'text' },
+    { key: 'Name', display: 'Name', filterable: true, filterType: 'text' },
     { key: 'DateOfPayment', display: 'Payment_Date', type: 'date' },
     { key: 'Actived', display: 'Actived', type: 'boolean' },
-    { key: 'StatusName', display: 'Status', filterable: true, filterType: 'input', isTranslated: true },
+    { key: 'StatusName', display: 'Status', filterable: true, filterType: 'text', isTranslated: true },
     // { key: 'IsApproved', display: 'Is_Approved', type: 'boolean' },
     { key: 'ApprovedFullName', display: 'Approver' },
     { key: 'DateApproved', display: 'Approval_Date' }

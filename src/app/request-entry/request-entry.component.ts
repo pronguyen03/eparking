@@ -29,13 +29,15 @@ export class RequestEntryComponent implements OnInit {
   listRequests$: Observable<IRequestEntry[]>;
   errorForm = false;
   columns = [
-    { key: 'RequestDetailed', display: 'Request_Detail' },
-    { key: 'VisitorName', display: 'Visitor_Name' },
-    { key: 'NumberVisitor', display: 'Number_Of_Visitors' },
-    { key: 'StartTime', display: 'Start_Time', type: 'dateTimeString' },
-    { key: 'EndTime', display: 'End_Time', type: 'dateTimeString' },
-    { key: 'CustomerName', display: 'Customer_Name' },
-    { key: 'IsDone', display: 'Is_Done', type: 'boolean' }
+    { key: 'RequestDetailed', display: 'Request_Detail', filterable: true, width: '20%' },
+    { key: 'VisitorName', display: 'Visitor_Name', filterable: true },
+    { key: 'VisitorPassport', display: 'Visitor_Passport', filterable: true },
+    { key: 'NumberVisitor', display: 'Number_Of_Visitors', filterable: true, filterType: 'number' },
+    // { key: 'StartTime', display: 'Start_Time', type: 'dateTimeString', filterable: true, filterType: 'datetime' },
+    // { key: 'EndTime', display: 'End_Time', type: 'dateTimeString', filterable: true, filterType: 'datetime' },
+    { key: 'CustomerName', display: 'Customer_Name', filterable: true },
+    { key: 'VisitorTel', display: 'Visitor_Tel_No', filterable: true }
+    // { key: 'IsDone', display: 'Is_Done', type: 'boolean' }
   ];
 
   vehicleCategories$: Observable<IVehicleCategory[]>;
@@ -78,6 +80,7 @@ export class RequestEntryComponent implements OnInit {
           if (request.IsDone) {
             request.canDelete = false;
             request.canEdit = false;
+            request.backGroundColor = request.IsDone ? '#fff3cd' : 'inherit';
           }
           return request;
         });

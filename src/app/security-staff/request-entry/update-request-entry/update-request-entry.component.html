@@ -80,7 +80,7 @@
               formControlName="StartTime"
               readonly
             />
-            <mat-datepicker-toggle matSuffix [for]="startTimePicker"></mat-datepicker-toggle>
+            <mat-datepicker-toggle matSuffix [for]="startTimePicker" [disabled]="true"></mat-datepicker-toggle>
             <ngx-mat-datetime-picker
               #startTimePicker
               [showSpinners]="true"
@@ -116,7 +116,7 @@
               formControlName="EndTime"
               readonly
             />
-            <mat-datepicker-toggle matSuffix [for]="endTimePicker"></mat-datepicker-toggle>
+            <mat-datepicker-toggle matSuffix [for]="endTimePicker" [disabled]="true"></mat-datepicker-toggle>
             <ngx-mat-datetime-picker
               #endTimePicker
               [showSpinners]="true"
@@ -156,6 +156,7 @@
             aria-label="Select an option"
             formControlName="TypePayment"
             *ngIf="crudType !== CrudType.VIEW; else typePaymentView"
+            class="readonly-block"
           >
             <mat-radio-button [value]="true" fxFlex="20%" fxFlex.xs="50%" color="primary">Yes</mat-radio-button>
             <mat-radio-button [value]="false" fxFlex="20%" fxFlex.xs="50%" color="primary">No</mat-radio-button>
@@ -182,6 +183,7 @@
             aria-label="Select an option"
             formControlName="IsVehicle"
             (change)="onRadioChange('IsVehicle', $event.value)"
+            class="readonly-block"
             *ngIf="crudType !== CrudType.VIEW; else IsVehicleView"
           >
             <mat-radio-button [value]="true" fxFlex="20%" fxFlex.xs="50%" color="primary">Yes</mat-radio-button>

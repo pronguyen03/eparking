@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { AbstractControl, FormBuilder, FormGroup, ValidatorFn, Validators } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
 import { Router, ActivatedRoute } from '@angular/router';
 import { CrudType } from '@app/shared/enums/crud-type.enum';
@@ -40,8 +40,9 @@ export class PriceDetailComponent implements OnInit {
   customers$: Observable<ICustomer[]>;
   columns = [
     { key: 'colNo', display: 'No' },
-    { key: 'Name', display: 'Type' },
-    { key: 'Price', display: 'Price' }
+    { key: 'VihicleCategoryName', display: 'Vehicle_Category' },
+    { key: 'Price', display: 'Price' },
+    { key: 'Notes', display: 'Notes' }
   ];
 
   existType: boolean;
@@ -50,7 +51,6 @@ export class PriceDetailComponent implements OnInit {
     private toastr: ToastrService,
     private router: Router,
     private route: ActivatedRoute,
-    private roleService: RoleService,
     private customerService: CustomerService,
     private dialog: MatDialog,
     private priceService: PriceService,
@@ -92,7 +92,7 @@ export class PriceDetailComponent implements OnInit {
 
     this.priceDetailForm = this.fb.group({
       VihicleCategoryId: [null],
-      Type: [null, Validators.required],
+      Type: [null, [Validators.required, this.checkExistType()]],
       Price: [0, Validators.required],
       Notes: ['']
     });
@@ -114,6 +114,12 @@ export class PriceDetailComponent implements OnInit {
         IsActived: price.IsActived,
         IsActivedName: price.IsActived ? YesNo.YES : YesNo.NO,
         ActiveTime: price.ActiveTime
+      });
+
+      this.listPrices = price.ItemDetailed.map((detail) => {
+        detail.canEdit = false;
+        detail.canView = false;
+        return detail;
       });
     });
   }
@@ -161,10 +167,11 @@ export class PriceDetailComponent implements OnInit {
 
   update(): void {
     if (this.priceForm.valid) {
-      const { Id, ContractsNumber, ValidFromDate, ValidToDate } = this.priceForm.value;
+      const { Id, ContractsNumber, ValidFromDate, ValidToDate, IsActived } = this.priceForm.value;
       const reqData = {
         Id: this.id,
         ContractsNumber,
+        IsActived,
         ValidFromDate: ValidFromDate ? format(ValidFromDate, 'yyyyMMdd') : null,
         ValidToDate: ValidToDate ? format(ValidToDate, 'yyyyMMdd') : null
       };
@@ -183,12 +190,9 @@ export class PriceDetailComponent implements OnInit {
       this.existType = false;
       const { Price, Type }: { Price: number; Type: IVehicleCategory } = this.priceDetailForm.value;
 
-      if (this.checkExistType(Type)) {
-        this.existType = true;
-        return;
-      }
       const inputData: Partial<IPriceDetail> = {
         PriceId: this.id,
+        VihicleCategoryName: Type.Name,
         VihicleCategoryId: Type.Id,
         Price,
         Notes: ''
@@ -202,7 +206,10 @@ export class PriceDetailComponent implements OnInit {
           this.priceDetailService.addPriceDetail(inputData).subscribe((res) => {
             if (res.Code === '100') {
               this.priceDetailForm.reset();
+              inputData.canEdit = false;
+              inputData.canView = false;
               this.listPrices.push(inputData);
+              this.listPrices = [...this.listPrices];
             }
           });
           break;
@@ -215,7 +222,7 @@ export class PriceDetailComponent implements OnInit {
   }
 
   deletePrice(price: IPriceDetail): void {
-    const dialogData = new ConfirmDialogModel('Delete Confirm', 'Are you sure you want to delete this access vehicle?');
+    const dialogData = new ConfirmDialogModel('Delete Confirm', 'Bạn có muốn xóa chi tiết giá này?');
 
     const dialogRef = this.dialog.open(ConfirmDialogComponent, {
       minWidth: '400px',
@@ -235,11 +242,10 @@ export class PriceDetailComponent implements OnInit {
     });
   }
 
-  checkExistType(Type: IVehicleCategory): boolean {
-    const existType = this.listPrices.find((price) => (price.VihicleCategoryId = Type.Id));
-    if (existType) {
-      return true;
-    }
-    return false;
+  checkExistType(): ValidatorFn {
+    return (control: AbstractControl): { [key: string]: any } | null => {
+      const existType = this.listPrices.find((price) => price.VihicleCategoryId === control.value?.Id);
+      return existType ? { isExistType: true } : null;
+    };
   }
 }

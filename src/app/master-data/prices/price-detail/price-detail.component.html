@@ -109,6 +109,7 @@
             fxFlex="70%"
             aria-label="Select an option"
             formControlName="IsActived"
+            [ngClass]="{ 'readonly-block': crudType !== CrudType.CREATE }"
             *ngIf="crudType !== CrudType.VIEW; else activedView"
           >
             <mat-radio-button [value]="true" fxFlex="20%" fxFlex.xs="50%" color="primary">Yes</mat-radio-button>
@@ -150,7 +151,9 @@
                   {{ category.Name }}
                 </mat-option>
               </mat-select>
-              <mat-error *ngIf="existType">{{ 'Type_had_price_already' | translate }}</mat-error>
+              <mat-error *ngIf="priceDetailForm.controls.Type.hasError('isExistType')">{{
+                'Type_had_price_already' | translate
+              }}</mat-error>
             </mat-form-field>
           </div>
           <div fxFlex="20%" fxLayout="row" fxLayoutWrap fxLayoutGap="10px" fxLayoutAlign="start center">
@@ -173,7 +176,7 @@
             <mat-label fxFlex="30%" class="title-field">{{ 'Notes' | translate }}</mat-label>
             <mat-form-field fxFlex="70%" appearance="standard" class="form-input">
               <mat-label class="title-field">{{ 'Notes' | translate }}</mat-label>
-              <input matInput formControlName="Notes" [readonly]="crudType === CrudType.VIEW" class="upper-case" />
+              <input matInput formControlName="Notes" [readonly]="crudType === CrudType.VIEW" />
             </mat-form-field>
           </div>
 
@@ -194,10 +197,12 @@
         </div>
 
         <app-data-table
-          [hasSelect]="false"
+          [hasSelect]="crudType === CrudType.CREATE"
           [hasFunctionalBtn]="crudType === CrudType.EDIT"
           [dataList]="listPrices"
+          (selectedValuesEmitter)="listSelectedPrices = $event"
           [columns]="columns"
+          (deleteEmitter)="deletePrice($event)"
         ></app-data-table>
       </div>
     </div>
