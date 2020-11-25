@@ -156,6 +156,7 @@
           <div class="column-filter" fxLayoutGap="12px">
             <div class="cell-header">
               <button
+                *ngIf="isHasFilter"
                 mat-icon-button
                 aria-label="Filter Button"
                 [color]="hideFilter ? '' : 'primary'"
@@ -195,6 +196,13 @@
             >
               <!-- <mat-icon>notifications_off</mat-icon> -->
               <span>{{ 'Delete' | translate }}</span>
+            </button>
+            <button
+              *ngFor="let functionalBtn of extraFunctionButton"
+              mat-menu-item
+              (click)="functionalBtn.onClick(element)"
+            >
+              <span>{{ functionalBtn.display | translate }}</span>
             </button>
           </mat-menu>
         </td>

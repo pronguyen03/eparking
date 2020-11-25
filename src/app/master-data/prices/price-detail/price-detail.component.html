@@ -197,6 +197,7 @@
         </div>
 
         <app-data-table
+          [isHasFilter]="false"
           [hasSelect]="crudType === CrudType.CREATE"
           [hasFunctionalBtn]="crudType === CrudType.EDIT"
           [dataList]="listPrices"

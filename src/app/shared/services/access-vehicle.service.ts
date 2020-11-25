@@ -50,4 +50,20 @@ export class AccessVehicleService {
       Item: inputData
     });
   }
+
+  setAccessVehicleIncomming(vehicleId: number): Observable<ApiResponse> {
+    return this.http.post<ApiResponse>(`${this.url}/SetIncomming`, {
+      Item: {
+        Id: vehicleId
+      }
+    });
+  }
+
+  setAccessVehicleOutgoing(vehicleId: number): Observable<ApiResponse> {
+    return this.http.post<ApiResponse>(`${this.url}/SetOutgoing`, {
+      Item: {
+        Id: vehicleId
+      }
+    });
+  }
 }

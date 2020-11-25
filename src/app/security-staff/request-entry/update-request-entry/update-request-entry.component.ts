@@ -41,6 +41,21 @@ export class UpdateRequestEntryComponent implements OnInit {
     { key: 'Plate', display: 'Plate' },
     { key: 'Name', display: 'Type' }
   ];
+
+  extraFunctionButton = [
+    {
+      display: 'Confirm_Incoming',
+      onClick: (vehicle: IAccessVehicle) => {
+        this.setAccessVehicleIncomming(vehicle);
+      }
+    },
+    {
+      display: 'Confirm_Outgoing',
+      onClick: (vehicle: IAccessVehicle) => {
+        this.setAccessVehicleOutgoing(vehicle);
+      }
+    }
+  ];
   constructor(
     private fb: FormBuilder,
     private router: Router,
@@ -113,11 +128,16 @@ export class UpdateRequestEntryComponent implements OnInit {
         TypeId: requestEntry.TypeId,
         TypePayment:
           this.crudType === CrudType.VIEW ? (requestEntry.TypePayment ? 'YES' : 'NO') : requestEntry.TypePayment,
-        InputRealTime: this.timeService.convertToDateTime(requestEntry.EndTime),
+        InputRealTime: this.timeService.convertToDateTime(requestEntry.InputRealTime),
         NoteDone: requestEntry.NoteDone,
         IsDone: requestEntry.IsDone
       });
-      this.listAccessVehicles = requestEntryDetails;
+      this.listAccessVehicles = requestEntryDetails.map((detail) => {
+        detail.canEdit = false;
+        detail.canView = false;
+        detail.canDelete = false;
+        return detail;
+      });
     });
   }
 
@@ -209,12 +229,13 @@ export class UpdateRequestEntryComponent implements OnInit {
       this.accessVehicleService.addAccessVehicle(inputData).subscribe((res) => {
         if (res.Code === '100') {
           this.accessVehicleForm.reset();
-          this.listAccessVehicles.push({
-            Plate,
-            TypeId: Type.Id,
-            Name: Type.Name
-          } as IAccessVehicle);
-          this.listAccessVehicles = [...this.listAccessVehicles];
+          this.refresh();
+          // this.listAccessVehicles.push({
+          //   Plate,
+          //   TypeId: Type.Id,
+          //   Name: Type.Name
+          // } as IAccessVehicle);
+          // this.listAccessVehicles = [...this.listAccessVehicles];
         }
       });
     }
@@ -233,8 +254,9 @@ export class UpdateRequestEntryComponent implements OnInit {
         this.accessVehicleService.deleteAccessVehicle(vehicle.Id).subscribe((res) => {
           if (res.Code === '100') {
             this.toastr.success('Deleted successfully.', 'Vehicle');
-            this.listAccessVehicles = this.listAccessVehicles.filter((value) => value.Id !== vehicle.Id);
-            this.listAccessVehicles = [...this.listAccessVehicles];
+            this.refresh();
+            // this.listAccessVehicles = this.listAccessVehicles.filter((value) => value.Id !== vehicle.Id);
+            // this.listAccessVehicles = [...this.listAccessVehicles];
           }
         });
       }
@@ -293,5 +315,49 @@ export class UpdateRequestEntryComponent implements OnInit {
         });
       }
     });
+  }
+
+  setAccessVehicleIncomming(vehicle: IAccessVehicle): void {
+    const dialogData = new ConfirmDialogModel('Confirm', 'Bạn muốn xác nhận xe này đã vào?');
+
+    const dialogRef = this.dialog.open(ConfirmDialogComponent, {
+      minWidth: '400px',
+      data: dialogData
+    });
+
+    dialogRef.afterClosed().subscribe((dialogResult) => {
+      if (dialogResult) {
+        this.accessVehicleService.setAccessVehicleIncomming(vehicle.Id).subscribe((res) => {
+          if (res.Code === '100') {
+            this.toastr.success('Đã xác nhận xe vào.', 'Request Entry');
+            this.refresh();
+          }
+        });
+      }
+    });
+  }
+
+  setAccessVehicleOutgoing(vehicle: IAccessVehicle): void {
+    const dialogData = new ConfirmDialogModel('Confirm', 'Bạn muốn xác nhận xe này đã ra?');
+
+    const dialogRef = this.dialog.open(ConfirmDialogComponent, {
+      minWidth: '400px',
+      data: dialogData
+    });
+
+    dialogRef.afterClosed().subscribe((dialogResult) => {
+      if (dialogResult) {
+        this.accessVehicleService.setAccessVehicleOutgoing(vehicle.Id).subscribe((res) => {
+          if (res.Code === '100') {
+            this.toastr.success('Đã xác nhận xe ra.', 'Request Entry');
+            this.refresh();
+          }
+        });
+      }
+    });
+  }
+
+  refresh(): void {
+    this.getRequestEntryById(this.id);
   }
 }

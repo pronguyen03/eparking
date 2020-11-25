@@ -23,6 +23,7 @@ export class ErrorInterceptor implements HttpInterceptor {
                 break;
               default:
                 this.toastr.error(body.Message, `Error ${body.Code}`);
+                console.error(body.Data?.Message);
                 break;
             }
           }

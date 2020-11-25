@@ -318,10 +318,12 @@
         </div>
 
         <app-data-table
+          [isHasFilter]="false"
           [hasFunctionalBtn]="crudType === CrudType.EDIT"
           [dataList]="listAccessVehicles"
           [columns]="columns"
           (deleteEmitter)="deleteAccessVehicle($event)"
+          [extraFunctionButton]="extraFunctionButton"
         ></app-data-table>
       </div>
     </div>
