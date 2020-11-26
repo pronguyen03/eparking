@@ -172,6 +172,16 @@
           <button mat-icon-button [matMenuTriggerFor]="menu" aria-label="Functional button">
             <mat-icon>more_vert</mat-icon>
           </button>
+          <button
+            *ngFor="let functionalBtn of extraFunctionButton"
+            mat-raised-button
+            [color]="functionalBtn.color"
+            class="mr-10"
+            [disabled]="functionalBtn.isDisabled(element)"
+            (click)="functionalBtn.onClick(element)"
+          >
+            <span>{{ functionalBtn.display | translate }}</span>
+          </button>
           <mat-menu #menu="matMenu">
             <button
               mat-menu-item
@@ -196,13 +206,6 @@
             >
               <!-- <mat-icon>notifications_off</mat-icon> -->
               <span>{{ 'Delete' | translate }}</span>
-            </button>
-            <button
-              *ngFor="let functionalBtn of extraFunctionButton"
-              mat-menu-item
-              (click)="functionalBtn.onClick(element)"
-            >
-              <span>{{ functionalBtn.display | translate }}</span>
             </button>
           </mat-menu>
         </td>

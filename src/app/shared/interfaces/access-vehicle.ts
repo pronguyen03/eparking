@@ -6,4 +6,6 @@ export interface IAccessVehicle extends ICommonData {
   Plate: string;
   TypeId: number;
   Name?: string;
+  IsEnter?: boolean;
+  IsOut?: boolean;
 }

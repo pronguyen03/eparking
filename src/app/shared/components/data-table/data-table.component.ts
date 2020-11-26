@@ -18,7 +18,12 @@ export class DataTableComponent implements OnInit, AfterViewInit, OnChanges {
   @Input() filteredDataList: any[] = [];
   @Input() columns: ITableCol[] = [];
   @Input() isHasFilter = true;
-  @Input() extraFunctionButton: { display: string; onClick: (...params: any) => void }[] = [];
+  @Input() extraFunctionButton: {
+    display: string;
+    color: string;
+    isDisabled: (...params: any) => boolean;
+    onClick: (...params: any) => void;
+  }[] = [];
 
   @Output() viewEmitter = new EventEmitter<any>();
   @Output() editEmitter = new EventEmitter<any>();

@@ -45,14 +45,22 @@ export class UpdateRequestEntryComponent implements OnInit {
   extraFunctionButton = [
     {
       display: 'Confirm_Incoming',
+      color: 'primary',
       onClick: (vehicle: IAccessVehicle) => {
         this.setAccessVehicleIncomming(vehicle);
+      },
+      isDisabled: (vehicle: IAccessVehicle) => {
+        return vehicle.IsEnter || false;
       }
     },
     {
       display: 'Confirm_Outgoing',
+      color: 'accent',
       onClick: (vehicle: IAccessVehicle) => {
         this.setAccessVehicleOutgoing(vehicle);
+      },
+      isDisabled: (vehicle: IAccessVehicle) => {
+        return vehicle.IsOut || false;
       }
     }
   ];
