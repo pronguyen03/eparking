@@ -9,6 +9,11 @@
   </button>
   <span>E-Parking</span>
   <span class="example-spacer"></span>
+  <div fxFlex="7%" fxFlex.xs="25%" style="font-size: 14px">
+    <mat-select #select (selectionChange)="switchLang(select.value)" [(ngModel)]="selectedLang">
+      <mat-option *ngFor="let language of languages" [value]="language.key">{{ language.display }}</mat-option>
+    </mat-select>
+  </div>
   <div>
     <button mat-button [matMenuTriggerFor]="menu">{{ fullName }} <mat-icon>arrow_drop_down</mat-icon></button>
     <mat-menu #menu="matMenu">

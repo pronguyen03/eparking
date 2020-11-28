@@ -151,6 +151,13 @@
                   {{ category.Name }}
                 </mat-option>
               </mat-select>
+              <mat-error
+                *ngIf="
+                  priceDetailForm.controls.Type.hasError('required') &&
+                  (priceDetailForm.controls.Type.touched || priceDetailForm.controls.Type.dirty)
+                "
+                >{{ 'Validator_Required' | translate }}</mat-error
+              >
               <mat-error *ngIf="priceDetailForm.controls.Type.hasError('isExistType')">{{
                 'Type_had_price_already' | translate
               }}</mat-error>
@@ -169,6 +176,13 @@
                 [readonly]="crudType === CrudType.VIEW"
                 class="upper-case"
               />
+              <mat-error
+                *ngIf="
+                  priceDetailForm.controls.Price.hasError('required') &&
+                  (priceDetailForm.controls.Price.touched || priceDetailForm.controls.Price.dirty)
+                "
+                >{{ 'Validator_Required' | translate }}</mat-error
+              >
             </mat-form-field>
           </div>
 

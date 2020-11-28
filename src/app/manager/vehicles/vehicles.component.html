@@ -1,27 +1,34 @@
 <mat-toolbar>
   <span>{{ 'Vehicle' | translate }}</span>
 </mat-toolbar>
-<div class="row">
+<div class="row green-theme">
   <div class="search-form" [formGroup]="searchForm">
     <div fxLayout="row" fxLayout.xs="column" fxLayoutWrap fxLayoutGap="5%" fxLayoutAlign="center center">
       <div fxFlex="50%" fxLayout="row" fxLayoutWrap fxLayoutGap="10px" fxLayoutAlign="start center">
         <mat-label fxFlex="30%" class="title-field">{{ 'Customer_Name' | translate }}</mat-label>
         <mat-form-field fxFlex="70%" appearance="standard" color="primary">
           <mat-label>{{ 'Customer_Name' | translate }}</mat-label>
-          <input matInput formControlName="CustomerName" />
+          <mat-select formControlName="CustomerId">
+            <mat-option [value]="null">{{ 'All' | translate }}</mat-option>
+            <mat-option *ngFor="let customer of customers$ | async" [value]="customer.CustomerId">
+              {{ customer.CustomerName }}
+            </mat-option>
+          </mat-select>
+          <!-- <input matInput formControlName="CustomerName" /> -->
         </mat-form-field>
       </div>
 
-      <div fxFlex="50%" fxLayout="row" fxLayoutWrap fxLayoutGap="10px" fxLayoutAlign="start center"></div>
-    </div>
-
-    <div class="btn-container" fxLayoutGap="10px">
-      <button mat-raised-button (click)="resetSearchForm()">Clear</button>
+      <div fxFlex="50%" fxLayout="row" fxLayoutWrap fxLayoutGap="10px" fxLayoutAlign="start center">
+        <div class="btn-container" fxLayoutGap="10px">
+          <button mat-raised-button color="primary" (click)="getFilteredList()">{{ 'Search' | translate }}</button>
+          <button mat-raised-button (click)="resetSearchForm()">Clear</button>
+        </div>
+      </div>
     </div>
   </div>
   <app-data-table
     [hasSelect]="false"
-    [dataList]="vehicles"
+    [dataList]="vehicles || []"
     [columns]="columns"
     (viewEmitter)="viewDetail($event)"
     (editEmitter)="editVehicle($event)"

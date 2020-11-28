@@ -22,7 +22,8 @@ export class AuthGuard implements CanActivate {
       return true;
     }
 
-    this.router.navigate(['/login'], { queryParams: { returnUrl: state.url } });
+    window.location.href = 'http://delta.com.vn/';
+    // this.router.navigate(['/login'], { queryParams: { returnUrl: state.url } });
     return false;
   }
 }

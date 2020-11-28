@@ -11,7 +11,6 @@ export class ErrorInterceptor implements HttpInterceptor {
 
   intercept(request: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
     return next.handle(request).pipe(
-      map((res) => res),
       tap((event) => {
         if (event instanceof HttpResponse) {
           const body = event.body;
@@ -23,7 +22,7 @@ export class ErrorInterceptor implements HttpInterceptor {
                 break;
               default:
                 this.toastr.error(body.Message, `Error ${body.Code}`);
-                console.error(body.Data?.Message);
+                console.error(body.Data);
                 break;
             }
           }

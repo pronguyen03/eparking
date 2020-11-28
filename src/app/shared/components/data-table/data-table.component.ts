@@ -127,11 +127,15 @@ export class DataTableComponent implements OnInit, AfterViewInit, OnChanges {
           this.filteredDataList = this.filteredDataList.filter((data) => {
             switch (element.type) {
               case 'text':
-                return data[filterKey].toLowerCase().includes(element.value.trim().toLowerCase());
+                return data[filterKey]?.toLowerCase().includes(element.value.trim().toLowerCase());
               case 'number':
                 return data[filterKey] === +element.value || element.value === '';
               case 'date':
-                return data[filterKey] === this.timeService.toDateString(element.value);
+                return (
+                  data[filterKey] === this.timeService.toDateString(element.value) ||
+                  this.timeService.toDateString(new Date(data[filterKey])) ===
+                    this.timeService.toDateString(element.value)
+                );
               case 'datetime':
                 return (data[filterKey] as string).startsWith(this.timeService.toDateString(element.value));
               case 'select':

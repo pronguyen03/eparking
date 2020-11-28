@@ -6,18 +6,18 @@
     [opened]="currentUser"
     [ngStyle]="{ visibility: currentUser ? 'visible' : 'hidden' }"
   >
-    <app-sidenav></app-sidenav>
+    <app-sidenav [hasFooter]="hasFooter"></app-sidenav>
   </mat-sidenav>
   <mat-sidenav-content [@onMainContentChange]="!currentUser ? 'hidden' : onSideNavChange ? 'open' : 'close'">
     <div
       class="main-content"
       [ngStyle]="{
-        height: currentUser ? 'calc(100vh - 104px)' : 'calc(100vh - 40px)'
+        height: currentUser ? (hasFooter ? 'calc(100vh - 104px)' : 'calc(100vh - 64px)') : '100vh'
       }"
     >
       <router-outlet></router-outlet>
     </div>
   </mat-sidenav-content>
 </mat-sidenav-container>
-<app-footer></app-footer>
+<app-footer *ngIf="hasFooter"></app-footer>
 <ngx-spinner></ngx-spinner>

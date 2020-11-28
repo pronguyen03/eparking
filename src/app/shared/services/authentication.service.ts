@@ -7,6 +7,7 @@ import { UserService } from './user.service';
 import { ApiResponse } from '../interfaces/api-response';
 import { IUser } from '../interfaces/user';
 import { Router } from '@angular/router';
+import { environment } from '@environments/environment';
 @Injectable({
   providedIn: 'root'
 })
@@ -125,8 +126,13 @@ export class AuthenticationService {
     return OSName;
   }
 
-  getIpClient() {
-    return this.http.get('http://api.ipify.org/?format=jsonp&callback=JSONP_CALLBACK'); // ...using post request ' // ...and calling .json() on the response to return data
-    //.catch((error:any) => Observable.throw(error.json().error || 'Server error')); //...errors if any
+  checkAccessToken(accessToken: string): Observable<boolean> {
+    return this.http
+      .post<ApiResponse>(`${environment.apiUrl}/TokenWeb/Check?AccessToken=${accessToken}`, {})
+      .pipe(map((res) => res.Data));
+  }
+
+  lockAccessToken(accessToken: string): Observable<ApiResponse> {
+    return this.http.post<ApiResponse>(`${environment.apiUrl}/TokenWeb/Lock?AccessToken=${accessToken}`, {});
   }
 }

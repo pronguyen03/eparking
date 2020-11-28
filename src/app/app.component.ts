@@ -9,23 +9,24 @@ import { SidenavService } from './shared/services/sidenav.service';
   selector: 'app-root',
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.scss'],
-  animations: [onMainContentChange],
+  animations: [onMainContentChange]
 })
 export class AppComponent {
   public onSideNavChange: boolean;
   currentUser: IUser;
+  hasFooter = false;
 
   constructor(
     public translate: TranslateService,
     private sidenavService: SidenavService,
-    private authenticationService: AuthenticationService) {
-      translate.addLangs(['en', 'vi']);
-      translate.setDefaultLang('vi');
-      translate.use('vi');
-      this.sidenavService.sideNavState$.subscribe((res) => {
+    private authenticationService: AuthenticationService
+  ) {
+    translate.addLangs(['en', 'vi']);
+    translate.setDefaultLang('vi');
+    translate.use('vi');
+    this.sidenavService.sideNavState$.subscribe((res) => {
       this.onSideNavChange = res;
-      });
-      this.authenticationService.currentUser.subscribe(x => this.currentUser = x);
+    });
+    this.authenticationService.currentUser.subscribe((x) => (this.currentUser = x));
   }
-
 }

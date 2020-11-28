@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
 import { MenuItem } from '@app/shared/classes/menu-item';
 import { AuthenticationService } from '@app/shared/services/authentication.service';
 import { MenuService } from '@app/shared/services/menu.service';
@@ -17,6 +17,7 @@ export class SidenavComponent implements OnInit {
   public sideNavState = false;
   public linkText = false;
   public listMenu$: Observable<MenuItem[]>;
+  @Input() hasFooter: boolean;
 
   constructor(
     private sidenavService: SidenavService,
