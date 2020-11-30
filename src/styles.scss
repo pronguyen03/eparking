@@ -68,3 +68,8 @@ body {
   text-transform: uppercase;
 }
 
+.mat-toolbar {
+  &.mat-toolbar-single-row {
+    height: 45px;
+  }
+}

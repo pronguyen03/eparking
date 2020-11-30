@@ -14,7 +14,7 @@ import { SidenavService } from './shared/services/sidenav.service';
 export class AppComponent {
   public onSideNavChange: boolean;
   currentUser: IUser;
-  hasFooter = false;
+  hasFooter = true;
 
   constructor(
     public translate: TranslateService,
