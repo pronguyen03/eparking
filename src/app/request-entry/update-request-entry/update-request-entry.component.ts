@@ -111,12 +111,13 @@ export class UpdateRequestEntryComponent implements OnInit {
         VisitorTel: requestEntry.VisitorTel,
         VisitorPassport: requestEntry.VisitorPassport,
         NumberVisitor: requestEntry.NumberVisitor,
-        IsVehicle: this.crudType === CrudType.VIEW ? (requestEntry.IsVihicle ? 'YES' : 'NO') : requestEntry.IsVihicle,
+        IsVehicle: requestEntry.IsVihicle,
+        // this.crudType === CrudType.VIEW ? (requestEntry.IsVihicle ? 'YES' : 'NO') : requestEntry.IsVihicle,
         StartTime: this.timeService.convertToDateTime(requestEntry.StartTime),
         EndTime: this.timeService.convertToDateTime(requestEntry.EndTime),
         TypeId: requestEntry.TypeId,
-        TypePayment:
-          this.crudType === CrudType.VIEW ? (requestEntry.TypePayment ? 'YES' : 'NO') : requestEntry.TypePayment,
+        TypePayment: requestEntry.TypePayment,
+        // this.crudType === CrudType.VIEW ? (requestEntry.TypePayment ? 'YES' : 'NO') : requestEntry.TypePayment,
         InputRealTime: this.timeService.convertToDateTime(requestEntry.InputRealTime),
         NoteDone: requestEntry.NoteDone
       });

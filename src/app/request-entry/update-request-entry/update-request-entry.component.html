@@ -158,21 +158,30 @@
       >
         <div fxFlex="50%" fxLayout="row" fxLayoutWrap fxLayoutGap="10px" fxLayoutAlign="start center">
           <mat-label fxFlex="30%" class="title-field">{{ 'Type_Payment' | translate }}</mat-label>
-          <mat-radio-group
-            fxFlex="70%"
-            aria-label="Select an option"
-            formControlName="TypePayment"
-            *ngIf="crudType !== CrudType.VIEW; else typePaymentView"
-          >
-            <mat-radio-button [value]="true" fxFlex="20%" fxFlex.xs="50%" color="primary">Yes</mat-radio-button>
-            <mat-radio-button [value]="false" fxFlex="20%" fxFlex.xs="50%" color="primary">No</mat-radio-button>
+          <mat-radio-group fxFlex="70%" aria-label="Select an option" formControlName="TypePayment">
+            <mat-radio-button
+              [value]="true"
+              fxFlex="20%"
+              fxFlex.xs="50%"
+              color="primary"
+              [disabled]="crudType === CrudType.VIEW"
+              >{{ 'YES' | translate }}</mat-radio-button
+            >
+            <mat-radio-button
+              [value]="false"
+              fxFlex="20%"
+              fxFlex.xs="50%"
+              color="primary"
+              [disabled]="crudType === CrudType.VIEW"
+              >{{ 'NO' | translate }}</mat-radio-button
+            >
           </mat-radio-group>
-          <ng-template #typePaymentView>
+          <!-- <ng-template #typePaymentView>
             <mat-form-field fxFlex="70%" appearance="standard" class="form-input">
               <mat-label>{{ 'Type_Payment' | translate }}</mat-label>
               <input matInput formControlName="TypePayment" readonly />
             </mat-form-field>
-          </ng-template>
+          </ng-template> -->
         </div>
 
         <div
@@ -190,17 +199,30 @@
             formControlName="IsVehicle"
             (change)="onRadioChange('IsVehicle', $event.value)"
             [readonly]="crudType === CrudType.VIEW"
-            *ngIf="crudType !== CrudType.VIEW; else IsVehicleView"
           >
-            <mat-radio-button [value]="true" fxFlex="20%" fxFlex.xs="50%" color="primary">Yes</mat-radio-button>
-            <mat-radio-button [value]="false" fxFlex="20%" fxFlex.xs="50%" color="primary">No</mat-radio-button>
+            <mat-radio-button
+              [value]="true"
+              fxFlex="20%"
+              fxFlex.xs="50%"
+              color="primary"
+              [disabled]="crudType === CrudType.VIEW"
+              >{{ 'YES' | translate }}
+            </mat-radio-button>
+            <mat-radio-button
+              [value]="false"
+              fxFlex="20%"
+              fxFlex.xs="50%"
+              color="primary"
+              [disabled]="crudType === CrudType.VIEW"
+              >{{ 'NO' | translate }}</mat-radio-button
+            >
           </mat-radio-group>
-          <ng-template #IsVehicleView>
+          <!-- <ng-template #IsVehicleView>
             <mat-form-field fxFlex="70%" appearance="standard" class="form-input">
-              <mat-label>Is Vehicle</mat-label>
+              <mat-label>{{ 'Is_Vehicle' | translate }}</mat-label>
               <input matInput formControlName="IsVehicle" readonly />
             </mat-form-field>
-          </ng-template>
+          </ng-template> -->
         </div>
       </div>
 
