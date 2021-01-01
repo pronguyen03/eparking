@@ -198,7 +198,27 @@
             </div> -->
           </div>
         </div>
-        <div fxFlex="50%"></div>
+        <div fxFlex="50%" fxLayout="row" fxLayoutWrap fxLayoutGap="10px" fxLayoutAlign="start center">
+          <mat-label fxFlex="30%" class="title-field">{{ 'Is_Monthly_Vehicle' | translate }}</mat-label>
+          <mat-radio-group fxFlex="70%" aria-label="Select an option" formControlName="IsMonthly">
+            <mat-radio-button
+              [value]="true"
+              fxFlex="20%"
+              fxFlex.xs="50%"
+              color="primary"
+              [disabled]="crudType === CrudType.VIEW"
+              >{{ 'YES' | translate }}</mat-radio-button
+            >
+            <mat-radio-button
+              [value]="false"
+              fxFlex="20%"
+              fxFlex.xs="50%"
+              color="primary"
+              [disabled]="crudType === CrudType.VIEW"
+              >{{ 'NO' | translate }}</mat-radio-button
+            >
+          </mat-radio-group>
+        </div>
       </div>
     </form>
   </div>

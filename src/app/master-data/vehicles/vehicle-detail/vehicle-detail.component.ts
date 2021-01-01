@@ -74,7 +74,8 @@ export class VehicleDetailComponent implements OnInit {
       IsApproved: [false],
       WhoApproved: [''],
       Notes: [''],
-      ImagePath: ['']
+      ImagePath: [''],
+      IsMonthly: [false]
     });
   }
 
@@ -98,7 +99,8 @@ export class VehicleDetailComponent implements OnInit {
         IsApproved: vehicle.IsApproved,
         WhoApproved: vehicle.WhoApproved,
         Notes: vehicle.Notes,
-        ImagePath: vehicle.ImagePath
+        ImagePath: vehicle.ImagePath,
+        IsMonthly: vehicle.IsMonthly
       });
     });
   }
@@ -122,7 +124,7 @@ export class VehicleDetailComponent implements OnInit {
 
   create(): void {
     if (this.vehicleForm.valid) {
-      const { Plate, TypeId, CurrentStatus, DateOfPayment, Notes, ImagePath } = this.vehicleForm.value;
+      const { Plate, TypeId, CurrentStatus, DateOfPayment, Notes, ImagePath, IsMonthly } = this.vehicleForm.value;
       const inputData = {
         EParkingId: environment.parkingId,
         CustomerId: this.authService.currentUserValue.CustomerId,
@@ -131,7 +133,8 @@ export class VehicleDetailComponent implements OnInit {
         CurrentStatus,
         DateOfPayment,
         ImagePath,
-        Notes
+        Notes,
+        IsMonthly
       };
 
       this.vehicleService.addVehicle(inputData).subscribe((res) => {
@@ -144,7 +147,7 @@ export class VehicleDetailComponent implements OnInit {
   }
 
   update(): void {
-    const { Plate, TypeId, CurrentStatus, DateOfPayment, Notes, ImagePath } = this.vehicleForm.value;
+    const { Plate, TypeId, CurrentStatus, DateOfPayment, Notes, ImagePath, IsMonthly } = this.vehicleForm.value;
     const inputData = {
       Id: this.id,
       Plate,
@@ -152,7 +155,8 @@ export class VehicleDetailComponent implements OnInit {
       CurrentStatus,
       DateOfPayment,
       ImagePath,
-      Notes
+      Notes,
+      IsMonthly
     };
 
     this.vehicleService.updateVehicle(inputData).subscribe((res) => {

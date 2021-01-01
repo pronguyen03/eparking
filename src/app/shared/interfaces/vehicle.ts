@@ -19,4 +19,5 @@ export interface IVehicle extends ICommonData {
   Status: number;
   StatusName?: string;
   CustomerName: string;
+  IsMonthly: boolean;
 }
