@@ -12,15 +12,15 @@ import { IRequestEntry } from '@app/shared/interfaces/request-entry';
 import { ITableCol } from '@app/shared/interfaces/table-col';
 import { IVehicleCategory } from '@app/shared/interfaces/vehicle-category';
 import { AuthenticationService } from '@app/shared/services/authentication.service';
+import { ReportService } from '@app/shared/services/report.service';
 import { RequestEntryService } from '@app/shared/services/request-entry.service';
 import { TimeService } from '@app/shared/services/time.service';
 import { VehicleCategoryService } from '@app/shared/services/vehicle-category.service';
 import { environment } from '@environments/environment';
-import { differenceInMinutes } from 'date-fns';
+import { differenceInMinutes, format } from 'date-fns';
 import { ToastrService } from 'ngx-toastr';
 import { combineLatest, Observable, of, timer } from 'rxjs';
 import { map, switchMap } from 'rxjs/operators';
-
 @Component({
   selector: 'app-request-entry',
   templateUrl: './request-entry.component.html',
@@ -28,17 +28,23 @@ import { map, switchMap } from 'rxjs/operators';
 })
 export class RequestEntryComponent implements OnInit {
   listRequests$: Observable<IRequestEntry[]>;
+  listExport: IRequestEntry[] = [];
+  exportHeader = [
+    { key: 'RequestDetailed', display: 'Chi Tiết Yêu Cầu' },
+    { key: 'VisitorName', display: 'Tên Người Ra Vào' },
+    { key: 'VisitorPassport', display: 'Hộ Chiếu/CMND Người Ra Vào' },
+    { key: 'NumberVisitor', display: 'Số Lượng Người Ra Vào' },
+    { key: 'CustomerName', display: 'Tên Khách Hàng' },
+    { key: 'VisitorTel', display: 'Số Điện Thoại Người Ra Vào' }
+  ];
   errorForm = false;
   columns: ITableCol[] = [
     { key: 'RequestDetailed', display: 'Request_Detail', filterable: true, width: '20%' },
     { key: 'VisitorName', display: 'Visitor_Name', filterable: true },
     { key: 'VisitorPassport', display: 'Visitor_Passport', filterable: true },
     { key: 'NumberVisitor', display: 'Number_Of_Visitors', filterable: true, filterType: 'number' },
-    // { key: 'StartTime', display: 'Start_Time', type: 'dateTimeString', filterable: true, filterType: 'datetime' },
-    // { key: 'EndTime', display: 'End_Time', type: 'dateTimeString', filterable: true, filterType: 'datetime' },
     { key: 'CustomerName', display: 'Customer_Name', filterable: true },
     { key: 'VisitorTel', display: 'Visitor_Tel_No', filterable: true }
-    // { key: 'IsDone', display: 'Is_Done', type: 'boolean' }
   ];
 
   vehicleCategories$: Observable<IVehicleCategory[]>;
@@ -52,7 +58,8 @@ export class RequestEntryComponent implements OnInit {
     private toastr: ToastrService,
     private fb: FormBuilder,
     private vehicleCategoryService: VehicleCategoryService,
-    private timeService: TimeService
+    private timeService: TimeService,
+    private reportService: ReportService
   ) {}
 
   ngOnInit(): void {
@@ -74,6 +81,7 @@ export class RequestEntryComponent implements OnInit {
         );
       }),
       map((requests: IRequestEntry[]) => {
+        this.listExport = [...requests];
         return requests?.map((request) => {
           request.canDelete = false;
           request.backGroundColor = request.IsDone ? '#fff3cd' : 'inherit';
@@ -169,5 +177,9 @@ export class RequestEntryComponent implements OnInit {
       Type: this.searchForm.value.Type
     };
     this.requestEntryService.filterSubject.next(filterValue);
+  }
+
+  exportFile(): void {
+    this.reportService.exportFile(this.listExport, this.exportHeader, 'Dang_Ky_Vao_Ra');
   }
 }

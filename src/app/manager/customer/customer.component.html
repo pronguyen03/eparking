@@ -1,0 +1,11 @@
+<mat-toolbar>
+  <span>{{ 'Customer' | translate }}</span>
+</mat-toolbar>
+<div class="row">
+  <app-data-table
+    [hasSelect]="false"
+    [dataList]="customers"
+    [columns]="columns"
+    [hasFunctionalBtn]="false"
+  ></app-data-table>
+</div>

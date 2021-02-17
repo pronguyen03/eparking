@@ -1,6 +1,7 @@
 <div class="green-theme">
   <mat-toolbar>
     <span>{{ 'Request_Entry' | translate }}</span>
+    <span class="spacer"></span>
   </mat-toolbar>
   <div class="row">
     <div class="search-form" [formGroup]="searchForm">
@@ -29,6 +30,9 @@
           <div class="btn-container" fxLayoutGap="10px">
             <button mat-raised-button color="primary" (click)="getFilteredList()">{{ 'Search' | translate }}</button>
             <button mat-raised-button (click)="resetSearchForm()">Clear</button>
+            <button mat-raised-button color="accent" (click)="exportFile()">
+              <mat-icon>file_download</mat-icon> {{ 'Export_File' | translate }}
+            </button>
           </div>
         </div>
       </div>

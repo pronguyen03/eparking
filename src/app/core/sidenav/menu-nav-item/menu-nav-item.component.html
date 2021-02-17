@@ -1,5 +1,6 @@
 <a
   mat-list-item
+  *ngIf="item.Show"
   (click)="onItemSelected(item)"
   [ngClass]="{ active: item.RouterLink ? router.isActive(item.RouterLink, true) : false, expanded: expanded }"
   (mouseover)="onHover(true)"

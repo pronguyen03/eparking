@@ -30,11 +30,14 @@
     "@ngx-translate/core": "^13.0.0",
     "@ngx-translate/http-loader": "^6.0.0",
     "date-fns": "^2.16.1",
+    "file-saver": "^2.0.5",
     "js-base64": "^3.5.2",
+    "lodash": "^4.17.20",
     "ngx-spinner": "^10.0.1",
     "ngx-toastr": "^13.0.1",
     "rxjs": "~6.6.0",
     "tslib": "^2.0.0",
+    "xlsx": "^0.16.9",
     "zone.js": "~0.10.2"
   },
   "devDependencies": {
