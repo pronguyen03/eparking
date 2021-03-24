@@ -19,6 +19,7 @@ import { IRequestEntry } from '@app/shared/interfaces/request-entry';
 import { IVehicleCategory } from '@app/shared/interfaces/vehicle-category';
 import { map, switchMap } from 'rxjs/operators';
 import { Role } from '@app/shared/enums/role.enum';
+import { ReportService } from '@app/shared/services/report.service';
 
 @Component({
   selector: 'app-request-entry',
@@ -27,6 +28,15 @@ import { Role } from '@app/shared/enums/role.enum';
 })
 export class RequestEntryComponent implements OnInit {
   listRequests$: Observable<IRequestEntry[]>;
+  listExport: IRequestEntry[] = [];
+  exportHeader = [
+    { key: 'RequestDetailed', display: 'Chi Tiết Yêu Cầu' },
+    { key: 'VisitorName', display: 'Tên Người Ra Vào' },
+    { key: 'VisitorPassport', display: 'Hộ Chiếu/CMND Người Ra Vào' },
+    { key: 'NumberVisitor', display: 'Số Lượng Người Ra Vào' },
+    { key: 'CustomerName', display: 'Tên Khách Hàng' },
+    { key: 'VisitorTel', display: 'Số Điện Thoại Người Ra Vào' }
+  ];
   errorForm = false;
   columns = [
     { key: 'RequestDetailed', display: 'Request_Detail', filterable: true, width: '20%' },
@@ -51,7 +61,8 @@ export class RequestEntryComponent implements OnInit {
     private toastr: ToastrService,
     private fb: FormBuilder,
     private vehicleCategoryService: VehicleCategoryService,
-    private timeService: TimeService
+    private timeService: TimeService,
+    private reportService: ReportService
   ) {}
 
   ngOnInit(): void {
@@ -74,8 +85,10 @@ export class RequestEntryComponent implements OnInit {
       }),
       map((requests: IRequestEntry[]) => {
         if (!requests) {
+          this.listExport = [];
           return [];
         }
+        this.listExport = [...requests];
         return requests.map((request) => {
           if (request.IsDone) {
             request.canDelete = false;
@@ -187,5 +200,13 @@ export class RequestEntryComponent implements OnInit {
       Type: this.searchForm.value.Type
     };
     this.requestEntryService.filterSubject.next(filterValue);
+  }
+
+  exportFile(): void {
+    this.reportService.exportFile(
+      this.listExport,
+      this.exportHeader,
+      `Dang_Ky_Vao_Ra_${this.authService.currentUserValue.FullName}`
+    );
   }
 }

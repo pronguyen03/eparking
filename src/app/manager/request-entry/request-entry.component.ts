@@ -1,17 +1,21 @@
-import { Component, OnInit } from '@angular/core';
-import { FormGroup, FormBuilder, Validators } from '@angular/forms';
+import { Component, OnInit, ViewChild } from '@angular/core';
+import { FormGroup, FormBuilder, Validators, FormControl } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
+import { MatSelect } from '@angular/material/select';
 import { Router } from '@angular/router';
 import {
   ConfirmDialogModel,
   ConfirmDialogComponent
 } from '@app/shared/components/confirm-dialog/confirm-dialog.component';
+import { ISelectionConfig } from '@app/shared/components/select-with-filter/selection-config';
 import { CrudType } from '@app/shared/enums/crud-type.enum';
 import { Role } from '@app/shared/enums/role.enum';
+import { ICustomer } from '@app/shared/interfaces/customer';
 import { IRequestEntry } from '@app/shared/interfaces/request-entry';
 import { ITableCol } from '@app/shared/interfaces/table-col';
 import { IVehicleCategory } from '@app/shared/interfaces/vehicle-category';
 import { AuthenticationService } from '@app/shared/services/authentication.service';
+import { CustomerService } from '@app/shared/services/customer.service';
 import { ReportService } from '@app/shared/services/report.service';
 import { RequestEntryService } from '@app/shared/services/request-entry.service';
 import { TimeService } from '@app/shared/services/time.service';
@@ -19,8 +23,8 @@ import { VehicleCategoryService } from '@app/shared/services/vehicle-category.se
 import { environment } from '@environments/environment';
 import { differenceInMinutes, format } from 'date-fns';
 import { ToastrService } from 'ngx-toastr';
-import { combineLatest, Observable, of, timer } from 'rxjs';
-import { map, switchMap } from 'rxjs/operators';
+import { combineLatest, Observable, ObservableLike, of, ReplaySubject, Subject, timer } from 'rxjs';
+import { map, switchMap, take, takeUntil } from 'rxjs/operators';
 @Component({
   selector: 'app-request-entry',
   templateUrl: './request-entry.component.html',
@@ -48,8 +52,28 @@ export class RequestEntryComponent implements OnInit {
   ];
 
   vehicleCategories$: Observable<IVehicleCategory[]>;
+  customers: ICustomer[];
   searchForm: FormGroup;
   Role = Role;
+
+  /** control for the selected bank */
+  public bankCtrl: FormControl = new FormControl();
+
+  /** control for the MatSelect filter keyword */
+  public customerFilterCtrl: FormControl = new FormControl();
+
+  /** list of banks filtered by search keyword */
+  public filteredCustomers: ReplaySubject<ICustomer[]> = new ReplaySubject<ICustomer[]>(1);
+
+  @ViewChild('customerSelect', { static: true }) customerSelect: MatSelect;
+
+  customerSelectConfig: ISelectionConfig = {
+    valueKey: 'CustomerId',
+    displayKey: 'CustomerName'
+  };
+
+  /** Subject that emits when the component has been destroyed. */
+  protected _onDestroy = new Subject<void>();
   constructor(
     private authService: AuthenticationService,
     private requestEntryService: RequestEntryService,
@@ -59,12 +83,14 @@ export class RequestEntryComponent implements OnInit {
     private fb: FormBuilder,
     private vehicleCategoryService: VehicleCategoryService,
     private timeService: TimeService,
-    private reportService: ReportService
+    private reportService: ReportService,
+    private customerService: CustomerService
   ) {}
 
   ngOnInit(): void {
     this.initForm();
     this.getVehiclesCategories(environment.parkingId);
+    this.initFilteredCustomer(environment.parkingId);
     this.getFilteredList();
 
     this.listRequests$ = combineLatest([timer(0, 30000), this.requestEntryService.getFilterValue()]).pipe(
@@ -73,12 +99,21 @@ export class RequestEntryComponent implements OnInit {
         if (Object.keys(filterValue).length === 0 && filterValue.constructor === Object) {
           return of(null);
         }
-        return this.getRequestsByParking(
-          environment.parkingId,
-          filterValue.FromDate,
-          filterValue.ToDate,
-          filterValue.Type
-        );
+        if (filterValue.CustomerId) {
+          return this.getRequestsByCustomer(
+            filterValue.CustomerId,
+            filterValue.FromDate,
+            filterValue.ToDate,
+            filterValue.Type
+          );
+        } else {
+          return this.getRequestsByParking(
+            environment.parkingId,
+            filterValue.FromDate,
+            filterValue.ToDate,
+            filterValue.Type
+          );
+        }
       }),
       map((requests: IRequestEntry[]) => {
         this.listExport = [...requests];
@@ -91,12 +126,44 @@ export class RequestEntryComponent implements OnInit {
     );
   }
 
+  // ngAfterViewInit() {
+  //   this.setInitialValueCustomer();
+  // }
+
+  // protected setInitialValueCustomer() {
+  //   this.filteredCustomers.pipe(take(1), takeUntil(this._onDestroy)).subscribe(() => {
+  //     // setting the compareWith property to a comparison function
+  //     // triggers initializing the selection according to the initial value of
+  //     // the form control (i.e. _initializeSelection())
+  //     // this needs to be done after the filteredBanks are loaded initially
+  //     // and after the mat-option elements are available
+  //     this.customerSelect.compareWith = (a: ICustomer, b: ICustomer) => a && b && a.CustomerId === b.CustomerId;
+  //   });
+  // }
+
+  ngOnDestroy() {
+    this._onDestroy.next();
+    this._onDestroy.complete();
+  }
+
   getVehiclesCategories(parkingId: number): void {
     this.vehicleCategories$ = this.vehicleCategoryService.getVehicleCategoriesByParking(parkingId);
   }
 
+  initFilteredCustomer(parkingId: number): void {
+    this.customerService.getCustomerByParking(parkingId).subscribe((customers) => {
+      this.customers = customers;
+      this.filteredCustomers.next(customers.slice());
+    });
+
+    this.customerFilterCtrl.valueChanges.pipe(takeUntil(this._onDestroy)).subscribe(() => {
+      this.filterCustomers();
+    });
+  }
+
   initForm(): void {
     this.searchForm = this.fb.group({
+      CustomerId: [null],
       FromDate: [new Date(), Validators.required],
       ToDate: [new Date(), Validators.required],
       Type: [0, Validators.required]
@@ -110,6 +177,10 @@ export class RequestEntryComponent implements OnInit {
     vehicleType: number
   ): Observable<IRequestEntry[]> {
     return this.requestEntryService.getRequestsByParking(parkingId, fromDate, toDate, vehicleType);
+  }
+
+  getRequestsByCustomer(customerId: number, fromDate: string, toDate: string, vehicleType: number) {
+    return this.requestEntryService.getRequestsByCustomer(customerId, fromDate, toDate, vehicleType);
   }
 
   viewDetail(request: IRequestEntry): void {
@@ -152,11 +223,11 @@ export class RequestEntryComponent implements OnInit {
     }
     let { FromDate, ToDate } = this.searchForm.value;
 
-    const Type = this.searchForm.value.Type;
+    const { Type, CustomerId } = this.searchForm.value;
     FromDate = this.timeService.toDateTimeString(new Date(FromDate));
     ToDate = this.timeService.toDateTimeString(new Date(ToDate));
     const filterValue = {
-      CustomerId: this.authService.currentUserValue.CustomerId,
+      CustomerId,
       FromDate,
       ToDate,
       Type
@@ -167,11 +238,14 @@ export class RequestEntryComponent implements OnInit {
   resetSearchForm(): void {
     this.searchForm.reset();
     this.errorForm = false;
+    this.searchForm.patchValue({
+      Type: 0 // Default
+    });
   }
 
   setDefaultFilter(): void {
     const filterValue = {
-      CustomerId: this.authService.currentUserValue.CustomerId,
+      CustomerId: null,
       FromDate: this.timeService.toDateTimeString(new Date()),
       ToDate: this.timeService.toDateTimeString(new Date()),
       Type: this.searchForm.value.Type
@@ -181,5 +255,23 @@ export class RequestEntryComponent implements OnInit {
 
   exportFile(): void {
     this.reportService.exportFile(this.listExport, this.exportHeader, 'Dang_Ky_Vao_Ra');
+  }
+
+  protected filterCustomers() {
+    if (!this.customers) {
+      return;
+    }
+    // get the search keyword
+    let search = this.customerFilterCtrl.value;
+    if (!search) {
+      this.filteredCustomers.next(this.customers.slice());
+      return;
+    } else {
+      search = search.toLowerCase();
+    }
+    // filter the banks
+    this.filteredCustomers.next(
+      this.customers.filter((customer) => customer.CustomerName.toLowerCase().indexOf(search) > -1)
+    );
   }
 }

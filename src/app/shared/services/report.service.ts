@@ -22,9 +22,9 @@ export class ReportService {
     const convertedList = data.map((value) => _.pick(value, listHeaderKeys));
     convertedList.unshift(header);
     const worksheet: XLSX.WorkSheet = XLSX.utils.json_to_sheet(convertedList, { skipHeader: true });
-    const workbook: XLSX.WorkBook = { Sheets: { 'Đăng Kí Vào Ra': worksheet }, SheetNames: ['Đăng Kí Vào Ra'] };
+    const workbook: XLSX.WorkBook = { Sheets: { 'Sheet 1': worksheet }, SheetNames: ['Sheet 1'] };
     const excelBuffer: any = XLSX.write(workbook, { bookType: 'xlsx', type: 'array' });
-    this.saveAsExcelFile(excelBuffer, `Dang_Ky_Vao_Ra`);
+    this.saveAsExcelFile(excelBuffer, fileName);
   }
 
   private saveAsExcelFile(buffer: any, fileName: string): void {
