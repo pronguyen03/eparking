@@ -36,6 +36,7 @@ export class RequestEntryComponent implements OnInit {
   exportHeader = [
     { key: 'RequestDetailed', display: 'Chi Tiết Yêu Cầu' },
     { key: 'VisitorName', display: 'Tên Người Ra Vào' },
+    { key: 'Plate', display: 'Biển Số' },
     { key: 'VisitorPassport', display: 'Hộ Chiếu/CMND Người Ra Vào' },
     { key: 'NumberVisitor', display: 'Số Lượng Người Ra Vào' },
     { key: 'CustomerName', display: 'Tên Khách Hàng' },
@@ -45,6 +46,7 @@ export class RequestEntryComponent implements OnInit {
   columns: ITableCol[] = [
     { key: 'RequestDetailed', display: 'Request_Detail', filterable: true, width: '20%' },
     { key: 'VisitorName', display: 'Visitor_Name', filterable: true },
+    { key: 'Plate', display: 'Plate', filterable: true },
     { key: 'VisitorPassport', display: 'Visitor_Passport', filterable: true },
     { key: 'NumberVisitor', display: 'Number_Of_Visitors', filterable: true, filterType: 'number' },
     { key: 'CustomerName', display: 'Customer_Name', filterable: true },
@@ -85,7 +87,7 @@ export class RequestEntryComponent implements OnInit {
     private timeService: TimeService,
     private reportService: ReportService,
     private customerService: CustomerService
-  ) {}
+  ) { }
 
   ngOnInit(): void {
     this.initForm();
