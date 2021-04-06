@@ -138,11 +138,11 @@ export class RequestEntryComponent implements OnInit {
   }
 
   viewDetail(request: IRequestEntry): void {
-    this.router.navigate(['request-entry/detail', CrudType.VIEW, request.Id]);
+    this.router.navigate(['request-entry/detail', CrudType.VIEW, request.Id], { queryParams: { isManager: false } });
   }
 
   editRequest(request: IRequestEntry): void {
-    this.router.navigate(['request-entry/detail', CrudType.EDIT, request.Id]);
+    this.router.navigate(['request-entry/detail', CrudType.EDIT, request.Id], { queryParams: { isManager: false } });
   }
 
   deleteRequest(request: IRequestEntry): void {

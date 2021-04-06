@@ -61,7 +61,7 @@ export class RequestEntryService {
     return this.http
       .post<ApiResponse>(`${this.url}/GetbyId`, {
         Item: {
-          Id: requestId
+          Id: +requestId
         }
       })
       .pipe(map((res) => res.Data));

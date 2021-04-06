@@ -18,7 +18,8 @@ import { TimeService } from '@app/shared/services/time.service';
 import { VehicleCategoryService } from '@app/shared/services/vehicle-category.service';
 import { environment } from '@environments/environment';
 import { ToastrService } from 'ngx-toastr';
-import { Observable } from 'rxjs';
+import { combineLatest, Observable } from 'rxjs';
+import { take } from 'rxjs/operators';
 
 @Component({
   selector: 'app-update-request-entry',
@@ -41,6 +42,8 @@ export class UpdateRequestEntryComponent implements OnInit {
     { key: 'Plate', display: 'Plate' },
     { key: 'Name', display: 'Type' }
   ];
+
+  isFromManager = false;
   constructor(
     private fb: FormBuilder,
     private router: Router,
@@ -52,22 +55,37 @@ export class UpdateRequestEntryComponent implements OnInit {
     private vehicleCategoryService: VehicleCategoryService,
     private dialog: MatDialog,
     private accessVehicleService: AccessVehicleService
-  ) {}
+  ) { }
 
   ngOnInit(): void {
     this.initForm();
     this.getVehiclesCategories(environment.parkingId);
-
-    this.route.params.subscribe((params) => {
+    combineLatest([
+      this.route.params,
+      this.route.queryParams
+    ]).pipe(take(1)).subscribe(data => {
+      const params = data[0];
+      const queryParams = data[1];
+      this.isFromManager = queryParams.isManager === 'true' ? true : false;
       this.crudType = params.crudType;
-      this.id = params.id;
+      this.id = +params.id;
       if (this.id) {
         this.getRequestEntryById(this.id);
       }
       if (this.crudType === CrudType.VIEW) {
         // this.requestEntryForm.disable();
       }
-    });
+    })
+    // this.route.params.subscribe((params) => {
+    //   this.crudType = params.crudType;
+    //   this.id = params.id;
+    //   if (this.id) {
+    //     this.getRequestEntryById(this.id);
+    //   }
+    //   if (this.crudType === CrudType.VIEW) {
+    //     // this.requestEntryForm.disable();
+    //   }
+    // });
   }
 
   initForm(): void {
@@ -99,7 +117,7 @@ export class UpdateRequestEntryComponent implements OnInit {
   getRequestEntryById(requestId: number): void {
     this.requestEntryService.getRequestEntryById(requestId).subscribe((res) => {
       const requestEntry = res.Item;
-      const requestEntryDetails = res.ItemDetaileds.map((detail) => {
+      const requestEntryDetails = res.ItemDetaileds?.map((detail) => {
         detail.canDelete = this.crudType === CrudType.EDIT;
         detail.canEdit = false;
         detail.canView = false;
@@ -126,7 +144,11 @@ export class UpdateRequestEntryComponent implements OnInit {
   }
 
   back(): void {
-    this.router.navigateByUrl('request-entry');
+    if (this.isFromManager) {
+      this.router.navigateByUrl('manager/request-entry');
+    } else {
+      this.router.navigateByUrl('request-entry');
+    }
   }
 
   save(): void {
