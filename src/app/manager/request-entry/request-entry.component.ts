@@ -276,4 +276,19 @@ export class RequestEntryComponent implements OnInit {
       this.customers.filter((customer) => customer.CustomerName.toLowerCase().indexOf(search) > -1)
     );
   }
+
+  reportDetail(): void {
+    if (this.searchForm.invalid) {
+      this.errorForm = true;
+      return;
+    }
+    let { FromDate, ToDate } = this.searchForm.value;
+
+    const { CustomerId } = this.searchForm.value;
+    FromDate = this.timeService.toDateTimeString(new Date(FromDate));
+    ToDate = this.timeService.toDateTimeString(new Date(ToDate));
+    this.requestEntryService.reportDetail(CustomerId || 0, environment.parkingId, FromDate, ToDate).subscribe(data => {
+      this.reportService.exportFile(data, this.exportHeader, 'Bao_Cao_Chi_Tiet');
+    })
+  }
 }

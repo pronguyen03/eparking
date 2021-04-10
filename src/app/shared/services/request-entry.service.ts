@@ -100,4 +100,20 @@ export class RequestEntryService {
       }
     });
   }
+
+  reportDetail(
+    CustomerId: number,
+    EParkingId: number,
+    FromDate: string,
+    ToDate: string
+  ): Observable<IRequestEntry[]> {
+    return this.http.post<ApiResponse>(`${this.url}/GetbyReport`, {
+      Item: {
+        EParkingId,
+        CustomerId
+      },
+      FromDate,
+      ToDate
+    }).pipe(map(res => res.Data));
+  }
 }
